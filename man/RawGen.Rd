@@ -56,7 +56,8 @@ are entered separately in the form of a data frame/tibble as in
 frame/tibble is entered without a correlational matrix, data generation is
 carried out using univariate distribution.
 N.B: Transformation of raw summary data to logged data is only possible for
-univariate distribution.
+univariate distribution and if multivariate log-normal distribution is desired
+logged values should be entered directly with \code{dist} set to \code{trunc}.
 }
 \examples{
  # Data generation using univariate distribution

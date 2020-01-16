@@ -19,7 +19,8 @@
 #'   frame/tibble is entered without a correlational matrix, data generation is
 #'   carried out using univariate distribution.
 #'   N.B: Transformation of raw summary data to logged data is only possible for
-#'   univariate distribution.
+#'   univariate distribution and if multivariate log-normal distribution is desired
+#'   logged values should be entered directly with `dist` set to `trunc`.
 #' @examples
 #'  # Data generation using univariate distribution
 #'  library(TestDimorph)

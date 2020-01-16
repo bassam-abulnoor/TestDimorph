@@ -33,4 +33,5 @@ LazyData: true
 RoxygenNote: 7.0.2
 Language: en-US
 Roxygen: list(markdown = TRUE)
-
+URL: https://github.com/bassam-abulnoor/TestDimorph
+BugReports: https://github.com/bassam-abulnoor/TestDimorph/issues
