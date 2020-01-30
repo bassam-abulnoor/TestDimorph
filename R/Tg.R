@@ -349,7 +349,6 @@ Tg <-     function(x = NULL,
                     corrplot::corrplot(
                         corr = pmatrix,
                         p.mat = pmatrix,
-                        is.corr = FALSE,
                         sig.level = sig.level,
                         number.digits = digits,
                         ...

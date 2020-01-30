@@ -1,3 +1,7 @@
+# TestDimorph 0.3.0
+
+* Fixed some issues with corrplots in `Tg` function.
+
 # TestDimorph 0.2.9
 
 * Raw data generation now can be either by uni or multivariate lognormal or truncated distribution.
