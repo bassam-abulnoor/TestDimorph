@@ -4,14 +4,16 @@
 \name{baboon.parms_list}
 \alias{baboon.parms_list}
 \title{Summary statistics of baboon data collection-data frame}
-\format{A list of 7 matrices. \describe{ \item{R.res}{pooled within group
+\format{
+A list of 7 matrices. \describe{ \item{R.res}{pooled within group
 correlation matrix} \item{M.mu}{Means of lipoproteins in different species
 for males} \item{F.mu}{Means of lipoproteins in different species for
 females} \item{m}{Male sample sizes} \item{f}{Female sample sizes}
 \item{M.sdev}{Standard deviations for males} \item{F.sdev}{Standard
 deviations for females}
 
-}}
+}
+}
 \usage{
 baboon.parms_list
 }

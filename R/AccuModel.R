@@ -24,8 +24,6 @@
 #'  similar manner to [Howells] dataset. Methods used for modeling are:
 #'  \describe{ \item{[lda][MASS::lda]}{linear discriminant analysis}
 #'  \item{[qda][MASS::qda]}{quadratic discriminant analysis}
-#'  \item{[mda][mda::mda]}{mixture discriminant analysis}
-#'  \item{[fda][mda::fda]}{flexible discriminant analysis}
 #'  \item{[rda][klaR::rda]}{regularized discriminant analysis}
 #'  \item{[glm][stats::glm]}{binomial logistic regression}
 #'  \item{[raf][randomForest::randomForest]}{random forest}}
@@ -46,13 +44,11 @@
 #'plot = FALSE
 #')
 #'@seealso \code{\link[MASS]{lda}},\code{\link[MASS]{qda}}
-#'\code{\link[mda]{mda}},\code{\link[mda]{fda}} \code{\link[klaR]{rda}}
-#'\code{\link[randomForest]{randomForest}} \code{\link[plotROC]{GeomRoc}}
+#'\code{\link[klaR]{rda}}\code{\link[randomForest]{randomForest}} \code{\link[plotROC]{GeomRoc}}
 #'\code{\link[caret]{confusionMatrix}}
 #'@export
 #'@importFrom stats relevel predict glm binomial
 #'@importFrom MASS lda qda
-#'@importFrom mda mda fda
 #'@importFrom klaR rda
 #'@importFrom ggplot2 ggplot geom_abline xlab ylab facet_wrap aes theme
 #'  element_blank
@@ -133,8 +129,8 @@ AccuModel <-
         (!(levels(y$Sex) %in% c("M", "F")))) {
       rlang::abort("Sex column should be a factor with only 2 levels `M` and `F`")
     }
-    if (!(method %in% c("lda", "qda", "mda", "fda", "rda", "glm", "raf")))   {
-      rlang::abort("method should be one of `lda`, `qda`,`mda`,`fda`,`rda`,`glm`,`raf`")
+    if (!(method %in% c("lda", "qda", "rda", "glm", "raf")))   {
+      rlang::abort("method should be one of `lda`, `qda`,`rda`,`glm`,`raf`")
 
     }
     if (method == "raf") {
@@ -150,18 +146,6 @@ AccuModel <-
     if (method == "qda") {
       model <- MASS::qda(f, data = x, ...)
       preds <- stats::predict(model, newdata = y)
-    }
-    if (method == "mda") {
-      model <- mda::mda(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-      preds <- as.data.frame(preds)
-      colnames(preds)[1] <- "class"
-    }
-    if (method == "fda") {
-      model <- mda::fda(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-      preds <- as.data.frame(preds)
-      colnames(preds)[1] <- "class"
     }
     if (method == "rda") {
       model <- klaR::rda(f, data = x, ...)

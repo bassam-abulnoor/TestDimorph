@@ -63,8 +63,6 @@ Tibble/data frames to be entered as input need to be arranged in a
 similar manner to \link{Howells} dataset. Methods used for modeling are:
 \describe{ \item{\link[MASS:lda]{lda}}{linear discriminant analysis}
 \item{\link[MASS:qda]{qda}}{quadratic discriminant analysis}
-\item{\link[mda:mda]{mda}}{mixture discriminant analysis}
-\item{\link[mda:fda]{fda}}{flexible discriminant analysis}
 \item{\link[klaR:rda]{rda}}{regularized discriminant analysis}
 \item{\link[stats:glm]{glm}}{binomial logistic regression}
 \item{\link[randomForest:randomForest]{raf}}{random forest}}
@@ -88,7 +86,6 @@ plot = FALSE
 }
 \seealso{
 \code{\link[MASS]{lda}},\code{\link[MASS]{qda}}
-\code{\link[mda]{mda}},\code{\link[mda]{fda}} \code{\link[klaR]{rda}}
-\code{\link[randomForest]{randomForest}} \code{\link[plotROC]{GeomRoc}}
+\code{\link[klaR]{rda}}\code{\link[randomForest]{randomForest}} \code{\link[plotROC]{GeomRoc}}
 \code{\link[caret]{confusionMatrix}}
 }

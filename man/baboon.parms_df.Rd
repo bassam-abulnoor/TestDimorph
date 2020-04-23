@@ -4,14 +4,16 @@
 \name{baboon.parms_df}
 \alias{baboon.parms_df}
 \title{Summary statistics of baboon data collection-list}
-\format{A data frame with 12 rows and 8 variables \describe{ \item{Trait}{Type
+\format{
+A data frame with 12 rows and 8 variables \describe{ \item{Trait}{Type
 of apolipoprotein} \item{Sub}{Type of species} \item{M.mu}{Means of
 lipoproteins in different species for males} \item{F.mu}{Means of
 lipoproteins in different species for females} \item{m}{Male sample sizes}
 \item{f}{Female sample sizes} \item{M.sdev}{Standard deviations for males}
 \item{F.sdev}{Standard deviations for females}
 
-}}
+}
+}
 \usage{
 baboon.parms_df
 }

@@ -4,7 +4,9 @@
 \name{R}
 \alias{R}
 \title{Pooled within group correlation matrix for baboon data}
-\format{A 4*4 numerical matrix}
+\format{
+A 4*4 numerical matrix
+}
 \usage{
 R
 }
