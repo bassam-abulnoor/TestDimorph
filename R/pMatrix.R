@@ -35,7 +35,7 @@ NULL
 #' @importFrom corrplot corrplot
 #' @importFrom rlang abort
 #'
-pMatrix <- function(x = NULL,
+pMat <- function(x = NULL,
                     Pop = 1,
                     plot = FALSE,
                     padjust = "none",

@@ -2,10 +2,10 @@
 % Please edit documentation in R/TestDimorph-deprecated.R, R/pMatrix.R
 \name{TestDimorph-deprecated}
 \alias{TestDimorph-deprecated}
-\alias{pMatrix}
+\alias{pMat}
 \title{Deprecated functions in package \pkg{TestDimorph}.}
 \usage{
-pMatrix(
+pMat(
   x = NULL,
   Pop = 1,
   plot = FALSE,
