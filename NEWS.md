@@ -1,3 +1,7 @@
+# TestDimorph 0.3.1
+
+* `mda` is removed from dependencies and mixture and flexible discriminant analyses are no longer options in the `AccuModel` function.
+
 # TestDimorph 0.3.0
 
 * Fixed some issues with corrplots in `Tg` function.
