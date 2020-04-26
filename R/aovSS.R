@@ -1,6 +1,5 @@
 #' @title Sex-Specific One-way ANOVA From Summary statistics
-#' @description Calculates sex specific one-way ANOVA followed by from summary
-#'   statistics.
+#' @description Calculates sex specific one-way ANOVA from summary statistics.
 #' @inheritParams Tg
 #' @param pairwise Logical; if TRUE runs multiple pairwise comparisons on
 #'   different populations using post hoc test of choice, Default: TRUE
