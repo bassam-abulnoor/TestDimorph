@@ -9,7 +9,7 @@ univariate(
   Pop = 1,
   es = FALSE,
   pairwise = FALSE,
-  padjust = "none",
+  padjust = p.adjust.methods,
   ...,
   lower.tail = FALSE,
   N = NULL,
@@ -17,7 +17,7 @@ univariate(
 )
 }
 \arguments{
-\item{x}{Tibble/data frame containing summary statistics, Default: NULL}
+\item{x}{A data frame containing summary statistics.}
 
 \item{Pop}{Number of the column containing populations' names, Default: 1}
 
@@ -25,19 +25,20 @@ univariate(
 FALSE}
 
 \item{pairwise}{Logical; if TRUE runs multiple pairwise comparisons on
-different populations using \link{Tg} test, Default: FALSE}
+different populations using \link{t_greene} test, Default: FALSE}
 
-\item{padjust}{Method of p.value adjustment for multiple comparisons following
-\link{p.adjust.methods}, Default: 'none'}
+\item{padjust}{Method of p.value adjustment for multiple comparisons
+following \link{p.adjust.methods}}
 
-\item{...}{Additional arguments that could be passed to the \link{Tg} function}
+\item{...}{Additional arguments that could be passed to the \link{t_greene}
+function}
 
 \item{lower.tail}{Logical; if TRUE probabilities are \code{P[X <= x]},
 otherwise, \code{P[X > x]}., Default: FALSE}
 
-\item{N}{Number of pairwise comparisons for \link{p.adjust.methods}, if left \code{NULL}
-it will follow the formula \code{n(n-1)/2} where \code{n} is the number of populations
-, Default: NULL}
+\item{N}{Number of pairwise comparisons for \link{p.adjust.methods}, if left
+\code{NULL} it will follow the formula \verb{n(n 1)/2} where \code{n} is the number of
+populations , Default: NULL}
 
 \item{digits}{Number of significant digits, Default: 4}
 }
@@ -45,9 +46,9 @@ it will follow the formula \code{n(n-1)/2} where \code{n} is the number of popul
 Tibble of ANOVA results
 }
 \description{
-Calculation and visualization of the differences in degree sexual
-dimorphism between multiple populations using a modified one-way ANOVA and
-summary statistics as input
+Calculation and visualization of the differences in degree
+sexual dimorphism between multiple populations using a modified one way
+ANOVA and summary statistics as input
 }
 \details{
 Data is entered as a tibble/data frame of summary statistics where
@@ -56,31 +57,19 @@ default), other columns of summary data should have specific names (case
 sensitive) similar to \link{baboon.parms_df}
 }
 \examples{
+\donttest{
 # Comparisons of femur head diameter in four populations
 library(TestDimorph)
-m <- c(150.00, 82.00, 36.00, 34.00)
-f <- c(150.00, 58.00, 34.00, 24.00)
-M.mu <- c(49.39, 48.33, 46.99, 45.20)
-F.mu <- c(42.91, 42.89, 42.44, 40.90)
-M.sdev <- c(3.01, 2.53, 2.47, 2.00)
-F.sdev <- c(2.90, 2.84, 2.26, 2.90)
 df <-
-cbind.data.frame(
-   Pop = c('Turkish', 'Bulgarian', 'Greek', 'Portuguese '),
-   m,
-   f,
-   M.mu,
-   F.mu,
-   M.sdev,
-   F.sdev,
-   stringsAsFactors = TRUE
-)
-univariate(df, pairwise = TRUE, padjust = 'bonferroni')
+  data.frame(
+    Pop = c("Turkish", "Bulgarian", "Greek", "Portuguese "),
+    m = c(150.00, 82.00, 36.00, 34.00),
+    M.mu = c(49.39, 48.33, 46.99, 45.20),
+    M.sdev = c(3.01, 2.53, 2.47, 2.00),
+    f = c(150.00, 58.00, 34.00, 24.00),
+    F.mu = c(42.91, 42.89, 42.44, 40.90),
+    F.sdev = c(2.90, 2.84, 2.26, 2.90)
+  )
+univariate(df, pairwise = TRUE, padjust = "bonferroni")
 }
-\references{
-\insertRef{konigsberg1991historical}{TestDimorph}
-\insertRef{timonov2014study}{TestDimorph}
-\insertRef{curate2017sex}{TestDimorph}
-\insertRef{kranioti2009sex}{TestDimorph}
-\insertRef{gulhan2015new}{TestDimorph}
 }

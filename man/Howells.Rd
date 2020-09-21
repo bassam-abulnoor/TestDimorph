@@ -5,13 +5,18 @@
 \alias{Howells}
 \title{The Howells' craniometric data}
 \format{
-A data frame with 441 rows and 10 variables: \describe{
-\item{Sex}{'M' for male and 'F' for female} \item{Pop}{Populations' names}
-\item{GOL}{Glabello occipital length} \item{NOL}{Nasio occipital length}
-\item{BNL}{Bastion nasion length} \item{BBH}{Basion bregma height}
-\item{XCB}{Maximum cranial breadth} \item{XFB}{Max frontal breadth}
-\item{ZYB}{Bizygomatic breadth} \item{AUB}{Biauricular breadth}
-
+A data frame with 441 rows and 10 variables:
+\describe{
+\item{Sex}{'M' for male and 'F' for female}
+\item{Pop}{Populations' names}
+\item{GOL}{Glabello occipital length}
+\item{NOL}{Nasio occipital length}
+\item{BNL}{Bastion nasion length}
+\item{BBH}{Basion bregma height}
+\item{XCB}{Maximum cranial breadth}
+\item{XFB}{Max frontal breadth}
+\item{ZYB}{Bizygomatic breadth}
+\item{AUB}{Biauricular breadth}
 }
 }
 \usage{
@@ -19,16 +24,11 @@ Howells
 }
 \description{
 A subset of a dataset that consists of 82 craniometric measurements taken
-from approximately two thousands and half human crania from 28 geographically
-diverse populations.
+from approximately two thousands and half human crania from 28
+geographically diverse populations.
 }
 \references{
-\insertRef{howells1995s}{TestDimorph}
-
-\insertRef{howells1989skull}{TestDimorph}
-
-\insertRef{howells1996howells}{TestDimorph}
-
-\insertRef{howells1973cranial}{TestDimorph}
+Howells WW (1989). \emph{Skull shapes and the map: craniometric analyses in the dispersion of modern
+Homo.}. Papers of the Peabody Museum of Archaeology and Ethnology, 79.
 }
 \keyword{datasets}

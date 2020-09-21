@@ -3,32 +3,16 @@
 \name{pMatrix-deprecated}
 \alias{pMatrix-deprecated}
 \title{Visualization Of t-Greene Pairwise Comparisons}
-\arguments{
-\item{x}{Tibble/data frame containing summary statistics, Default: NULL}
-
-\item{Pop}{Number of the column containing populations' names, Default: 1}
-
-\item{plot}{Logical; if TRUE graphical matrix of p-values, Default: TRUE}
-
-\item{alternative}{a character string specifying the alternative hypothesis,
-must be one of "two.sided", "greater" or "less", Default: 'two.sided'}
-
-\item{padjust}{Method of p.value adjustment for multiple comparisons following
-\link{p.adjust.methods}, Default: 'none'}
-
-\item{...}{additional arguments that can be passed to
-\link[corrplot:corrplot]{corrplot} or \link{Tg} functions.}
-}
 \value{
-Graphical or numerical matrix of p-values from Greene t-test pairwise
-comparisons.
-N.B: contrary to the usual corrplots where higher values indicate stronger
-correlation, here lower values indicate significance
+Graphical or numerical matrix of p values from Greene t test
+pairwise comparisons. N.B: contrary to the usual corrplots where higher
+values indicate stronger correlation, here lower values indicate
+significance
 }
 \description{
-Returns a graphical or numerical correlational matrix of
-p-values for the interpopulation degree of sexual dimorphism as measured by
-Greene t-test
+Returns a graphical or numerical correlational matrix of p
+values for the interpopulation degree of sexual dimorphism as measured by
+Greene t test
 }
 \details{
 Data is entered as a tibble/data frame of summary statistics where
@@ -37,7 +21,6 @@ default), other columns of summary data should have specific names (case
 sensitive) similar to \link{baboon.parms_df}
 }
 \seealso{
-\code{\link[corrplot]{corrplot}}
-\code{\link{TestDimorph-deprecated}}
+\code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
 }
 \keyword{internal}

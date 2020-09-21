@@ -11,15 +11,15 @@ multivariate(
   Pop = 2,
   es = FALSE,
   univariate = FALSE,
-  padjust = "none",
+  padjust = p.adjust.methods,
   ...,
   lower.tail = FALSE,
   digits = 4
 )
 }
 \arguments{
-\item{x}{Tibble/Data frame or list containing summary statistics for multiple
-parameters measured in both sexes in two or more populations.}
+\item{x}{Tibble/Data frame or list containing summary statistics for
+multiple parameters measured in both sexes in two or more populations.}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
@@ -34,8 +34,8 @@ FALSE}
 \item{univariate}{Logical; if TRUE conducts multiple univariate analyses on
 different parameters separately, Default: FALSE}
 
-\item{padjust}{Method of p.value adjustment for multiple comparisons following
-\link{p.adjust.methods}, Default: 'none'}
+\item{padjust}{Method of p.value adjustment for multiple comparisons
+following \link{p.adjust.methods}}
 
 \item{...}{Additional arguments that could be passed to the \link{univariate}
 function}
@@ -49,7 +49,7 @@ otherwise, \code{P[X > x]}., Default: FALSE}
 Tibble of MANOVA results
 }
 \description{
-Multivariate extension of Greene t-test \link{Tg}
+Multivariate extension of Greene t test \link{t_greene}
 }
 \details{
 Data can be entered either as a tibble/data frame of summary
@@ -62,13 +62,12 @@ different summary statistics as well as the correlational matrix as in
 value correction using \link{p.adjust.methods}.
 }
 \examples{
- # x is a data frame with separate correlational matrix
- library(TestDimorph)
- multivariate(baboon.parms_df, R.res = R)
- # x is a list with the correlational matrix included
- library(TestDimorph)
- multivariate(baboon.parms_list, univariate = TRUE, padjust = 'bonferroni')
+\donttest{
+# x is a data frame with separate correlational matrix
+library(TestDimorph)
+multivariate(baboon.parms_df, R.res = R)
+# x is a list with the correlational matrix included
+library(TestDimorph)
+multivariate(baboon.parms_list, univariate = TRUE, padjust = "bonferroni")
 }
-\references{
-\insertRef{konigsberg1991historical}{TestDimorph}
 }
