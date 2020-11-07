@@ -27,8 +27,8 @@ Default: 1}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
-\item{dist}{univariate distribution used for data generation either \code{log}
-for log normal or \code{truncated} for truncated, Default: 'truncated'}
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 
@@ -50,14 +50,14 @@ uni/multivariate log/truncated normal distribution
 \details{
 If data generation is desired using multivariate distribution data
 is entered in the form of a list of summary statistics and pooled within
-correlational matrix as in \link{baboon.parms_list}, or the summary statistics
+correlational matrix as in [baboon.parms_list], or the summary statistics
 are entered separately in the form of a data frame/tibble as in
-\link{baboon.parms_df} with a separate correlational matrix as in \link{R}. If data
+[baboon.parms_df] with a separate correlational matrix as in [R]. If data
 frame/tibble is entered without a correlational matrix, data generation is
 carried out using univariate distribution. N.B: Transformation of raw
 summary data to logged data is only possible for univariate distribution
 and if multivariate log normal distribution is desired logged values should
-be entered directly with \code{dist} set to \code{truncated}.
+be entered directly with `dist` set to `truncated`.
 }
 \examples{
 \donttest{

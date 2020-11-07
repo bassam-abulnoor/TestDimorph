@@ -19,7 +19,7 @@ A data frame with 12 rows and 8 variables \describe{
 \item{M.sdev}{Standard deviations for males} \item{F.sdev}{Standard
 deviations for females}
 
-}
+ }
 }
 \usage{
 baboon.parms_df
@@ -40,7 +40,7 @@ NIH contract HV53030 to the Southwest Foundation for Biomedical Research
 Foundation for Biomedical Research
 }
 \references{
-Konigsberg LW (1991). \emph{An historical note on the t-test for differences in sexual dimorphism
-between populations.}. American journal of physical anthropology, 84(1), 93–96.
+Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
+between populations.*. American journal of physical anthropology, 84(1), 93–96.
 }
 \keyword{datasets}

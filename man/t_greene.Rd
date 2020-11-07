@@ -28,13 +28,13 @@ FALSE}
 \item{plot}{Logical; if TRUE graphical matrix of p values, Default: FALSE}
 
 \item{...}{additional arguments that can be passed to
-\link[corrplot:corrplot]{corrplot} function.}
+[corrplot][corrplot::corrplot] function.}
 
 \item{alternative}{a character string specifying the alternative
 hypothesis, must be one of "two.sided", "greater" or "less".}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
-following \link{p.adjust.methods}}
+following [p.adjust.methods]}
 
 \item{letters}{Logical; if TRUE returns letters for pairwise comparisons
 where significantly different populations are given different letters,
@@ -56,7 +56,7 @@ input.
 The input is a data frame of summary statistics where the column
 containing population names is chosen by position (first by default), other
 columns of summary data should have specific names (case sensitive) similar
-to \link{baboon.parms_df}
+to [baboon.parms_df]
 }
 \examples{
 \donttest{
@@ -100,6 +100,6 @@ t_greene(
 }
 }
 \seealso{
-\code{\link[multcompView:multcompLetters]{multcompView::multcompLetters()}}
-\code{\link[corrplot:corrplot]{corrplot::corrplot()}}
+[multcompView::multcompLetters()]
+[corrplot::corrplot()]
 }

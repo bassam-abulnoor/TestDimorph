@@ -78,29 +78,29 @@ pMatrix(
 The functions listed below are deprecated and will be defunct
 in the near future.
 }
-\section{\code{AccuModel}}{
+\section{`AccuModel`}{
 
-For \code{AccuModel}, use \code{\link[=accu_model]{accu_model()}}.
+For `AccuModel`, use [accu_model()].
 }
 
-\section{\code{RawGen}}{
+\section{`RawGen`}{
 
-For \code{RawGen}, use \code{\link[=raw_gen]{raw_gen()}}.
+For `RawGen`, use [raw_gen()].
 }
 
-\section{\code{Tg}}{
+\section{`Tg`}{
 
-For \code{Tg}, use \code{\link[=t_greene]{t_greene()}}.
+For `Tg`, use [t_greene()].
 }
 
-\section{\code{aovSS}}{
+\section{`aovSS`}{
 
-For \code{aovSS}, use \code{\link[=aov_ss]{aov_ss()}}
+For `aovSS`, use [aov_ss()]
 }
 
-\section{\code{pMatrix}}{
+\section{`pMatrix`}{
 
-For \code{pMatrix}, use \code{\link[=t_greene]{t_greene()}}
+For `pMatrix`, use [t_greene()]
 }
 
 \keyword{internal}

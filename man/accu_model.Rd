@@ -23,22 +23,22 @@ accu_model(
 )
 }
 \arguments{
-\item{f}{Formula in the form \code{groups ~ x1 + x2 + ...}. The grouping factor
+\item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
 is placed to the left hand side while the numerical measurements are placed
 to the right hand side}
 
 \item{x}{Data frame to be fitted to the model}
 
-\item{y}{New data frame to be tested, if \code{NULL} \code{x} is splitted to test and
+\item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
 training data seta, Default: NULL}
 
 \item{method}{A string specifying which classification or regression model
 to use,}
 
 \item{res_method}{The resampling method used by
-\link[caret:trainControl]{trainControl}, Default: 'repeatedcv'}
+[trainControl][caret::trainControl], Default: 'repeatedcv'}
 
-\item{p}{Percentage of \code{x} for testing the model in case \code{y} is NULL,
+\item{p}{Percentage of `x` for testing the model in case `y` is NULL,
 Default: 0.75}
 
 \item{nf}{number of folds or of resampling iterations, Default: 10}
@@ -48,7 +48,7 @@ Default: 0.75}
 
 \item{plot}{Logical; if TRUE returns an roc curve for model accuracy,
 Default:
-FALSE}
+ FALSE}
 
 \item{Sex}{Number of the column containing sex 'M' for male and 'F' for
 female, Default: 1}
@@ -64,8 +64,8 @@ of the new data frame, Default: FALSE.}
 \item{post.}{positive category in the grouping factor, Default: 'M'}
 
 \item{...}{additional arguments that can passed to modeling,
-\link[caret:confusionMatrix]{confusionMatrix} function and roc curve generated
-by \link[cutpointr:plot_roc]{plot_roc}}
+[confusionMatrix][caret::confusionMatrix] function and roc curve generated
+by [plot_roc][cutpointr::plot_roc]}
 }
 \value{
 Visual and numerical accuracy parameters for the tested model
@@ -73,11 +73,11 @@ Visual and numerical accuracy parameters for the tested model
 \description{
 Testing, cross validation and visualization of the accuracy of
 different sex prediction models using the
-\link[caret:confusionMatrix]{confusionMatrix} and roc curves
+[confusionMatrix][caret::confusionMatrix] and roc curves
 }
 \details{
 Data frames to be entered as input need to be arranged in a
-similar manner to \link{Howells} dataset.
+similar manner to [Howells] dataset.
 }
 \examples{
 \donttest{
@@ -92,6 +92,6 @@ accu_model(
 }
 }
 \seealso{
-\code{\link[cutpointr:plot_roc]{cutpointr::plot_roc()}}
-\code{\link[caret:confusionMatrix]{caret::confusionMatrix()}}
+[cutpointr::plot_roc()]
+[caret::confusionMatrix()]
 }

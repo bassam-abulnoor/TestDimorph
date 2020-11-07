@@ -16,8 +16,8 @@ Default: 'wide'}
 \item{complete_cases}{Logical; if TRUE rows with missing values will be
 removed, Default: FALSE}
 
-\item{dist}{univariate distribution used for data generation either \code{log}
-for log normal or \code{truncated} for truncated, Default: 'truncated'}
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 

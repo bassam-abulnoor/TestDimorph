@@ -7,6 +7,6 @@
 aovSS
 }
 \seealso{
-\code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
+[TestDimorph-deprecated()]
 }
 \keyword{internal}
