@@ -1,3 +1,19 @@
+# TestDimorph 0.3.6
+
+* Add confidence intervals for cohen's d in t_greene function.
+
+# TestDimorph 0.3.5
+
+* Maintainer email changed.
+
+
+# TestDimorph 0.3.3
+
+* The package has been re-written and optimized with fewer dependencies.
+* new function names with snake case letters are introduced
+* Function names written in camel case letters are deprecated
+* `accu_model` function now can do cross-validation using different models supported by `caret` package.
+
 # TestDimorph 0.3.1
 
 * `mda` is removed from dependencies and mixture and flexible discriminant analyses are no longer options in the `AccuModel` function.

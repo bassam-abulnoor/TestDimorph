@@ -19,9 +19,6 @@ or the development version from GitHub:
 ``` r
 devtools::install_github("bassam-abulnoor/TestDimorph")
 ```
-## Acknowledgement
-
-The authors would like to express their endless gratitude to **Prof. Konigsberg** for his contribution to this package with authentic code used in the `multivariate`, `extract_sum`,`RawGen` functions, data sets used in the examples and for his overall valuable work in the field of physical anthropology without which this package wouldn't have been possible.
 
 ## Data entry
 

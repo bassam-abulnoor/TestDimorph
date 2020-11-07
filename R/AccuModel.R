@@ -1,217 +1,220 @@
-#'@title Evaluation Of Sex-prediction Accuracy
-#'@description Testing and visualization of the accuracy of different sex
-#'  prediction models using the [confusionMatrix][caret::confusionMatrix] and
-#'  roc curves
-#'@param f Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor is
-#'  placed to the left hand side while the numerical measurements are placed to
-#'  the right hand side
-#'@param x Data frame to be fitted to the model
-#'@param y New data frame to be tested
-#'@inheritParams extract_sum
-#'@param byPop Logical; if TRUE returns the accuracy in different populations of
-#'  the new data frame, Default: TRUE.
-#'@param method Different methods of modeling see `details` , Default:'lda'
-#'@param plot Logical; if TRUE returns an roc curve for model accuracy, Default:
-#'  FALSE
-#'@param cutoff cutoff value when using logistic regression, Default: 0.5
-#'@param ref. reference category in the grouping factor, Default: 'F'
-#'@param post. positive category in the grouping factor, Default: 'M'
-#'@param ... additional arguments that can passed to modeling,
-#'  [confusionMatrix][caret::confusionMatrix] function and roc curve generated
-#'  by [geom_roc][plotROC::geom_roc]
-#'@return Visual and numerical accuracy parameters for the tested model
-#'@details Tibble/data frames to be entered as input need to be arranged in a
-#'  similar manner to [Howells] dataset. Methods used for modeling are:
-#'  \describe{ \item{[lda][MASS::lda]}{linear discriminant analysis}
-#'  \item{[qda][MASS::qda]}{quadratic discriminant analysis}
-#'  \item{[rda][klaR::rda]}{regularized discriminant analysis}
-#'  \item{[glm][stats::glm]}{binomial logistic regression}
-#'  \item{[raf][randomForest::randomForest]}{random forest}}
-#' @examples
-#' #Splitting Howells dataset into training and test datasets
-#' smp_size <- floor(0.5 * nrow(Howells))
-#' set.seed(123)
-#' train_ind <- sample(seq_len(nrow(Howells)), size = smp_size)
-#' train <- Howells[train_ind, ]
-#' test <- Howells[-train_ind, ]
-#' library(TestDimorph)
-#' AccuModel(
-#'Sex ~ GOL + NOL + BNL,
-#'x = train,
-#'y = test,
-#'byPop = FALSE,
-#'method = "lda",
-#'plot = FALSE
-#')
-#'@seealso \code{\link[MASS]{lda}},\code{\link[MASS]{qda}}
-#'\code{\link[klaR]{rda}}\code{\link[randomForest]{randomForest}} \code{\link[plotROC]{GeomRoc}}
-#'\code{\link[caret]{confusionMatrix}}
-#'@export
-#'@importFrom stats relevel predict glm binomial
-#'@importFrom MASS lda qda
-#'@importFrom klaR rda
-#'@importFrom ggplot2 ggplot geom_abline xlab ylab facet_wrap aes theme
-#'  element_blank
-#'@importFrom plotROC geom_roc
-#'@importFrom purrr map
-#'@importFrom tibble is_tibble
-#'@importFrom rlang abort
-#'@importFrom caret confusionMatrix
-#'@importFrom randomForest randomForest
+#' @title AccuModel
+#' @seealso
+#'  [TestDimorph-deprecated()]
+#' @name AccuModel-deprecated
+#' @keywords internal
+NULL
+#' @rdname TestDimorph-deprecated
+#' @section `AccuModel`:
+#' For `AccuModel`, use [accu_model()].
+#' @export
 AccuModel <-
   function(f,
            x,
-           y,
-           Sex = 1,
-           Pop = 2,
-           byPop = TRUE,
+           y = NULL,
            method = "lda",
+           res_method = "repeatedcv",
+           p = 0.75,
+           nf = 10,
+           nr = 3,
            plot = FALSE,
-           cutoff = 0.5,
+           Sex = 1,
+           Pop = NULL,
+           byPop = FALSE,
            ref. = "F",
            post. = "M",
            ...) {
-    if (!(is.data.frame(x) || tibble::is_tibble(x))) {
-      rlang::abort("x and y should be tibbles or dataframes")
-    }
-    if (!(is.data.frame(y) || tibble::is_tibble(y))) {
-      rlang::abort("x and y should be tibbles or dataframes")
-    }
-    if (!(byPop %in% c(TRUE, FALSE)))   {
-      rlang::abort("byPop should be either TRUE or FALSE")
+    .Deprecated("accu_model")
+    # First data.frame preparation --------------------------------------------------------
 
+    if (!(is.data.frame(x))) {
+      stop("x and y should be dataframes")
     }
-    if (!(plot %in% c(TRUE, FALSE)))   {
-      rlang::abort("plot should be either TRUE or FALSE")
-
+    if (!is.logical(byPop)) {
+      stop("byPop should be either TRUE or FALSE")
     }
-    if (!(Sex %in% seq_along(1:ncol(x))))   {
-      rlang::abort("Sex should be number from 1 to ncol(x)")
-
+    if (isTRUE(byPop) && is.null(Pop)) {
+      warning("Pop column number should be specified if byPop is TRUE")
     }
-    if (!(Pop %in% seq_along(1:ncol(x))))   {
-      rlang::abort("Pop should be number from 1 to ncol(x)")
-
+    if (!is.logical(plot)) {
+      stop("plot should be either TRUE or FALSE")
     }
-    if (!(Sex %in% seq_along(1:ncol(y))))   {
-      rlang::abort("Sex should be number from 1 or ncol(y)")
-
-    }
-    if (!(Pop %in% seq_along(1:ncol(y))))   {
-      rlang::abort("Pop should be number from 1 or ncol(y)")
-
+    if (!(Sex %in% seq_along(x))) {
+      stop("Sex should be a number from 1 to ncol(x)")
     }
     x <- data.frame(x)
-    y <- data.frame(y)
-    x$Pop <- x[, Pop]
     x$Sex <- x[, Sex]
-    y$Pop <- y[, Pop]
-    y$Sex <- y[, Sex]
-    x$Pop <- as.factor(x$Pop)
-    y$Pop <- as.factor(y$Pop)
     x$Sex <- as.factor(x$Sex)
-    y$Sex <- as.factor(y$Sex)
-    if (!(ref. %in% c("M", "F")))   {
-      rlang::abort("ref. should be one of `M` or `F`")
+    if (is.null(Pop)) {
+      x$Pop <- as.factor(rep("pop_1", nrow(x)))
+    } else {
+      if (!(Pop %in% seq_along(x))) {
+        stop("Pop should be a number from 1 or ncol(x)")
+      }
+      x$Pop <- x[, Pop]
+      x$Pop <- factor(x$Pop)
+      x <- dplyr::arrange(x, x$Pop, x$Sex)
+    }
 
-    }
-    if (!(post. %in% c("M", "F")))   {
-      rlang::abort("post. should be one of `M` or `F`")
+    # Cross validation --------------------------------------------------------
+    if (is.null(y)) {
+      x <- x %>% mutate(id = row_number())
+      z <- x
+      z$Pop <- NULL
+      smp_size <- floor(p * nrow(z))
+      train_ind <- sample(seq_len(nrow(z)), size = smp_size)
+      train.data <- z[train_ind, ]
+      test.data <- z[-train_ind, ]
 
-    }
-    x$Sex <- stats::relevel(x$Sex, ref = ref.)
-    y$Sex <- stats::relevel(y$Sex, ref = ref.)
-    if (length(unique(x$Sex)) != 2 &&
-        (!(levels(x$Sex) %in% c("M", "F")))) {
-      rlang::abort("Sex column should be a factor with only 2 levels `M` and `F`")
-    }
-    if (length(unique(y$Sex)) != 2 &&
-        (!(levels(y$Sex) %in% c("M", "F")))) {
-      rlang::abort("Sex column should be a factor with only 2 levels `M` and `F`")
-    }
-    if (!(method %in% c("lda", "qda", "rda", "glm", "raf")))   {
-      rlang::abort("method should be one of `lda`, `qda`,`rda`,`glm`,`raf`")
 
-    }
-    if (method == "raf") {
-      model <- randomForest::randomForest(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-      preds <- as.data.frame(preds)
-      colnames(preds)[1] <- "class"
-    }
-    if (method == "lda") {
-      model <- MASS::lda(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-    }
-    if (method == "qda") {
-      model <- MASS::qda(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-    }
-    if (method == "rda") {
-      model <- klaR::rda(f, data = x, ...)
-      preds <- stats::predict(model, newdata = y)
-    }
-    if (method == "glm") {
-      model <-
-        stats::glm(
-          f,
-          family = stats::binomial(link = 'logit'),
-          data = x,
-          maxit = 100,
-          ...
-        )
+      train.control <- caret::trainControl(
+        method = res_method,
+        number = nf,
+        repeats = nr
+      )
+
+      model <- caret::train(f,
+        data = train.data,
+        method = method,
+        trControl = train.control
+      )
       preds <-
-        stats::predict(model, newdata = y, type = 'response')
-      class <- ifelse(test = preds > cutoff,
-                      yes = "M",
-                      no = "F")
-      preds <- cbind.data.frame(preds, class)
+        data.frame("id" = test.data$id, "class" = predict(model, test.data))
+      df <-
+        dplyr::full_join(data.frame("id" = test.data$id, "Sex" = test.data$Sex),
+          preds,
+          by = "id"
+        )
+      df <-
+        dplyr::right_join(data.frame("id" = x$id, "Pop" = x$Pop), df,
+          by =
+            "id"
+        )
+
+      # Second data.frame preparation -------------------------------------------
+    } else {
+      if (!(is.data.frame(y))) {
+        stop("x and y should be dataframes")
+      }
+
+      if (!(Sex %in% seq_along(y))) {
+        stop("Sex should be number from 1 or ncol(y)")
+      }
+
+      y <- data.frame(y)
+      y$Sex <- y[, Sex]
+      y$Sex <- factor(y$Sex)
+      if (is.null(Pop)) {
+        y$Pop <- as.factor(rep("pop_1", nrow(y)))
+      } else {
+        if (!(Pop %in% seq_along(y))) {
+          stop("Pop should be number from 1 or ncol(y)")
+        }
+        y$Pop <- y[, Pop]
+        y$Pop <- factor(y$Pop)
+        y <- dplyr::arrange(y, y$Pop, y$Sex)
+      }
+      if (!(ref. %in% c("M", "F"))) {
+        stop("ref. should be one of `M` or `F`")
+      }
+      if (!(post. %in% c("M", "F"))) {
+        stop("post. should be one of `M` or `F`")
+      }
+      x$Sex <- stats::relevel(x$Sex, ref = ref.)
+      y$Sex <- stats::relevel(y$Sex, ref = ref.)
+      if (length(unique(x$Sex)) != 2 &&
+        (!(levels(x$Sex) %in% c("M", "F")))) {
+        stop("Sex column should be a factor with only 2 levels `M` and `F`")
+      }
+      if (length(unique(y$Sex)) != 2 &&
+        (!(levels(y$Sex) %in% c("M", "F")))) {
+        stop("Sex column should be a factor with only 2 levels `M` and `F`")
+      }
+
+      # Modeling ----------------------------------------------------------------
+
+      model <- caret::train(f,
+        data = x,
+        method = method
+      )
+      preds <- stats::predict(model, newdata = y)
+
+      df <- data.frame(
+        "Sex" = y$Sex,
+        "class" = preds,
+        "Pop" = y$Pop,
+        stringsAsFactors = TRUE
+      )
     }
-    df <- data.frame("Sex" = y$Sex,
-                     "class" = preds$class,
-                     "Pop" = y$Pop)
-    if (byPop == TRUE) {
+
+    if (isTRUE(byPop)) {
       list <- by(
         df,
         df$Pop,
         FUN = function(x) {
-          table(x$class, x$Sex)
+          table(x$class, x$Sex, dnn = c("Prediction", "Reference"))
         }
       )
+
+      # ROC curve and confusion matrix ------------------------------------------
+      df$Sex <- as.numeric(df$Sex)
+      df$class <- as.numeric(df$class)
+
       roc <-
-        ggplot2::ggplot(df, aes(
-          m = as.numeric(df$Sex),
-          d = as.numeric(df$class),
-          color = df$Pop,
+        cutpointr::plot_roc(
+          cutpointr::cutpointr(
+            data = df,
+            x = class,
+            class = Sex,
+            subgroup = Pop,
+            pos_class = 2,
+            neg_class = 1,
+            silent = TRUE
+          )
+        ) +
+        theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
+      conf <-
+        lapply(list,
+          caret::confusionMatrix,
+          positive = post.,
+          reference = ref.,
+
           ...
-        )) + plotROC::geom_roc(n.cuts = 0, ...) + ylab("Sensitivity") + xlab("1-Specificity") +
-        geom_abline(...) + facet_wrap( ~ Pop) + ggplot2::theme(legend.title = ggplot2::element_blank())
-      conf <-
-        purrr::map(list,
-                   caret::confusionMatrix,
-                   positive = post.,
-                   reference = ref.,
-                   ...)
-      if (plot == TRUE) {
+        )
+      if (isTRUE(plot)) {
         list(roc, conf)
-      } else{
-        return(conf)
+      } else {
+        conf
       }
-    } else{
-      xtab <- table(df$class, df$Sex)
+    } else {
+      xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
+      df$Sex <- as.numeric(df$Sex)
+      df$class <- as.numeric(df$class)
       roc <-
-        ggplot2::ggplot(df, aes(m = as.numeric(df$Sex), d = as.numeric(df$class), ...)) + plotROC::geom_roc(n.cuts = 0, ...) +
-        ylab("Sensitivity") + xlab("1-Specificity") + geom_abline(...)
+        cutpointr::plot_roc(
+          cutpointr::cutpointr(
+            data = df,
+            x = class,
+            class = Sex,
+            pos_class = 2,
+            neg_class = 1,
+            silent = TRUE
+          )
+        ) +
+        theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
-        caret::confusionMatrix(xtab, positive = post., reference = ref., ...)
+        caret::confusionMatrix(
+          xtab,
+          positive = post.,
+          reference = ref.,
+          dnn = c("Prediction", "Reference"),
+          ...
+        )
 
-      if (plot == TRUE) {
+      if (isTRUE(plot)) {
         list(roc, conf)
-      } else{
-        return(conf)
+      } else {
+        conf
       }
-
-
     }
-
   }
