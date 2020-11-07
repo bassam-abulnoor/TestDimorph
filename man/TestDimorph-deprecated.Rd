@@ -78,6 +78,7 @@ pMatrix(
 The functions listed below are deprecated and will be defunct
 in the near future.
 }
+<<<<<<< HEAD
 \section{`AccuModel`}{
 
 For `AccuModel`, use [accu_model()].
@@ -101,6 +102,31 @@ For `aovSS`, use [aov_ss()]
 \section{`pMatrix`}{
 
 For `pMatrix`, use [t_greene()]
+=======
+\section{\code{AccuModel}}{
+
+For \code{AccuModel}, use \code{\link[=accu_model]{accu_model()}}.
+}
+
+\section{\code{RawGen}}{
+
+For \code{RawGen}, use \code{\link[=raw_gen]{raw_gen()}}.
+}
+
+\section{\code{Tg}}{
+
+For \code{Tg}, use \code{\link[=t_greene]{t_greene()}}.
+}
+
+\section{\code{aovSS}}{
+
+For \code{aovSS}, use \code{\link[=aov_ss]{aov_ss()}}
+}
+
+\section{\code{pMatrix}}{
+
+For \code{pMatrix}, use \code{\link[=t_greene]{t_greene()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 }
 
 \keyword{internal}

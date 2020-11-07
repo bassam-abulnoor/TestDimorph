@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TestDimorph 0.3.6
 
 * Add confidence intervals for cohen's d in t_greene function.
@@ -6,6 +7,8 @@
 
 * Maintainer email changed.
 
+=======
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 # TestDimorph 0.3.3
 
 * The package has been re-written and optimized with fewer dependencies.

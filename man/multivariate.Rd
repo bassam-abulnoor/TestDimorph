@@ -35,7 +35,11 @@ FALSE}
 different parameters separately, Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
+<<<<<<< HEAD
 following [p.adjust.methods]}
+=======
+following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 
 \item{...}{Additional arguments that could be passed to the [univariate]
 function}
@@ -49,7 +53,11 @@ otherwise, `P[X > x]`., Default: FALSE}
 Tibble of MANOVA results
 }
 \description{
+<<<<<<< HEAD
 Multivariate extension of Greene t test [t_greene]
+=======
+Multivariate extension of Greene t test \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 }
 \details{
 Data can be entered either as a tibble/data frame of summary

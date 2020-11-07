@@ -27,8 +27,13 @@ Default: 1}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
+<<<<<<< HEAD:man/raw_gen.Rd
 \item{dist}{univariate distribution used for data generation either `log`
 for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
+\item{dist}{univariate distribution used for data generation either \code{log}
+for log normal or \code{truncated} for truncated, Default: 'truncated'}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 
@@ -57,7 +62,11 @@ frame/tibble is entered without a correlational matrix, data generation is
 carried out using univariate distribution. N.B: Transformation of raw
 summary data to logged data is only possible for univariate distribution
 and if multivariate log normal distribution is desired logged values should
+<<<<<<< HEAD:man/raw_gen.Rd
 be entered directly with `dist` set to `truncated`.
+=======
+be entered directly with \code{dist} set to \code{truncated}.
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
 }
 \examples{
 \donttest{

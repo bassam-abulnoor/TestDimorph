@@ -25,19 +25,33 @@ univariate(
 FALSE}
 
 \item{pairwise}{Logical; if TRUE runs multiple pairwise comparisons on
+<<<<<<< HEAD
 different populations using [t_greene] test, Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
 following [p.adjust.methods]}
 
 \item{...}{Additional arguments that could be passed to the [t_greene]
+=======
+different populations using \link{t_greene} test, Default: FALSE}
+
+\item{padjust}{Method of p.value adjustment for multiple comparisons
+following \link{p.adjust.methods}}
+
+\item{...}{Additional arguments that could be passed to the \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 function}
 
 \item{lower.tail}{Logical; if TRUE probabilities are `P[X <= x]`,
 otherwise, `P[X > x]`., Default: FALSE}
 
+<<<<<<< HEAD
 \item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
 `NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+\item{N}{Number of pairwise comparisons for \link{p.adjust.methods}, if left
+\code{NULL} it will follow the formula \verb{n(n 1)/2} where \code{n} is the number of
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 populations , Default: NULL}
 
 \item{digits}{Number of significant digits, Default: 4}

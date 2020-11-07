@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 #' @keywords internal
+=======
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 # Get pooled within group correlation matrix & standard deviations
 to_symm_diag <- function(x) {
   # A utility function to take an upper triangular matrix stored by rows
