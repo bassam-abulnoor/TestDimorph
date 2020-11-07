@@ -83,9 +83,12 @@ in the near future.
 =======
 <<<<<<< HEAD
 \section{`AccuModel`}{
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 \section{`AccuModel`}{
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 For `AccuModel`, use [accu_model()].
 }
@@ -111,6 +114,9 @@ For `pMatrix`, use [t_greene()]
 =======
 \section{\code{AccuModel}}{
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 For `AccuModel`, use [accu_model()].
@@ -137,7 +143,13 @@ For `aovSS`, use [aov_ss()]
 For `pMatrix`, use [t_greene()]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 For `pMatrix`, use [t_greene()]
+=======
+For \code{pMatrix}, use \code{\link[=t_greene]{t_greene()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 For \code{pMatrix}, use \code{\link[=t_greene]{t_greene()}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861

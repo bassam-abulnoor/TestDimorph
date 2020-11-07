@@ -14,7 +14,13 @@ Tg
 [TestDimorph-deprecated()]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [TestDimorph-deprecated()]
+=======
+\code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 \code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861

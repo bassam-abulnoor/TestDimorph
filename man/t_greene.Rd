@@ -35,7 +35,13 @@ FALSE}
 [corrplot][corrplot::corrplot] function.}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [corrplot][corrplot::corrplot] function.}
+=======
+\link[corrplot:corrplot]{corrplot} function.}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 \link[corrplot:corrplot]{corrplot} function.}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -53,7 +59,13 @@ following [p.adjust.methods]}
 following [p.adjust.methods]}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 following [p.adjust.methods]}
+=======
+following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 following \link{p.adjust.methods}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -87,7 +99,13 @@ to [baboon.parms_df]
 to [baboon.parms_df]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 to [baboon.parms_df]
+=======
+to \link{baboon.parms_df}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 to \link{baboon.parms_df}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -145,12 +163,18 @@ t_greene(
 [corrplot::corrplot()]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [multcompView::multcompLetters()]
 [corrplot::corrplot()]
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \code{\link[multcompView:multcompLetters]{multcompView::multcompLetters()}}
 \code{\link[corrplot:corrplot]{corrplot::corrplot()}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }

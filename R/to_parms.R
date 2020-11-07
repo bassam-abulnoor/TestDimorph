@@ -15,12 +15,18 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 #' @export
 
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 to_params <- function(x) {
   V <- x$V

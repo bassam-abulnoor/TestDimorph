@@ -32,9 +32,12 @@ Default: 1}
 for log normal or `truncated` for truncated, Default: 'truncated'}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 \item{dist}{univariate distribution used for data generation either `log`
 for log normal or `truncated` for truncated, Default: 'truncated'}
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 <<<<<<< HEAD:man/raw_gen.Rd
 \item{dist}{univariate distribution used for data generation either `log`
 for log normal or `truncated` for truncated, Default: 'truncated'}
@@ -43,6 +46,9 @@ for log normal or `truncated` for truncated, Default: 'truncated'}
 for log normal or \code{truncated} for truncated, Default: 'truncated'}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{lower}{vector of lower bounds, Default: -Inf}
@@ -76,14 +82,20 @@ and if multivariate log normal distribution is desired logged values should
 be entered directly with `dist` set to `truncated`.
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 be entered directly with `dist` set to `truncated`.
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 <<<<<<< HEAD:man/raw_gen.Rd
 be entered directly with `dist` set to `truncated`.
 =======
 be entered directly with \code{dist} set to \code{truncated}.
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \examples{

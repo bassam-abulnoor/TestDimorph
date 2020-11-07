@@ -30,7 +30,13 @@ accu_model(
 \item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 \item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
+=======
+\item{f}{Formula in the form \code{groups ~ x1 + x2 + ...}. The grouping factor
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 \item{f}{Formula in the form \code{groups ~ x1 + x2 + ...}. The grouping factor
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -48,7 +54,13 @@ to the right hand side}
 \item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 \item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
+=======
+\item{y}{New data frame to be tested, if \code{NULL} \code{x} is splitted to test and
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 \item{y}{New data frame to be tested, if \code{NULL} \code{x} is splitted to test and
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -71,15 +83,21 @@ to use,}
 \item{p}{Percentage of `x` for testing the model in case `y` is NULL,
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [trainControl][caret::trainControl], Default: 'repeatedcv'}
 
 \item{p}{Percentage of `x` for testing the model in case `y` is NULL,
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \link[caret:trainControl]{trainControl}, Default: 'repeatedcv'}
 
 \item{p}{Percentage of \code{x} for testing the model in case \code{y} is NULL,
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 Default: 0.75}
 
@@ -97,7 +115,13 @@ Default:
  FALSE}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
  FALSE}
+=======
+FALSE}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 FALSE}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -127,13 +151,19 @@ by [plot_roc][cutpointr::plot_roc]}
 by [plot_roc][cutpointr::plot_roc]}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [confusionMatrix][caret::confusionMatrix] function and roc curve generated
 by [plot_roc][cutpointr::plot_roc]}
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \link[caret:confusionMatrix]{confusionMatrix} function and roc curve generated
 by \link[cutpointr:plot_roc]{plot_roc}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \value{
@@ -157,12 +187,15 @@ Data frames to be entered as input need to be arranged in a
 similar manner to [Howells] dataset.
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [confusionMatrix][caret::confusionMatrix] and roc curves
 }
 \details{
 Data frames to be entered as input need to be arranged in a
 similar manner to [Howells] dataset.
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \link[caret:confusionMatrix]{confusionMatrix} and roc curves
 }
 \details{
@@ -170,6 +203,9 @@ Data frames to be entered as input need to be arranged in a
 similar manner to \link{Howells} dataset.
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \examples{
@@ -194,12 +230,18 @@ accu_model(
 [caret::confusionMatrix()]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 [cutpointr::plot_roc()]
 [caret::confusionMatrix()]
 =======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \code{\link[cutpointr:plot_roc]{cutpointr::plot_roc()}}
 \code{\link[caret:confusionMatrix]{caret::confusionMatrix()}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 >>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
 >>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }

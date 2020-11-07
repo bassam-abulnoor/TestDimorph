@@ -42,7 +42,13 @@ following [p.adjust.methods]}
 following [p.adjust.methods]}
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 following [p.adjust.methods]}
+=======
+following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 following \link{p.adjust.methods}}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
@@ -68,7 +74,13 @@ Multivariate extension of Greene t test [t_greene]
 Multivariate extension of Greene t test [t_greene]
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 Multivariate extension of Greene t test [t_greene]
+=======
+Multivariate extension of Greene t test \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 =======
 Multivariate extension of Greene t test \link{t_greene}
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
