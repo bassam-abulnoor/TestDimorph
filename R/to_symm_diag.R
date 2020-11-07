@@ -1,3 +1,4 @@
+
 #' @keywords internal
 # Get pooled within group correlation matrix & standard deviations
 to_symm_diag <- function(x) {

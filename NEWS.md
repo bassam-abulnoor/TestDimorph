@@ -6,7 +6,6 @@
 
 * Maintainer email changed.
 
-
 # TestDimorph 0.3.3
 
 * The package has been re-written and optimized with fewer dependencies.

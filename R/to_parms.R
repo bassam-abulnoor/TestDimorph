@@ -11,7 +11,6 @@
 #' }
 #' @rdname to_params
 #' @keywords internal
-
 to_params <- function(x) {
   V <- x$V
   n.r <- NROW(V)

@@ -136,7 +136,6 @@ t_test <-
         "cohen.d" = round(d, digits),
         "conf.low.d"=round(lower_d, digits),
         "conf.high.d" = round(upper_d, digits)
-
       )
     } else {
       data.frame(
