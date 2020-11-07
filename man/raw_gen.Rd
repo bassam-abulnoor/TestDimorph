@@ -27,8 +27,23 @@ Default: 1}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
+<<<<<<< HEAD
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
+<<<<<<< HEAD
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
+<<<<<<< HEAD:man/raw_gen.Rd
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
 \item{dist}{univariate distribution used for data generation either \code{log}
 for log normal or \code{truncated} for truncated, Default: 'truncated'}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 
@@ -50,14 +65,26 @@ uni/multivariate log/truncated normal distribution
 \details{
 If data generation is desired using multivariate distribution data
 is entered in the form of a list of summary statistics and pooled within
-correlational matrix as in \link{baboon.parms_list}, or the summary statistics
+correlational matrix as in [baboon.parms_list], or the summary statistics
 are entered separately in the form of a data frame/tibble as in
-\link{baboon.parms_df} with a separate correlational matrix as in \link{R}. If data
+[baboon.parms_df] with a separate correlational matrix as in [R]. If data
 frame/tibble is entered without a correlational matrix, data generation is
 carried out using univariate distribution. N.B: Transformation of raw
 summary data to logged data is only possible for univariate distribution
 and if multivariate log normal distribution is desired logged values should
+<<<<<<< HEAD
+be entered directly with `dist` set to `truncated`.
+=======
+<<<<<<< HEAD
+be entered directly with `dist` set to `truncated`.
+=======
+<<<<<<< HEAD:man/raw_gen.Rd
+be entered directly with `dist` set to `truncated`.
+=======
 be entered directly with \code{dist} set to \code{truncated}.
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861:man/RawGen.Rd
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \examples{
 \donttest{

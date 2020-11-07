@@ -16,8 +16,23 @@ Default: 'wide'}
 \item{complete_cases}{Logical; if TRUE rows with missing values will be
 removed, Default: FALSE}
 
+<<<<<<< HEAD
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
+<<<<<<< HEAD
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
+<<<<<<< HEAD
+\item{dist}{univariate distribution used for data generation either `log`
+for log normal or `truncated` for truncated, Default: 'truncated'}
+=======
 \item{dist}{univariate distribution used for data generation either \code{log}
 for log normal or \code{truncated} for truncated, Default: 'truncated'}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 

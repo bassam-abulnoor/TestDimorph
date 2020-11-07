@@ -56,16 +56,22 @@ t_test <-
       )) / (m + f + m2 + f2 - 4)))
     mean_diff <- ((M.mu - F.mu) - (M.mu2 - F.mu2))
     d <- abs(mean_diff / sdp)
+<<<<<<< HEAD
     n1<-m+f
     n2<-m2+f2
     sigma_d <- sqrt(((n1+n2)/(n1*n2))+(d^2/(2*(n1+n2))))
+=======
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
     if (sig.level < 0 ||
       sig.level > 1 || !is.numeric(sig.level)) {
       stop("sig.level should be a number between 0 and 1")
     }
+<<<<<<< HEAD
     crit_d <- stats::qnorm(sig.level/2,lower.tail = FALSE)
     lower_d <- d-(crit_d*sigma_d)
     upper_d <- d+(crit_d*sigma_d)
+=======
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
@@ -133,10 +139,19 @@ t_test <-
         "statistic" = round(tg, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
+<<<<<<< HEAD
         "cohen.d" = round(d, digits),
         "conf.low.d"=round(lower_d, digits),
         "conf.high.d" = round(upper_d, digits)
-
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+        "cohen.d" = round(d, digits)
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
       )
     } else {
       data.frame(

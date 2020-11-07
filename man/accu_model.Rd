@@ -23,22 +23,64 @@ accu_model(
 )
 }
 \arguments{
+<<<<<<< HEAD
+\item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
+=======
+<<<<<<< HEAD
+\item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
+=======
+<<<<<<< HEAD
+\item{f}{Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
+=======
 \item{f}{Formula in the form \code{groups ~ x1 + x2 + ...}. The grouping factor
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 is placed to the left hand side while the numerical measurements are placed
 to the right hand side}
 
 \item{x}{Data frame to be fitted to the model}
 
+<<<<<<< HEAD
+\item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
+=======
+<<<<<<< HEAD
+\item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
+=======
+<<<<<<< HEAD
+\item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
+=======
 \item{y}{New data frame to be tested, if \code{NULL} \code{x} is splitted to test and
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 training data seta, Default: NULL}
 
 \item{method}{A string specifying which classification or regression model
 to use,}
 
 \item{res_method}{The resampling method used by
+<<<<<<< HEAD
+[trainControl][caret::trainControl], Default: 'repeatedcv'}
+
+\item{p}{Percentage of `x` for testing the model in case `y` is NULL,
+=======
+<<<<<<< HEAD
+[trainControl][caret::trainControl], Default: 'repeatedcv'}
+
+\item{p}{Percentage of `x` for testing the model in case `y` is NULL,
+=======
+<<<<<<< HEAD
+[trainControl][caret::trainControl], Default: 'repeatedcv'}
+
+\item{p}{Percentage of `x` for testing the model in case `y` is NULL,
+=======
 \link[caret:trainControl]{trainControl}, Default: 'repeatedcv'}
 
 \item{p}{Percentage of \code{x} for testing the model in case \code{y} is NULL,
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 Default: 0.75}
 
 \item{nf}{number of folds or of resampling iterations, Default: 10}
@@ -48,7 +90,19 @@ Default: 0.75}
 
 \item{plot}{Logical; if TRUE returns an roc curve for model accuracy,
 Default:
+<<<<<<< HEAD
+ FALSE}
+=======
+<<<<<<< HEAD
+ FALSE}
+=======
+<<<<<<< HEAD
+ FALSE}
+=======
 FALSE}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{Sex}{Number of the column containing sex 'M' for male and 'F' for
 female, Default: 1}
@@ -64,8 +118,23 @@ of the new data frame, Default: FALSE.}
 \item{post.}{positive category in the grouping factor, Default: 'M'}
 
 \item{...}{additional arguments that can passed to modeling,
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] function and roc curve generated
+by [plot_roc][cutpointr::plot_roc]}
+=======
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] function and roc curve generated
+by [plot_roc][cutpointr::plot_roc]}
+=======
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] function and roc curve generated
+by [plot_roc][cutpointr::plot_roc]}
+=======
 \link[caret:confusionMatrix]{confusionMatrix} function and roc curve generated
 by \link[cutpointr:plot_roc]{plot_roc}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \value{
 Visual and numerical accuracy parameters for the tested model
@@ -73,11 +142,35 @@ Visual and numerical accuracy parameters for the tested model
 \description{
 Testing, cross validation and visualization of the accuracy of
 different sex prediction models using the
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] and roc curves
+}
+\details{
+Data frames to be entered as input need to be arranged in a
+similar manner to [Howells] dataset.
+=======
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] and roc curves
+}
+\details{
+Data frames to be entered as input need to be arranged in a
+similar manner to [Howells] dataset.
+=======
+<<<<<<< HEAD
+[confusionMatrix][caret::confusionMatrix] and roc curves
+}
+\details{
+Data frames to be entered as input need to be arranged in a
+similar manner to [Howells] dataset.
+=======
 \link[caret:confusionMatrix]{confusionMatrix} and roc curves
 }
 \details{
 Data frames to be entered as input need to be arranged in a
 similar manner to \link{Howells} dataset.
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \examples{
 \donttest{
@@ -92,6 +185,21 @@ accu_model(
 }
 }
 \seealso{
+<<<<<<< HEAD
+[cutpointr::plot_roc()]
+[caret::confusionMatrix()]
+=======
+<<<<<<< HEAD
+[cutpointr::plot_roc()]
+[caret::confusionMatrix()]
+=======
+<<<<<<< HEAD
+[cutpointr::plot_roc()]
+[caret::confusionMatrix()]
+=======
 \code{\link[cutpointr:plot_roc]{cutpointr::plot_roc()}}
 \code{\link[caret:confusionMatrix]{caret::confusionMatrix()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }

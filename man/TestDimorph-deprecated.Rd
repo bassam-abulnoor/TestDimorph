@@ -78,29 +78,71 @@ pMatrix(
 The functions listed below are deprecated and will be defunct
 in the near future.
 }
+<<<<<<< HEAD
+\section{`AccuModel`}{
+=======
+<<<<<<< HEAD
+\section{`AccuModel`}{
+=======
+<<<<<<< HEAD
+\section{`AccuModel`}{
+
+For `AccuModel`, use [accu_model()].
+}
+
+\section{`RawGen`}{
+
+For `RawGen`, use [raw_gen()].
+}
+
+\section{`Tg`}{
+
+For `Tg`, use [t_greene()].
+}
+
+\section{`aovSS`}{
+
+For `aovSS`, use [aov_ss()]
+}
+
+\section{`pMatrix`}{
+
+For `pMatrix`, use [t_greene()]
+=======
 \section{\code{AccuModel}}{
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
-For \code{AccuModel}, use \code{\link[=accu_model]{accu_model()}}.
+For `AccuModel`, use [accu_model()].
 }
 
-\section{\code{RawGen}}{
+\section{`RawGen`}{
 
-For \code{RawGen}, use \code{\link[=raw_gen]{raw_gen()}}.
+For `RawGen`, use [raw_gen()].
 }
 
-\section{\code{Tg}}{
+\section{`Tg`}{
 
-For \code{Tg}, use \code{\link[=t_greene]{t_greene()}}.
+For `Tg`, use [t_greene()].
 }
 
-\section{\code{aovSS}}{
+\section{`aovSS`}{
 
-For \code{aovSS}, use \code{\link[=aov_ss]{aov_ss()}}
+For `aovSS`, use [aov_ss()]
 }
 
-\section{\code{pMatrix}}{
+\section{`pMatrix`}{
 
+<<<<<<< HEAD
+For `pMatrix`, use [t_greene()]
+=======
+<<<<<<< HEAD
+For `pMatrix`, use [t_greene()]
+=======
 For \code{pMatrix}, use \code{\link[=t_greene]{t_greene()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 
 \keyword{internal}

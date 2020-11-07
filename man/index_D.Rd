@@ -35,4 +35,7 @@ FUNCTION_DESCRIPTION
 \details{
 DETAILS
 }
+<<<<<<< HEAD
 \keyword{internal}
+=======
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
