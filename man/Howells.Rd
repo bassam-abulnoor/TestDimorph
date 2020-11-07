@@ -6,7 +6,15 @@
 \title{The Howells' craniometric data}
 \format{
 A data frame with 441 rows and 10 variables:
+<<<<<<< HEAD
  \describe{
+=======
+<<<<<<< HEAD
+ \describe{
+=======
+\describe{
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 \item{Sex}{'M' for male and 'F' for female}
 \item{Pop}{Populations' names}
 \item{GOL}{Glabello occipital length}
@@ -17,7 +25,15 @@ A data frame with 441 rows and 10 variables:
 \item{XFB}{Max frontal breadth}
 \item{ZYB}{Bizygomatic breadth}
 \item{AUB}{Biauricular breadth}
+<<<<<<< HEAD
   }
+=======
+<<<<<<< HEAD
+  }
+=======
+}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 }
 \usage{
 Howells
@@ -28,7 +44,17 @@ from approximately two thousands and half human crania from 28
 geographically diverse populations.
 }
 \references{
+<<<<<<< HEAD
 Howells WW (1989). *Skull shapes and the map: craniometric analyses in the dispersion of modern
 Homo.*. Papers of the Peabody Museum of Archaeology and Ethnology, 79.
+=======
+<<<<<<< HEAD
+Howells WW (1989). *Skull shapes and the map: craniometric analyses in the dispersion of modern
+Homo.*. Papers of the Peabody Museum of Archaeology and Ethnology, 79.
+=======
+Howells WW (1989). \emph{Skull shapes and the map: craniometric analyses in the dispersion of modern
+Homo.}. Papers of the Peabody Museum of Archaeology and Ethnology, 79.
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 }
 \keyword{datasets}

@@ -25,19 +25,46 @@ univariate(
 FALSE}
 
 \item{pairwise}{Logical; if TRUE runs multiple pairwise comparisons on
+<<<<<<< HEAD
+different populations using [t_greene] test, Default: FALSE}
+=======
+<<<<<<< HEAD
 different populations using [t_greene] test, Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
 following [p.adjust.methods]}
 
 \item{...}{Additional arguments that could be passed to the [t_greene]
+=======
+different populations using \link{t_greene} test, Default: FALSE}
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+
+\item{padjust}{Method of p.value adjustment for multiple comparisons
+following [p.adjust.methods]}
+
+<<<<<<< HEAD
+\item{...}{Additional arguments that could be passed to the [t_greene]
+=======
+\item{...}{Additional arguments that could be passed to the \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 function}
 
 \item{lower.tail}{Logical; if TRUE probabilities are `P[X <= x]`,
 otherwise, `P[X > x]`., Default: FALSE}
 
+<<<<<<< HEAD
 \item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
 `NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+<<<<<<< HEAD
+\item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
+`NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+\item{N}{Number of pairwise comparisons for \link{p.adjust.methods}, if left
+\code{NULL} it will follow the formula \verb{n(n 1)/2} where \code{n} is the number of
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 populations , Default: NULL}
 
 \item{digits}{Number of significant digits, Default: 4}

@@ -10,7 +10,15 @@
 #' }
 #' }
 #' @rdname to_params
+<<<<<<< HEAD
 #' @keywords internal
+<<<<<<< HEAD
+=======
+=======
+#' @export
+
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
 to_params <- function(x) {
   V <- x$V
   n.r <- NROW(V)
