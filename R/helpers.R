@@ -60,18 +60,13 @@ t_test <-
     n1<-m+f
     n2<-m2+f2
     sigma_d <- sqrt(((n1+n2)/(n1*n2))+(d^2/(2*(n1+n2))))
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
     if (sig.level < 0 ||
       sig.level > 1 || !is.numeric(sig.level)) {
       stop("sig.level should be a number between 0 and 1")
     }
-<<<<<<< HEAD
     crit_d <- stats::qnorm(sig.level/2,lower.tail = FALSE)
     lower_d <- d-(crit_d*sigma_d)
     upper_d <- d+(crit_d*sigma_d)
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
