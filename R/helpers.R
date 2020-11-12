@@ -43,35 +43,29 @@ t_test <-
            sig.level,
            alternative,
            es) {
+    n1 <- m + f
+    n2 <- m2 + f2
     tg <-
-      ((M.mu - F.mu) - (M.mu2 - F.mu2)) / (sqrt(((((m - 1) * M.sdev^2) + ((f -
-        1) * F.sdev^2) + ((m2 - 1) * M.sdev2^2) + ((f2 - 1) * F.sdev2^
-        2)
-      )) / (m + f +
-        m2 + f2 - 4)) * sqrt((1 / m) + (1 / f) + (1 / m2) + (1 / f2)))
-    df <- (m + f + m2 + f2 - 4)
+      ((M.mu - F.mu) - (M.mu2 - F.mu2)) / (sqrt(((((m - 1) * M.sdev ^ 2) + ((f -
+                                                                               1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^ 2) + ((f2 - 1) * F.sdev2 ^
+                                                                                                                                2)
+      )) / (n1 + n2 +
+              m2 + f2 - 4)) * sqrt((1 / m) + (1 / f) + (1 / m2) + (1 / f2)))
+    df <- (n1 + n2 + m2 + f2 - 4)
     sdp <-
-      (sqrt(((((m - 1) * M.sdev^2) + ((f - 1) * F.sdev^2) + ((m2 - 1) * M.sdev2^
-        2) + ((f2 - 1) * F.sdev2^2)
-      )) / (m + f + m2 + f2 - 4)))
+      (sqrt(((((m - 1) * M.sdev ^ 2) + ((f - 1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^
+                                                                   2) + ((f2 - 1) * F.sdev2 ^ 2)
+      )) / (n1 + n2 + m2 + f2 - 4)))
     mean_diff <- ((M.mu - F.mu) - (M.mu2 - F.mu2))
     d <- abs(mean_diff / sdp)
-<<<<<<< HEAD
-    n1<-m+f
-    n2<-m2+f2
-    sigma_d <- sqrt(((n1+n2)/(n1*n2))+(d^2/(2*(n1+n2))))
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+    sigma_d <- sqrt(((n1 + n2) / (n1 * n2)) + (d ^ 2 / (2 * (n1 + n2))))
     if (sig.level < 0 ||
-      sig.level > 1 || !is.numeric(sig.level)) {
+        sig.level > 1 || !is.numeric(sig.level)) {
       stop("sig.level should be a number between 0 and 1")
     }
-<<<<<<< HEAD
-    crit_d <- stats::qnorm(sig.level/2,lower.tail = FALSE)
-    lower_d <- d-(crit_d*sigma_d)
-    upper_d <- d+(crit_d*sigma_d)
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+    crit_d <- stats::qnorm(sig.level / 2, lower.tail = FALSE)
+    lower_d <- d - (crit_d * sigma_d)
+    upper_d <- d + (crit_d * sigma_d)
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
@@ -114,19 +108,15 @@ t_test <-
     }
     if (!is.null(N)) {
       p <-
-        padjust_n(
-          p = p,
-          method = padjust,
-          n = N
-        )
+        padjust_n(p = p,
+                  method = padjust,
+                  n = N)
     }
     signif <-
-      case_when(
-        p > 0.05 ~ "ns",
-        p < 0.05 & p > 0.01 ~ "*",
-        p < 0.01 & p > 0.001 ~ "**",
-        p < 0.001 ~ "***"
-      )
+      case_when(p > 0.05 ~ "ns",
+                p < 0.05 & p > 0.01 ~ "*",
+                p < 0.01 & p > 0.001 ~ "**",
+                p < 0.001 ~ "***")
     if (!is.logical(es)) {
       stop("es should be either TRUE or FALSE")
     }
@@ -139,14 +129,9 @@ t_test <-
         "statistic" = round(tg, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
-<<<<<<< HEAD
         "cohen.d" = round(d, digits),
-        "conf.low.d"=round(lower_d, digits),
+        "conf.low.d" = round(lower_d, digits),
         "conf.high.d" = round(upper_d, digits)
-
-=======
-        "cohen.d" = round(d, digits)
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
       )
     } else {
       data.frame(
@@ -197,25 +182,25 @@ multi_raw <- function(x,
   stop <- 0
   for (i in 1:n.pops) {
     start <- stop + 1
-    S <- diag(M.sdev[i, ])
+    S <- diag(M.sdev[i,])
     V <- S %*% R %*% S
     stop <- stop + m[i]
-    X[start:stop, ] <-
+    X[start:stop,] <-
       tmvtnorm::rtmvnorm(
         n = m[i],
-        mean = m_mean[i, ],
+        mean = m_mean[i,],
         sigma = V,
         lower = rep(lower, n.t),
         upper = rep(upper, n.t)
       )
     start <- stop + 1
-    S <- diag(F.sdev[i, ])
+    S <- diag(F.sdev[i,])
     V <- S %*% R %*% S
     stop <- stop + f[i]
-    X[start:stop, ] <-
+    X[start:stop,] <-
       tmvtnorm::rtmvnorm(
         n = f[i],
-        mean = f_mean[i, ],
+        mean = f_mean[i,],
         sigma = V,
         lower = rep(lower, n.t),
         upper = rep(upper, n.t)
@@ -309,7 +294,7 @@ cbind_fill <- function(...) {
   nm <- lapply(nm, as.matrix)
   n <- max(sapply(nm, nrow))
   df <- do.call(cbind, lapply(nm, function(x) {
-  rbind.data.frame(x, matrix(data = NA, n - nrow(x), ncol(x)))
+    rbind.data.frame(x, matrix(data = NA, n - nrow(x), ncol(x)))
   }))
   names(df) <- names(nm)
   df
@@ -334,12 +319,10 @@ anova_es <- function(x,
   between <- ssi / df1
   f <- summary(x)[[1]][[4]][1]
   p <- summary(x)[[1]][[5]][1]
-  signif <- dplyr::case_when(
-    p > 0.05 ~ "ns",
-    p < 0.05 & p > 0.01 ~ "*",
-    p < 0.01 & p > 0.001 ~ "**",
-    p < 0.001 ~ "***"
-  )
+  signif <- dplyr::case_when(p > 0.05 ~ "ns",
+                             p < 0.05 & p > 0.01 ~ "*",
+                             p < 0.01 & p > 0.001 ~ "**",
+                             p < 0.001 ~ "***")
   ss <- summary(x)[[1]][, 2]
   df <- summary(x)[[1]][, 1]
   ms <- summary(x)[[1]][, 3]
