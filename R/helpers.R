@@ -139,14 +139,9 @@ t_test <-
         "statistic" = round(tg, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
-<<<<<<< HEAD
         "cohen.d" = round(d, digits),
         "conf.low.d"=round(lower_d, digits),
         "conf.high.d" = round(upper_d, digits)
-
-=======
-        "cohen.d" = round(d, digits)
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
       )
     } else {
       data.frame(

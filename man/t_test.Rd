@@ -58,10 +58,37 @@ Default: NULL}
 Default: NULL}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
+<<<<<<< HEAD
+following [p.adjust.methods]}
+
+\item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
+`NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+<<<<<<< HEAD
+following [p.adjust.methods]}
+
+\item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
+`NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+following [p.adjust.methods]}
+
+\item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
+`NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
+=======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 following \link{p.adjust.methods}}
 
 \item{N}{Number of pairwise comparisons for \link{p.adjust.methods}, if left
 \code{NULL} it will follow the formula \verb{n(n 1)/2} where \code{n} is the number of
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 populations , Default: NULL}
 
 \item{digits}{Number of significant digits, Default: 4}

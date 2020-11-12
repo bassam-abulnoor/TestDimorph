@@ -28,13 +28,49 @@ FALSE}
 \item{plot}{Logical; if TRUE graphical matrix of p values, Default: FALSE}
 
 \item{...}{additional arguments that can be passed to
+<<<<<<< HEAD
+[corrplot][corrplot::corrplot] function.}
+=======
+<<<<<<< HEAD
+[corrplot][corrplot::corrplot] function.}
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+[corrplot][corrplot::corrplot] function.}
+=======
 \link[corrplot:corrplot]{corrplot} function.}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+\link[corrplot:corrplot]{corrplot} function.}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{alternative}{a character string specifying the alternative
 hypothesis, must be one of "two.sided", "greater" or "less".}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
 following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
 \item{letters}{Logical; if TRUE returns letters for pairwise comparisons
 where significantly different populations are given different letters,
@@ -56,7 +92,25 @@ input.
 The input is a data frame of summary statistics where the column
 containing population names is chosen by position (first by default), other
 columns of summary data should have specific names (case sensitive) similar
+<<<<<<< HEAD
+to [baboon.parms_df]
+=======
+<<<<<<< HEAD
+to [baboon.parms_df]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+to [baboon.parms_df]
+=======
 to \link{baboon.parms_df}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+to \link{baboon.parms_df}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \examples{
 \donttest{
@@ -100,6 +154,27 @@ t_greene(
 }
 }
 \seealso{
+<<<<<<< HEAD
+[multcompView::multcompLetters()]
+[corrplot::corrplot()]
+=======
+<<<<<<< HEAD
+[multcompView::multcompLetters()]
+[corrplot::corrplot()]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+[multcompView::multcompLetters()]
+[corrplot::corrplot()]
+=======
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 \code{\link[multcompView:multcompLetters]{multcompView::multcompLetters()}}
 \code{\link[corrplot:corrplot]{corrplot::corrplot()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+<<<<<<< HEAD
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }

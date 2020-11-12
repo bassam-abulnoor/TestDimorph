@@ -18,9 +18,27 @@ Greene t test
 Data is entered as a tibble/data frame of summary statistics where
 the column containing population names is chosen by position (first by
 default), other columns of summary data should have specific names (case
-sensitive) similar to \link{baboon.parms_df}
+sensitive) similar to [baboon.parms_df]
 }
 \seealso{
+<<<<<<< HEAD
+[TestDimorph-deprecated()]
+=======
+<<<<<<< HEAD
+[TestDimorph-deprecated()]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+[TestDimorph-deprecated()]
+=======
 \code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+\code{\link[=TestDimorph-deprecated]{TestDimorph-deprecated()}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \keyword{internal}

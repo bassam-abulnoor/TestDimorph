@@ -42,6 +42,7 @@ NeedsCompilation: no
 Author: Bassam A. Abulnoor [aut, cre] (<https://orcid.org/0000-0003-4351-2754>),
   MennattAllah H. Attia [aut] (<https://orcid.org/0000-0002-2304-532X>),
   Lyle W. Konigsberg [aut] (<https://orcid.org/0000-0003-4052-1575>)
+<<<<<<< HEAD
 Repository: CRAN
 =======
 Imports: 
@@ -68,3 +69,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 >>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+=======
+>>>>>>> 2a7c9b7ceb62f20bb9d8a0ffb70230424317dd2e

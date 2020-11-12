@@ -35,13 +35,31 @@ FALSE}
 different parameters separately, Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+following [p.adjust.methods]}
+=======
 following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+following \link{p.adjust.methods}}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 
-\item{...}{Additional arguments that could be passed to the \link{univariate}
+\item{...}{Additional arguments that could be passed to the [univariate]
 function}
 
-\item{lower.tail}{Logical; if TRUE probabilities are \code{P[X <= x]},
-otherwise, \code{P[X > x]}., Default: FALSE}
+\item{lower.tail}{Logical; if TRUE probabilities are `P[X <= x]`,
+otherwise, `P[X > x]`., Default: FALSE}
 
 \item{digits}{Number of significant digits, Default: 4}
 }
@@ -49,17 +67,35 @@ otherwise, \code{P[X > x]}., Default: FALSE}
 Tibble of MANOVA results
 }
 \description{
+<<<<<<< HEAD
+Multivariate extension of Greene t test [t_greene]
+=======
+<<<<<<< HEAD
+Multivariate extension of Greene t test [t_greene]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+Multivariate extension of Greene t test [t_greene]
+=======
 Multivariate extension of Greene t test \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
+=======
+Multivariate extension of Greene t test \link{t_greene}
+>>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
+>>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
+>>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \details{
 Data can be entered either as a tibble/data frame of summary
-statistics as in \link{baboon.parms_df} . In that case the pooled within
-correlational matrix \code{R.res} should be entered as a separate argument as in
-\link{R}. Another acceptable format is a named list of matrices containing
+statistics as in [baboon.parms_df] . In that case the pooled within
+correlational matrix `R.res` should be entered as a separate argument as in
+[R]. Another acceptable format is a named list of matrices containing
 different summary statistics as well as the correlational matrix as in
-\link{baboon.parms_list}. By setting the option \code{univariate} to \code{TRUE}, multiple
-\code{ANOVA}s can be run on each parameter independently with the required p
-value correction using \link{p.adjust.methods}.
+[baboon.parms_list]. By setting the option `univariate` to `TRUE`, multiple
+`ANOVA`s can be run on each parameter independently with the required p
+value correction using [p.adjust.methods].
 }
 \examples{
 \donttest{
