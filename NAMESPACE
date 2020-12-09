@@ -11,14 +11,9 @@ export(multivariate)
 export(pMatrix)
 export(raw_gen)
 export(t_greene)
-<<<<<<< HEAD
-=======
-export(to_params)
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 export(univariate)
 import(dplyr)
 import(ggplot2)
-importFrom(Rfast,pooled.cov)
 importFrom(caret,confusionMatrix)
 importFrom(caret,train)
 importFrom(caret,trainControl)

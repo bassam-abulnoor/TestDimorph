@@ -43,29 +43,23 @@ t_test <-
            sig.level,
            alternative,
            es) {
-    n1 <- m + f
-    n2 <- m2 + f2
     tg <-
       ((M.mu - F.mu) - (M.mu2 - F.mu2)) / (sqrt(((((m - 1) * M.sdev ^ 2) + ((f -
                                                                                1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^ 2) + ((f2 - 1) * F.sdev2 ^
                                                                                                                                 2)
-      )) / (n1 + n2 +
+      )) / (m + f +
               m2 + f2 - 4)) * sqrt((1 / m) + (1 / f) + (1 / m2) + (1 / f2)))
-    df <- (n1 + n2 + m2 + f2 - 4)
+    df <- (m + f + m2 + f2 - 4)
     sdp <-
       (sqrt(((((m - 1) * M.sdev ^ 2) + ((f - 1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^
                                                                    2) + ((f2 - 1) * F.sdev2 ^ 2)
-      )) / (n1 + n2 + m2 + f2 - 4)))
+      )) / (m + f + m2 + f2 - 4)))
     mean_diff <- ((M.mu - F.mu) - (M.mu2 - F.mu2))
     d <- abs(mean_diff / sdp)
-    sigma_d <- sqrt(((n1 + n2) / (n1 * n2)) + (d ^ 2 / (2 * (n1 + n2))))
     if (sig.level < 0 ||
         sig.level > 1 || !is.numeric(sig.level)) {
       stop("sig.level should be a number between 0 and 1")
     }
-    crit_d <- stats::qnorm(sig.level / 2, lower.tail = FALSE)
-    lower_d <- d - (crit_d * sigma_d)
-    upper_d <- d + (crit_d * sigma_d)
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
@@ -129,9 +123,7 @@ t_test <-
         "statistic" = round(tg, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
-        "cohen.d" = round(d, digits),
-        "conf.low.d" = round(lower_d, digits),
-        "conf.high.d" = round(upper_d, digits)
+        "cohen.d" = round(d, digits)
       )
     } else {
       data.frame(
@@ -442,4 +434,23 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
     none = p
   )
   p0
+}
+
+# pooled_cov --------------------------------------------------------------
+
+#' pooled_cov
+#'@description Pooled covariance matrix
+#' @param x A matrix with continuous data
+#' @param ina A numerical vector indicating the groups
+#' @keywords internal
+pooled_cov <- function (x, ina)
+{
+  s <- crossprod(x)
+  ni <- sqrt(tabulate(ina))
+  mi <- rowsum(x, ina) / ni
+  k <- length(ni)
+  denom <- dim(x)[1] - k
+  for (i in 1:k)
+    s <- s - tcrossprod(mi[i,])
+  s / denom
 }

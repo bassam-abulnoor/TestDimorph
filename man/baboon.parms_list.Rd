@@ -41,28 +41,7 @@ NIH contract HV53030 to the Southwest Foundation for Biomedical Research
 Foundation for Biomedical Research
 #' @references
 
-<<<<<<< HEAD
 Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
 between populations.*. American journal of physical anthropology, 84(1), 93–96.
-=======
-<<<<<<< HEAD
-Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
-between populations.*. American journal of physical anthropology, 84(1), 93–96.
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
-between populations.*. American journal of physical anthropology, 84(1), 93–96.
-=======
-=======
->>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
-Konigsberg LW (1991). \emph{An historical note on the t-test for differences in sexual dimorphism
-between populations.}. American journal of physical anthropology, 84(1), 93–96.
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
->>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
-<<<<<<< HEAD
->>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
-=======
->>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
 }
 \keyword{datasets}

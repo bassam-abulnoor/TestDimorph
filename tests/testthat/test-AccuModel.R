@@ -19,28 +19,31 @@ test_that("AccuModel", {
     )[[1]][[3]][[1]],
     3
   )) == 0.91)
-
-  vdiffr::expect_doppelganger(
-    title = "Single plot 2",
-    fig = suppressWarnings(AccuModel(
-      f = Sex ~ GOL + NOL + BNL,
-      x = Howells,
-      y = Howells,
-      byPop = FALSE,
-      plot = TRUE
-    ))[[1]]
-  )
-  vdiffr::expect_doppelganger(
-    title = "Pop plot 2",
-    fig = suppressWarnings(AccuModel(
-      f = Sex ~ GOL + NOL + BNL,
-      x = Howells,
-      y = Howells,
-      byPop = TRUE,
-      Pop = 2,
-      plot = TRUE
-    ))[[1]]
-  )
+  expect_doppelganger <- function(title, fig, path = NULL, ...) {
+    testthat::skip_if_not_installed("vdiffr")
+    vdiffr::expect_doppelganger(title, fig, path = path, ...)
+  }
+    expect_doppelganger(
+      title = "Single plot 2",
+      fig = suppressWarnings(AccuModel(
+        f = Sex ~ GOL + NOL + BNL,
+        x = Howells,
+        y = Howells,
+        byPop = FALSE,
+        plot = TRUE
+      ))[[1]]
+    )
+    expect_doppelganger(
+      title = "Pop plot 2",
+      fig = suppressWarnings(AccuModel(
+        f = Sex ~ GOL + NOL + BNL,
+        x = Howells,
+        y = Howells,
+        byPop = TRUE,
+        Pop = 2,
+        plot = TRUE
+      ))[[1]]
+    )
   set.seed(123)
   testthat::expect_true(suppressWarnings(round(
     AccuModel(

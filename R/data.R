@@ -20,7 +20,7 @@
 #' NIH contract HV53030 to the Southwest Foundation for Biomedical Research
 #' (Now: Texas Biomedical Research Institute), and funds from the Southwest
 #' Foundation for Biomedical Research
-#'#' @references
+#' #' @references
 #'
 #' Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
 #' between populations.*. American journal of physical anthropology, 84(1), 93–96.

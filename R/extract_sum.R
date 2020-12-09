@@ -29,7 +29,6 @@
 #' @rdname extract_sum
 #' @export
 #' @import dplyr
-#' @importFrom Rfast pooled.cov
 #' @importFrom stats sd
 extract_sum <-
   function(x,
@@ -74,7 +73,7 @@ extract_sum <-
       ina <- pop + N.pops * sex
       X <- x[, -(1:(firstX - 1))]
       Trait.names <- colnames(X)
-      V <- Rfast::pooled.cov(as.matrix(X), ina)
+      V <- pooled_cov(as.matrix(X), ina)
       D <- diag(1 / sqrt(diag(V)))
       R.res <- D %*% V %*% D
       M.mu <-

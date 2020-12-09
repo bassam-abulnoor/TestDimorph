@@ -15,10 +15,7 @@
 #' @import ggplot2
 #' @importFrom stats dnorm integrate na.omit qnorm
 #' @importFrom tidyr drop_na pivot_longer
-<<<<<<< HEAD
 #' @keywords internal
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
 index_D <- function(x,
                     plot = FALSE,
                     fill = c("female", "male", "both"),

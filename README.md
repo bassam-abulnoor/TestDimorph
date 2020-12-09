@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
+[![Codecov test coverage](https://codecov.io/gh/bassam-abulnoor/TestDimorph/branch/master/graph/badge.svg)](https://codecov.io/gh/bassam-abulnoor/TestDimorph?branch=master)
 <!-- badges: end -->
 
 Analysis Of The Interpopulation Difference In Degree of Sexual Dimorphism Using Summary Statistics
@@ -22,26 +23,25 @@ devtools::install_github("bassam-abulnoor/TestDimorph")
 
 ## Data entry
 
-The input can be in the form of wide format **raw data** or **summary statistics** where each row represents measurements of a single individual or population. In order to be recognized by the functions, columns need to have a specific name (case sensitive):
+The input can be in the form of wide format **raw data** or **summary statistics** where each row represents measurements of a single individual or population. In order to be recognized by the functions, columns need to have specific names (case sensitive):
 
 
-1. **Sex** : Either **M** for male or **F** for female (*Raw data*)
-2. **Pop** : Populations of the measured individuals (*Summary/Raw data*)
-3. **Parms** : Measured numerical parameters for multivariate analysis and raw data generation (*Summary*)
-4. **m** : Male sample size (*Summary*)
-5. **f** :Female sample size (*Summary*)
-6. **M.mu**: Male mean (*Summary*)
-7. **F.mu** :Female mean (*Summary*)
-8. **M.sdev** : Male standard deviation (*Summary*)
-9. **F.sdev** :Female standard deviation (*Summary*)
+1. **Sex** : either **M** for male or **F** for female (*Raw data*)
+2. **Pop** : studied populations (*Summary/Raw data*)
+3. **Parms** : numerical parameters for multivariate analysis and raw data generation (*Summary*)
+4. **m** : male sample size (*Summary*)
+5. **f** : female sample size (*Summary*)
+6. **M.mu**: male mean (*Summary*)
+7. **F.mu** : female mean (*Summary*)
+8. **M.sdev** : male standard deviation (*Summary*)
+9. **F.sdev** : female standard deviation (*Summary*)
 
 **N.B**
 
-* All non numerical values need to be entered as factors.
-* The list and the data frame formats for the `multivariate` and `RawGen` functions can be be found in the attached data sets under the names `baboon.parms_list` and `baboon.parms_df` respectively.
-* In the input of most of the functions, columns are referred to by number to avoid confusion.
+* All non numerical values need to be factors.
+* The list and the data frame formats for the `multivariate` and `RawGen` functions input, can be be found in the attached data sets under the names `baboon.parms_list` and `baboon.parms_df` respectively.
 
-## Examples
+## Examples for data entery format
 
 #### Summary statistics for univariate analysis
 
