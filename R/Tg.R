@@ -10,17 +10,16 @@ NULL
 #' @export
 Tg <- function(x = NULL,
                Pop = 1,
-               es = FALSE,
+               es = "none",
                plot = FALSE,
                ...,
                alternative = c("two.sided", "less", "greater"),
-               padjust = p.adjust.methods,
+               padjust = "none",
                letters = FALSE,
                digits = 4,
-               sig.level = 0.05) {
+               CI = 0.95) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true"))
   .Deprecated("t_greene")
-  # t-test for a data.frame -------------------------------------------------
-
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
   }
@@ -42,17 +41,20 @@ Tg <- function(x = NULL,
   if (nrow(x) < 2) {
     stop("x should at least have 2 rows")
   }
-  x <- data.frame(x)
+  padjust <- match.arg(padjust, choices = p.adjust.methods)
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
   x$Pop <- x[, Pop]
   if (length(dplyr::contains("-", vars = x$Pop)) != 0) {
     x$Pop <-
       gsub(
         x = x$Pop,
-        pattern = "-",
+        pattern = "[^[:alnum:]]",
         replacement = "_"
       )
   }
-  x$Pop <- factor(x$Pop)
+  x$Pop <- factor(x$Pop,levels = x$Pop)
   x$Pop <- droplevels(x$Pop)
   if (length(unique(x$Pop)) != length(which(!is.na(x$Pop)))) {
     warning("Population names are not unique")
@@ -84,7 +86,7 @@ Tg <- function(x = NULL,
           nlevels(x$Pop)^2 - nlevels(x$Pop)
         ) / 2),
         alternative = alternative,
-        sig.level = sig.level,
+        CI = CI,
         digits = digits,
         es = es
       )
@@ -107,7 +109,7 @@ Tg <- function(x = NULL,
         "pairwise letters" = tibble::rownames_to_column(
           data.frame(
             "letters" = multcompView::multcompLetters(pval,
-              threshold = sig.level
+                                                      threshold = CI
             )[[1]]
           ),
           var = "populations"
@@ -125,7 +127,7 @@ Tg <- function(x = NULL,
       corrplot::corrplot(
         corr = pmatrix,
         p.mat = pmatrix,
-        sig.level = sig.level,
+        sig.level = 1-CI,
         number.digits = digits,
         is.corr = FALSE,
         ...

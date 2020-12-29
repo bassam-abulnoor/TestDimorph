@@ -7,11 +7,14 @@
 univariate(
   x,
   Pop = 1,
-  es = FALSE,
+  type_anova = "II",
+  interact_anova = TRUE,
+  es_anova = "none",
   pairwise = FALSE,
-  padjust = p.adjust.methods,
+  padjust = "none",
   ...,
   lower.tail = FALSE,
+  CI = 0.95,
   N = NULL,
   digits = 4
 )
@@ -21,20 +24,27 @@ univariate(
 
 \item{Pop}{Number of the column containing populations' names, Default: 1}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{type_anova}{type of ANOVA test "I","II" or "III", Default:"II".}
+
+\item{interact_anova}{Logical; if TRUE calculates interaction effect,
+Default: FALSE.}
+
+\item{es_anova}{Type of effect size either "f" for f squared,"eta" for eta
+squared,"omega" for omega squared or "none", Default:"none".}
 
 \item{pairwise}{Logical; if TRUE runs multiple pairwise comparisons on
-different populations using [t_greene] test, Default: FALSE}
+different populations using \link{t_greene} Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
-following [p.adjust.methods]}
+following \link[stats]{p.adjust.methods}  Default: "none".}
 
-\item{...}{Additional arguments that could be passed to the [t_greene]
+\item{...}{Additional arguments that could be passed to the \link{t_greene}
 function}
 
 \item{lower.tail}{Logical; if TRUE probabilities are `P[X <= x]`,
 otherwise, `P[X > x]`., Default: FALSE}
+
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 
 \item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
 `NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
@@ -43,7 +53,7 @@ populations , Default: NULL}
 \item{digits}{Number of significant digits, Default: 4}
 }
 \value{
-Tibble of ANOVA results
+ANOVA tale.
 }
 \description{
 Calculation and visualization of the differences in degree
@@ -54,10 +64,9 @@ ANOVA and summary statistics as input
 Data is entered as a tibble/data frame of summary statistics where
 the column containing population names is chosen by position (first by
 default), other columns of summary data should have specific names (case
-sensitive) similar to [baboon.parms_df]
+sensitive) similar to \link{baboon.parms_df}
 }
 \examples{
-\donttest{
 # Comparisons of femur head diameter in four populations
 library(TestDimorph)
 df <-
@@ -71,5 +80,4 @@ df <-
     F.sdev = c(2.90, 2.84, 2.26, 2.90)
   )
 univariate(df, pairwise = TRUE, padjust = "bonferroni")
-}
 }

@@ -3,13 +3,7 @@
 \docType{data}
 \name{baboon.parms_list}
 \alias{baboon.parms_list}
-\title{Summary statistics of baboon data collection data frame A dataset
-containing summary statistics for low density lipoprotein (LDL) and
-apolipoprotein B (apo B) levels in 604 baboons measured on two different
-diets: a basal diet 'chow' and a high cholesterol, saturated fat diet
-'pink' (HCSF). The baboons were classified into one of three subspecies
-(Papio hamadryas anubis, P.h. cynocephalus, or anubistcynocephalus hybrid).
-Each animal was measured on each of the two diets.}
+\title{List format for the baboon.parms_df for multivariate analysis}
 \format{
 A list of 7 matrices.
 \describe{ \item{R.res}{pooled within group
@@ -26,22 +20,6 @@ deviations for females} }
 baboon.parms_list
 }
 \description{
-Summary statistics of baboon data collection data frame A dataset
-containing summary statistics for low density lipoprotein (LDL) and
-apolipoprotein B (apo B) levels in 604 baboons measured on two different
-diets: a basal diet 'chow' and a high cholesterol, saturated fat diet
-'pink' (HCSF). The baboons were classified into one of three subspecies
-(Papio hamadryas anubis, P.h. cynocephalus, or anubistcynocephalus hybrid).
-Each animal was measured on each of the two diets.
-}
-\note{
-The baboon data collection were supported by NIH grant HL28972 and
-NIH contract HV53030 to the Southwest Foundation for Biomedical Research
-(Now: Texas Biomedical Research Institute), and funds from the Southwest
-Foundation for Biomedical Research
-#' @references
-
-Konigsberg LW (1991). *An historical note on the t-test for differences in sexual dimorphism
-between populations.*. American journal of physical anthropology, 84(1), 93–96.
+List format for the baboon.parms_df for multivariate analysis
 }
 \keyword{datasets}

@@ -7,67 +7,82 @@
 multivariate(
   x,
   R.res = NULL,
-  Parms = 1,
+  Trait = 1,
   Pop = 2,
-  es = FALSE,
+  type_manova = "II",
+  manova_test_statistic = "W",
+  interact_manova = TRUE,
+  es_manova = "none",
   univariate = FALSE,
-  padjust = p.adjust.methods,
+  padjust = "none",
   ...,
   lower.tail = FALSE,
+  CI = 0.95,
   digits = 4
 )
 }
 \arguments{
-\item{x}{Tibble/Data frame or list containing summary statistics for
+\item{x}{Data frame or list containing summary statistics for
 multiple parameters measured in both sexes in two or more populations.}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
-\item{Parms}{Number of the column containing names of measured parameters,
+\item{Trait}{Number of the column containing names of measured parameters,
 Default: 1}
 
 \item{Pop}{Number of the column containing populations' names, Default: 2}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{type_manova}{type of MANOVA test "I","II" or "III", Default:"II".}
+
+\item{manova_test_statistic}{type of test statistic used either "W" for "Wilks","P"
+for "Pillai", "HL" for "Hotelling-Lawley" or "R" for "Roy's largest root",
+Default: "W".}
+
+\item{interact_manova}{Logical; if TRUE calculates MANOVA for main effects,
+Default: FALSE.}
+
+\item{es_manova}{effect size either ,"eta" for eta squared, or "none"for
+not reporting an effect size, Default:"none".}
 
 \item{univariate}{Logical; if TRUE conducts multiple univariate analyses on
 different parameters separately, Default: FALSE}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
-following [p.adjust.methods]}
+following \link[stats]{p.adjust.methods}  Default: "none".}
 
-\item{...}{Additional arguments that could be passed to the [univariate]
-function}
+\item{...}{Additional arguments that could be passed to \link{univariate}}
 
 \item{lower.tail}{Logical; if TRUE probabilities are `P[X <= x]`,
 otherwise, `P[X > x]`., Default: FALSE}
 
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
+
 \item{digits}{Number of significant digits, Default: 4}
 }
 \value{
-Tibble of MANOVA results
+MANOVA table. When the term is followed by `(E)` an exact f-value
+is calculated.
 }
 \description{
-Multivariate extension of Greene t test [t_greene]
+Multivariate extension of Greene t test \link{t_greene}
 }
 \details{
-Data can be entered either as a tibble/data frame of summary
-statistics as in [baboon.parms_df] . In that case the pooled within
+Data can be entered either as a data frame of summary
+statistics as in \link{baboon.parms_df}. In that case the pooled within
 correlational matrix `R.res` should be entered as a separate argument as in
-[R]. Another acceptable format is a named list of matrices containing
-different summary statistics as well as the correlational matrix as in
-[baboon.parms_list]. By setting the option `univariate` to `TRUE`, multiple
-`ANOVA`s can be run on each parameter independently with the required p
-value correction using [p.adjust.methods].
+\link{baboon.parms_R}. Another acceptable format is a named list of
+matrices containing different summary statistics as well as the correlational
+matrix as in \link{baboon.parms_list}. By setting the option `univariate`
+to `TRUE`, multiple `ANOVA`s can be run on each parameter independently with
+the required p.value correction using \link[stats]{p.adjust.methods}.
 }
 \examples{
-\donttest{
 # x is a data frame with separate correlational matrix
 library(TestDimorph)
-multivariate(baboon.parms_df, R.res = R)
+multivariate(baboon.parms_df, R.res = baboon.parms_R)
 # x is a list with the correlational matrix included
 library(TestDimorph)
 multivariate(baboon.parms_list, univariate = TRUE, padjust = "bonferroni")
-}
+#reproduces results from Konigsberg (1991)
+multivariate(baboon.parms_df, R.res = baboon.parms_R)[3,]
 }

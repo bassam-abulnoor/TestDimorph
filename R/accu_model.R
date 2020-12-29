@@ -1,17 +1,20 @@
 #' @title Evaluation Of Sex prediction Accuracy
 #' @description Testing, cross validation and visualization of the accuracy of
-#' different sex prediction models using the
-#' [confusionMatrix][caret::confusionMatrix] and roc curves
+#' different sex prediction models using the \link[caret]{confusionMatrix}
+#' and roc curves.
 #' @param f Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
 #' is placed to the left hand side while the numerical measurements are placed
 #' to the right hand side
 #' @param x Data frame to be fitted to the model
-#' @param y New data frame to be tested, if `NULL` `x` is splitted to test and
-#' training data seta, Default: NULL
+#' @param y New data frame to be tested, if `NULL` `x` is split to test and
+#' training datasets, Default: NULL
 #' @param method A string specifying which classification or regression model
-#' to use,
+#' to use. For list of supported methods see \link[caret]{train_model_list}.
 #' @param res_method The resampling method used by
-#' [trainControl][caret::trainControl], Default: 'repeatedcv'
+#' \link[caret]{trainControl}, Default: 'repeatedcv'
+#' @param prior prior probability i.e. c(0.5,0.5) for equal probabilities,
+#' if NULL it will be the sample frequencies,
+#' Default: NULL
 #' @param p Percentage of `x` for testing the model in case `y` is NULL,
 #' Default: 0.75
 #' @param nf number of folds or of resampling iterations, Default: 10
@@ -28,13 +31,16 @@
 #' @param ref. reference category in the grouping factor, Default: 'F'
 #' @param post. positive category in the grouping factor, Default: 'M'
 #' @param ... additional arguments that can passed to modeling,
-#' [confusionMatrix][caret::confusionMatrix] function and roc curve generated
-#' by [plot_roc][cutpointr::plot_roc]
+#' \link[caret]{confusionMatrix} function and roc curve generated
+#' by \link[cutpointr]{plot_roc}.
 #' @return Visual and numerical accuracy parameters for the tested model
 #' @details Data frames to be entered as input need to be arranged in a
-#' similar manner to [Howells] dataset.
+#' similar manner to [Howells] dataset. The "cut point" is found such that it
+#' maximizes the sum of "sensitivity" [TP/(TP+FN)] plus "specificity" [TN/(TN+FP)]
+#' where TP is the number of males identified as males, TN is the number of
+#' females identified as females, FN is the number of males identified as
+#' females, and FP is the number of females identified as males.
 #' @examples
-#' \donttest{
 #' # Using a single dataset
 #' library(TestDimorph)
 #' accu_model(
@@ -43,9 +49,6 @@
 #'   method = "lda",
 #'   plot = FALSE
 #' )
-#' }
-#' @seealso [cutpointr::plot_roc()]
-#' [caret::confusionMatrix()]
 #' @export
 #' @import dplyr
 #' @import ggplot2
@@ -58,6 +61,7 @@ accu_model <-
            y = NULL,
            method = "lda",
            res_method = "repeatedcv",
+           prior=NULL,
            p = 0.75,
            nf = 10,
            nr = 3,
@@ -68,8 +72,6 @@ accu_model <-
            ref. = "F",
            post. = "M",
            ...) {
-    # First data.frame preparation --------------------------------------------------------
-
     if (!(is.data.frame(x))) {
       stop("x and y should be dataframes")
     }
@@ -85,7 +87,9 @@ accu_model <-
     if (!(Sex %in% seq_along(x))) {
       stop("Sex should be a number from 1 to ncol(x)")
     }
-    x <- data.frame(x)
+    x <- x %>%
+      drop_na() %>%
+      as.data.frame()
     x$Sex <- x[, Sex]
     x$Sex <- as.factor(x$Sex)
     if (is.null(Pop)) {
@@ -98,8 +102,6 @@ accu_model <-
       x$Pop <- factor(x$Pop)
       x <- dplyr::arrange(x, x$Pop, x$Sex)
     }
-
-    # Cross validation --------------------------------------------------------
     if (is.null(y)) {
       x <- x %>% mutate(id = row_number())
       z <- x
@@ -119,7 +121,7 @@ accu_model <-
       model <- caret::train(f,
         data = train.data,
         method = method,
-        trControl = train.control
+        trControl = train.control,parms = list(prior = prior)
       )
       preds <-
         data.frame("id" = test.data$id, "class" = predict(model, test.data))
@@ -134,7 +136,6 @@ accu_model <-
             "id"
         )
 
-      # Second data.frame preparation -------------------------------------------
     } else {
       if (!(is.data.frame(y))) {
         stop("x and y should be dataframes")
@@ -144,7 +145,9 @@ accu_model <-
         stop("Sex should be number from 1 or ncol(y)")
       }
 
-      y <- data.frame(y)
+      y <- y %>%
+        drop_na() %>%
+        as.data.frame()
       y$Sex <- y[, Sex]
       y$Sex <- factor(y$Sex)
       if (is.null(Pop)) {
@@ -174,11 +177,9 @@ accu_model <-
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
 
-      # Modeling ----------------------------------------------------------------
-
       model <- caret::train(f,
         data = x,
-        method = method
+        method = method,parms = list(prior = prior)
       )
       preds <- stats::predict(model, newdata = y)
 
@@ -199,23 +200,24 @@ accu_model <-
         }
       )
 
-      # ROC curve and confusion matrix ------------------------------------------
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
 
-      roc <-
-        cutpointr::plot_roc(
-          cutpointr::cutpointr(
+
+      cutpoint <-    cutpointr::cutpointr(
             data = df,
             x = class,
             class = Sex,
             subgroup = Pop,
             pos_class = 2,
             neg_class = 1,
-            silent = TRUE
+            silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
           )
-        ) +
-        theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
+
+
+roc <-
+  cutpointr::plot_roc(cutpoint)  +
+    theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         lapply(list,
           caret::confusionMatrix,
@@ -224,26 +226,29 @@ accu_model <-
 
           ...
         )
+      cutpoint <- cbind.data.frame(cutpoint[,1],cutpoint[,3])
+      names(cutpoint) <- c("populations","cutpoint")
       if (isTRUE(plot)) {
-        list(roc, conf)
+        list(cutpoint=cutpoint, conf,roc)
       } else {
-        conf
+        list(cutpoint=cutpoint, conf)
       }
     } else {
       xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
-      roc <-
-        cutpointr::plot_roc(
-          cutpointr::cutpointr(
+
+  cutpoint <- cutpointr::cutpointr(
             data = df,
             x = class,
             class = Sex,
             pos_class = 2,
             neg_class = 1,
-            silent = TRUE
-          )
-        ) +
+            silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
+
+        )
+  roc <-
+    cutpointr::plot_roc(cutpoint)+
         theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         caret::confusionMatrix(
@@ -253,11 +258,11 @@ accu_model <-
           dnn = c("Prediction", "Reference"),
           ...
         )
-
+cutpoint <- pull(cutpoint,2)
       if (isTRUE(plot)) {
-        list(roc, conf)
+        list(cutpoint=cutpoint, conf,roc)
       } else {
-        conf
+        list(cutpoint=cutpoint, conf)
       }
     }
   }

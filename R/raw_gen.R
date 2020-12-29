@@ -3,7 +3,7 @@
 #' uni/multivariate log/truncated normal distribution
 #' @inheritParams multivariate
 #' @param dist univariate distribution used for data generation either `log`
-#' for log normal or `truncated` for truncated, Default: 'truncated'
+#' for log normal or `truncated` for truncated distribution, Default: 'truncated'
 #' @param lower vector of lower bounds, Default: -Inf
 #' @param upper vector of upper bounds, Default: Inf
 #' @param format form of the resultant tibble either 'long' or 'wide',
@@ -13,23 +13,22 @@
 #' @return tibble of raw data
 #' @details If data generation is desired using multivariate distribution data
 #' is entered in the form of a list of summary statistics and pooled within
-#' correlational matrix as in [baboon.parms_list], or the summary statistics
-#' are entered separately in the form of a data frame/tibble as in
-#' [baboon.parms_df] with a separate correlational matrix as in [R]. If data
-#' frame/tibble is entered without a correlational matrix, data generation is
-#' carried out using univariate distribution. N.B: Transformation of raw
-#' summary data to logged data is only possible for univariate distribution
-#' and if multivariate log normal distribution is desired logged values should
-#' be entered directly with `dist` set to `truncated`.
+#' correlational matrix as in \link{baboon.parms_list}, or the summary
+#'  statistics are entered separately in the form of a data frame/tibble as in
+#' \link{baboon.parms_df} with a separate correlational matrix as in
+#' \link{baboon.parms_R}. If data frame is entered without a correlational
+#' matrix, data generation is carried out using univariate distribution.
+#' N.B: Transformation of raw summary data to logged data is only possible
+#' for univariate distribution and if multivariate log normal distribution
+#' is desired logged values should be entered directly with `dist` set to
+#' `truncated`.
 #' @examples
-#' \donttest{
 #' # Data generation using univariate distribution
 #' library(TestDimorph)
 #' raw_gen(baboon.parms_df)
 #' # Data generation using multivariate distribution
 #' library(TestDimorph)
 #' raw_gen(baboon.parms_list)
-#' }
 #' @rdname raw_gen
 #' @export
 #' @importFrom truncnorm rtruncnorm
@@ -39,7 +38,7 @@
 #' @importFrom stats rlnorm
 
 raw_gen <- function(x,
-                    Parms = 1,
+                    Trait = 1,
                     Pop = 2,
                     R.res = NULL,
                     dist = c("truncated", "log"),
@@ -70,22 +69,25 @@ raw_gen <- function(x,
             N.B: colnames are case sensitive"
       )
     }
-    if (!(Parms %in% seq_along(x))) {
-      stop("Parms should be number from 1 to ncol(x)")
+    if (!(Trait %in% seq_along(x))) {
+      stop("Trait should be number from 1 to ncol(x)")
     }
     if (!(Pop %in% seq_along(x))) {
       stop("Pop should be number from 1 to ncol(x)")
     }
     if (is.null(R.res)) {
-      x <- data.frame(x)
+      x <- x %>%
+        drop_na() %>%
+        as.data.frame()
       x$Pop <- x[, Pop]
       x$Pop <- factor(x$Pop)
-      x$Parms <- x[, Parms]
-      x$Parms <- factor(x$Parms)
+      x$Trait <- x[, Trait]
+      x$Trait <- factor(x$Trait)
 
       # Data generation --------------------------------------------------
 
       if (dist == "log") {
+        message("Data generation was done using univariate log distribution")
         gen_m <- function(x) {
           rlnorm(
             n = x$m[1],
@@ -105,6 +107,7 @@ raw_gen <- function(x,
           )
         }
       } else {
+        message("Data generation was done using univariate truncated distribution")
         gen_m <- function(x) {
           truncnorm::rtruncnorm(
             n = x$m[1],
@@ -125,19 +128,19 @@ raw_gen <- function(x,
         }
       }
       m_function <- function(x) {
-        df <- by(x, list(x$Parms), list)
+        df <- by(x, list(x$Trait), list)
         df <- lapply(df, gen_m)
         df <- lapply(df, as.data.frame)
-        df <- do.call(cbind_fill, df)
-        colnames(df) <- levels(x$Parms)
+        df <- do.call(cbind_fill2, df)
+        colnames(df) <- levels(x$Trait)
         df
       }
       f_function <- function(x) {
-        df <- by(x, list(x$Parms), list)
+        df <- by(x, list(x$Trait), list)
         df <- lapply(df, gen_f)
         df <- lapply(df, as.data.frame)
-        df <- do.call(cbind_fill, df)
-        colnames(df) <- levels(x$Parms)
+        df <- do.call(cbind_fill2, df)
+        colnames(df) <- levels(x$Trait)
         df
       }
       pops <- split.data.frame(x, x$Pop)
@@ -153,11 +156,11 @@ raw_gen <- function(x,
         as.factor(do.call(rbind.data.frame, females)[, 1])
       female$Sex <- as.factor(rep("F", nrow(female)))
       male <-
-        male[, c(ncol(male), ncol(male) - 1, seq(nlevels(x$Parms)))]
+        male[, c(ncol(male), ncol(male) - 1, seq(nlevels(x$Trait)))]
 
 
       female <-
-        female[, c(ncol(female), ncol(female) - 1, seq(nlevels(x$Parms)))]
+        female[, c(ncol(female), ncol(female) - 1, seq(nlevels(x$Trait)))]
 
       # Joining both datasets ---------------------------------------------------
 
@@ -175,7 +178,7 @@ raw_gen <- function(x,
             pivot_longer(
               data = wide,
               cols = -c("Sex", "Pop"),
-              names_to = "Parms",
+              names_to = "Trait",
               values_drop_na = complete_cases
             )
           )
@@ -193,7 +196,7 @@ raw_gen <- function(x,
       x <- dataframe2list(
         x = x,
         R.res = R.res,
-        Parms = Parms,
+        Trait = Trait,
         Pop = Pop
       )
     }
@@ -215,6 +218,7 @@ raw_gen <- function(x,
             N.B: names are case sensitive"
       )
     }
+    message("Data generation was done using multivariate truncated distribution")
     multi_raw(
       x = x,
       format = format,

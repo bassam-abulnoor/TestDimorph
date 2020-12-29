@@ -9,9 +9,9 @@ aov_ss(
   Pop = 1,
   pairwise = TRUE,
   letters = FALSE,
-  es = FALSE,
+  es_anova = "none",
   digits = 4,
-  sig.level = 0.05
+  CI = 0.95
 )
 }
 \arguments{
@@ -26,12 +26,12 @@ different populations using Tukey's post hoc test, Default: TRUE}
 where significantly different populations are given different letters,
 Default: FALSE'}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{es_anova}{Type of effect size either "f" for f squared,"eta" for eta
+squared,"omega" for omega squared or "none", Default:"none".}
 
 \item{digits}{Number of significant digits, Default: 4}
 
-\item{sig.level}{Critical p.value, Default: 0.05}
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 }
 \value{
 Sex specific ANOVA tables and pairwise comparisons in tidy format.
@@ -40,13 +40,12 @@ Sex specific ANOVA tables and pairwise comparisons in tidy format.
 Calculates sex specific one way ANOVA from summary statistics.
 }
 \details{
-Data is entered as a tibble/data frame of summary statistics where
+Data is entered as a data frame of summary statistics where
 the column containing population names is chosen by position (first by
 default), other columns of summary data should have specific names (case
-sensitive) similar to [baboon.parms_df]
+sensitive) similar to \link{baboon.parms_df}
 }
 \examples{
-\donttest{
 # Comparisons of femur head diameter in four populations
 library(TestDimorph)
 df <- data.frame(
@@ -59,5 +58,4 @@ df <- data.frame(
   F.sdev = c(2.90, 2.84, 2.26, 2.90)
 )
 aov_ss(x = df)
-}
 }

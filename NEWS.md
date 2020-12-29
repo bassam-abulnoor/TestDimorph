@@ -1,36 +1,19 @@
-<<<<<<< HEAD
+# TestDimorph 0.3.7
+
+* Added confidence intervals to different effect sizes.
+
 # TestDimorph 0.3.6
 
-* Add confidence intervals for cohen's d in t_greene function.
+* Minor fixes-no user visible changes.
 
 # TestDimorph 0.3.5
 
 * Maintainer email changed.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
->>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
->>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
-=======
-=======
->>>>>>> 6dea5f88f050c15e544b721a245e69cf92b48861
->>>>>>> 3ffea2d74b01d4945f77061b801bd9783c34951e
->>>>>>> 49bab1ae1b9ab0ccdc09b835509661bcaf96caeb
->>>>>>> 2a7c9b7ceb62f20bb9d8a0ffb70230424317dd2e
 # TestDimorph 0.3.3
 
 * The package has been re-written and optimized with fewer dependencies.
-* new function names with snake case letters are introduced
+* New function names with snake case letters are introduced
 * Function names written in camel case letters are deprecated
 * `accu_model` function now can do cross-validation using different models supported by `caret` package.
 

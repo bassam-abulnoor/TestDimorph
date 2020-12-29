@@ -3,7 +3,6 @@
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
-[![Codecov test coverage](https://codecov.io/gh/bassam-abulnoor/TestDimorph/branch/master/graph/badge.svg)](https://codecov.io/gh/bassam-abulnoor/TestDimorph?branch=master)
 <!-- badges: end -->
 
 Analysis Of The Interpopulation Difference In Degree of Sexual Dimorphism Using Summary Statistics
@@ -41,11 +40,11 @@ The input can be in the form of wide format **raw data** or **summary statistics
 * All non numerical values need to be factors.
 * The list and the data frame formats for the `multivariate` and `RawGen` functions input, can be be found in the attached data sets under the names `baboon.parms_list` and `baboon.parms_df` respectively.
 
-## Examples for data entery format
+## Examples of data entry
 
 #### Summary statistics for univariate analysis
 
-##### Comparison of femur head diameters in two populations
+##### Comparison of maximal femur length and mediolateral diameter in mid-shaft
 
 
 |    Pop    |  m  | M.mu  | M.sdev |  f  | F.mu  | F.sdev |
@@ -57,7 +56,7 @@ The input can be in the form of wide format **raw data** or **summary statistics
 
 #### Summary statistics for multivariate analysis and raw data generation
 
-##### Comparison of femur head diameters in two populations
+##### Comparison of maximal femur length and mediolateral diameter in mid-shaft
 
 
 |    Pop    | Parms |  m  |  M.mu  | M.sdev |  f  |  F.mu  | F.sdev |
@@ -81,4 +80,13 @@ The input can be in the form of wide format **raw data** or **summary statistics
 |  F  | EGYPT | 174 | 172 | 93  | 123 | 140 | 118 | 121 | 114 |
 
 
+#### Summary statistics for van_vark function
 
+##### Howells summary data
+
+| Trait |  Pop  |   M.mu   |  m |   F.mu   |  f |
+|:-----:|:-----:|:--------:|:--:|:--------:|:--:|
+|  GOL  | EGYPT | 185.6207 | 58 | 175.5849 | 53 |
+|  GOL  | NORSE | 188.4727 | 55 | 179.9818 | 55 |
+|  NOL  | EGYPT |  183.569 | 58 | 175.0377 | 53 |
+|  NOL  | NORSE | 186.1818 | 55 | 178.6909 | 55 |

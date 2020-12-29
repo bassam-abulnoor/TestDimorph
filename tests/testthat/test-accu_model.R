@@ -5,7 +5,7 @@ test_that("accu_model", {
       x = Howells,
       y = Howells,
       byPop = FALSE
-    )[[3]][[1]],
+    )[[2]][[3]][[1]],
     3
   ) == 0.789)
 
@@ -16,41 +16,41 @@ test_that("accu_model", {
       y = Howells,
       byPop = TRUE,
       Pop = 2
-    )[[1]][[3]][[1]],
+    )[[2]][[1]][[3]][[1]],
     3
   ) == 0.91)
   expect_doppelganger <- function(title, fig, path = NULL, ...) {
     testthat::skip_if_not_installed("vdiffr")
     vdiffr::expect_doppelganger(title, fig, path = path, ...)
   }
-    expect_doppelganger(
-      title = "Single plot",
-      fig = accu_model(
-        f = Sex ~ GOL + NOL + BNL,
-        x = Howells,
-        y = Howells,
-        byPop = FALSE,
-        plot = TRUE
-      )[[1]]
-    )
-    expect_doppelganger(
-      title = "Pop plot",
-      fig = accu_model(
-        f = Sex ~ GOL + NOL + BNL,
-        x = Howells,
-        y = Howells,
-        byPop = TRUE,
-        Pop = 2,
-        plot = TRUE
-      )[[1]]
-    )
+  expect_doppelganger(
+    title = "Single plot",
+    fig = accu_model(
+      f = Sex ~ GOL + NOL + BNL,
+      x = Howells,
+      y = Howells,
+      byPop = FALSE,
+      plot = TRUE
+    )[[3]]
+  )
+  expect_doppelganger(
+    title = "Pop plot",
+    fig = accu_model(
+      f = Sex ~ GOL + NOL + BNL,
+      x = Howells,
+      y = Howells,
+      byPop = TRUE,
+      Pop = 2,
+      plot = TRUE
+    )[[3]]
+  )
   set.seed(123)
   testthat::expect_true(round(
     accu_model(
       f = Sex ~ GOL + NOL + BNL,
       x = Howells,
       byPop = FALSE
-    )[[3]][[1]],
+    )[[2]][[3]][[1]],
     3
   ) == 0.811)
   set.seed(123)
@@ -60,9 +60,9 @@ test_that("accu_model", {
       x = Howells,
       byPop = TRUE,
       Pop = 2
-    )[[1]][[3]][[1]],
+    )[[2]][[3]][[3]][[1]],
     3
-  ) == 0.909)
+  ) == 0.762)
   testthat::expect_error(
     accu_model(
       f = Sex ~ GOL + NOL + BNL,

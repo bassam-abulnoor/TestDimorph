@@ -7,14 +7,14 @@
 t_greene(
   x,
   Pop = 1,
-  es = FALSE,
+  es = "none",
   plot = FALSE,
   ...,
   alternative = c("two.sided", "less", "greater"),
-  padjust = p.adjust.methods,
+  padjust = "none",
   letters = FALSE,
   digits = 4,
-  sig.level = 0.05
+  CI = 0.95
 )
 }
 \arguments{
@@ -22,8 +22,8 @@ t_greene(
 
 \item{Pop}{Number of the column containing populations' names, Default: 1}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{es}{Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
+"none".}
 
 \item{plot}{Logical; if TRUE graphical matrix of p values, Default: FALSE}
 
@@ -34,7 +34,7 @@ FALSE}
 hypothesis, must be one of "two.sided", "greater" or "less".}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
-following [p.adjust.methods]}
+following \link[stats]{p.adjust.methods}  Default: "none".}
 
 \item{letters}{Logical; if TRUE returns letters for pairwise comparisons
 where significantly different populations are given different letters,
@@ -42,7 +42,7 @@ Default: FALSE'}
 
 \item{digits}{Number of significant digits, Default: 4}
 
-\item{sig.level}{Critical p.value, Default: 0.05}
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 }
 \value{
 Tibble of t.test results
@@ -56,10 +56,9 @@ input.
 The input is a data frame of summary statistics where the column
 containing population names is chosen by position (first by default), other
 columns of summary data should have specific names (case sensitive) similar
-to [baboon.parms_df]
+to \link{baboon.parms_df}
 }
 \examples{
-\donttest{
 # Comparisons of femur head diameter in four populations
 library(TestDimorph)
 df <- data.frame(
@@ -97,7 +96,6 @@ t_greene(
   number.cex = 0.5,
   na.label = "NA"
 )
-}
 }
 \seealso{
 [multcompView::multcompLetters()]

@@ -4,27 +4,26 @@
 #' input.
 #' @param x A data frame containing summary statistics.
 #' @param Pop Number of the column containing populations' names, Default: 1
-#' @param es Logical; if TRUE effect size is included in the output , Default:
-#' FALSE
+#' @param es Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
+#' "none".
 #' @param plot Logical; if TRUE graphical matrix of p values, Default: FALSE
 #' @param ... additional arguments that can be passed to
 #' [corrplot][corrplot::corrplot] function.
 #' @param alternative a character string specifying the alternative
 #' hypothesis, must be one of "two.sided", "greater" or "less".
 #' @param padjust Method of p.value adjustment for multiple comparisons
-#' following [p.adjust.methods]
+#' following \link[stats]{p.adjust.methods}  Default: "none".
 #' @param letters Logical; if TRUE returns letters for pairwise comparisons
 #' where significantly different populations are given different letters,
 #' Default: FALSE'
 #' @param digits Number of significant digits, Default: 4
-#' @param sig.level Critical p.value, Default: 0.05
+#' @param CI confidence interval coverage takes value from 0 to 1, Default: 0.95.
 #' @return Tibble of t.test results
 #' @details The input is a data frame of summary statistics where the column
 #' containing population names is chosen by position (first by default), other
 #' columns of summary data should have specific names (case sensitive) similar
-#' to [baboon.parms_df]
+#' to \link{baboon.parms_df}
 #' @examples
-#' \donttest{
 #' # Comparisons of femur head diameter in four populations
 #' library(TestDimorph)
 #' df <- data.frame(
@@ -62,7 +61,6 @@
 #'   number.cex = 0.5,
 #'   na.label = "NA"
 #' )
-#' }
 #' @seealso
 #' [multcompView::multcompLetters()]
 #' [corrplot::corrplot()]
@@ -77,14 +75,14 @@
 
 t_greene <- function(x,
                      Pop = 1,
-                     es = FALSE,
+                     es = "none",
                      plot = FALSE,
                      ...,
                      alternative = c("two.sided", "less", "greater"),
-                     padjust = p.adjust.methods,
+                     padjust = "none",
                      letters = FALSE,
                      digits = 4,
-                     sig.level = 0.05) {
+                     CI = 0.95) {
   # t-test for a data.frame -------------------------------------------------
 
   if (!(is.data.frame(x))) {
@@ -108,17 +106,20 @@ t_greene <- function(x,
   if (nrow(x) < 2) {
     stop("x should at least have 2 rows")
   }
-  x <- data.frame(x)
+  padjust <- match.arg(padjust, choices = p.adjust.methods)
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
   x$Pop <- x[, Pop]
   if (length(dplyr::contains("-", vars = x$Pop)) != 0) {
     x$Pop <-
       gsub(
         x = x$Pop,
-        pattern = "-",
+        pattern = "[^[:alnum:]]",
         replacement = "_"
       )
   }
-  x$Pop <- factor(x$Pop)
+  x$Pop <- factor(x$Pop,levels = x$Pop)
   x$Pop <- droplevels(x$Pop)
   if (length(unique(x$Pop)) != length(which(!is.na(x$Pop)))) {
     warning("Population names are not unique")
@@ -150,7 +151,7 @@ t_greene <- function(x,
           nlevels(x$Pop)^2 - nlevels(x$Pop)
         ) / 2),
         alternative = alternative,
-        sig.level = sig.level,
+        CI = CI,
         digits = digits,
         es = es
       )
@@ -173,7 +174,7 @@ t_greene <- function(x,
         "pairwise letters" = tibble::rownames_to_column(
           data.frame(
             "letters" = multcompView::multcompLetters(pval,
-              threshold = sig.level
+              threshold = CI
             )[[1]]
           ),
           var = "populations"
@@ -191,7 +192,7 @@ t_greene <- function(x,
       corrplot::corrplot(
         corr = pmatrix,
         p.mat = pmatrix,
-        sig.level = sig.level,
+        sig.level = 1-CI,
         number.digits = digits,
         is.corr = FALSE,
         ...

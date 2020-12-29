@@ -2,21 +2,25 @@
 #' @description Calculation and visualization of the differences in degree
 #' sexual dimorphism between multiple populations using a modified one way
 #' ANOVA and summary statistics as input
+#' @param type_anova type of ANOVA test "I","II" or "III", Default:"II".
+#' @param interact_anova Logical; if TRUE calculates interaction effect,
+#' Default: FALSE.
+#' @param es_anova Type of effect size either "f" for f squared,"eta" for eta
+#' squared,"omega" for omega squared or "none", Default:"none".
 #' @inheritParams t_greene
 #' @inheritParams t_test
 #' @param lower.tail Logical; if TRUE probabilities are `P[X <= x]`,
 #' otherwise, `P[X > x]`., Default: FALSE
 #' @param pairwise Logical; if TRUE runs multiple pairwise comparisons on
-#' different populations using [t_greene] test, Default: FALSE
-#' @param ... Additional arguments that could be passed to the [t_greene]
+#' different populations using \link{t_greene} Default: FALSE
+#' @param ... Additional arguments that could be passed to the \link{t_greene}
 #' function
-#' @return Tibble of ANOVA results
+#' @return  ANOVA tale.
 #' @details Data is entered as a tibble/data frame of summary statistics where
 #' the column containing population names is chosen by position (first by
 #' default), other columns of summary data should have specific names (case
-#' sensitive) similar to [baboon.parms_df]
+#' sensitive) similar to \link{baboon.parms_df}
 #' @examples
-#' \donttest{
 #' # Comparisons of femur head diameter in four populations
 #' library(TestDimorph)
 #' df <-
@@ -30,21 +34,25 @@
 #'     F.sdev = c(2.90, 2.84, 2.26, 2.90)
 #'   )
 #' univariate(df, pairwise = TRUE, padjust = "bonferroni")
-#' }
 #' @rdname univariate
 #' @export
 #' @importFrom stats pf
 #' @importFrom tibble as_tibble
 univariate <- function(x,
                        Pop = 1,
-                       es = FALSE,
+                       type_anova = "II",
+                       interact_anova = TRUE,
+                       es_anova = "none",
                        pairwise = FALSE,
-                       padjust = p.adjust.methods,
+                       padjust = "none",
                        ...,
                        lower.tail = FALSE,
+                       CI = 0.95,
                        N = NULL,
                        digits = 4) {
-  # Data preparation --------------------------------------------------------
+  padjust <- match.arg(padjust, choices = p.adjust.methods)
+  es_anova <-
+    match.arg(es_anova, choices = c("none", "eta", "omega", "f"))
 
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -67,99 +75,77 @@ univariate <- function(x,
   if (nrow(x) < 2) {
     stop("x should at least have 2 rows")
   }
-  if (!is.logical(es)) {
-    stop("es should be either TRUE or FALSE")
-  }
   if (!is.logical(pairwise)) {
     stop("pairwise should be either TRUE or FALSE")
   }
-  padjust <- match.arg(padjust, choices = p.adjust.methods)
-  x <- data.frame(x)
+  if (CI < 0 ||
+    CI > 1 || !is.numeric(CI)) {
+    stop("CI should be a number between 0 and 1")
+  }
+  if (isFALSE(interact_anova) && type_anova == "III") {
+    stop("main effects ANOVA is only available for types (I) and (II)")
+  }
+
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
   x$Pop <- x[, Pop]
   x$Pop <- factor(x$Pop)
 
-  # univariate analysis -----------------------------------------------------
+  if (isFALSE(interact_anova)) {
+    out <- switch(type_anova,
+      I = anova_main_I(
+        x,
+        es_anova,
 
-  r <- nrow(x)
-  n <- sum(x$m, x$f)
-  df1 <- (r - 1)
-  df2 <- (n - (2 * r))
-  x$w <- (x$m * x$f) / (x$m + x$f)
-  x$d <- x$M.mu - x$F.mu
-  sse <-
-    sum((x$m - 1) * (x$M.sdev^2) + ((x$f - 1) * (x$F.sdev^
-      2)))
-  ssi <-
-    sum(x$w * x$d^2) - (sum((x$w * x$d))^2 / sum(x$w))
-  within <- sse / df2
-  between <- ssi / df1
-  f <- between / within
-  if (is.null(N)) {
-    p <- stats::pf(f, df1, df2, lower.tail = lower.tail)
-  } else {
-    p <-
-      padjust_n(
-        p = stats::pf(f, df1, df2, lower.tail = lower.tail),
-        method = padjust,
-        n = N
+        digits, CI, lower.tail
+      ),
+      II = anova_main_II(
+        x,
+        es_anova,
+
+        digits, CI, lower.tail
       )
-  }
-  signif <-
-    case_when(
-      p > 0.05 ~ "ns",
-      p < 0.05 & p > 0.01 ~ "*",
-      p < 0.01 & p > 0.001 ~ "**",
-      p < 0.001 ~ "***"
     )
-  ss <- c(ssi, sse)
-  df <- c(df1, df2)
-  ms <- c(between, within)
-  eta <- ssi / (ssi + sse)
-  omega <- (ssi - (df1 * within)) / (ssi + sse + within)
-  cohen <- sqrt((eta) / (1 - eta))
-  if (isTRUE(es)) {
-    out <-
-      cbind_fill(
-        "term" = c("Sex", "Residuals"),
-        "df" = round(df, 1),
-        "sumsq" = round(ss, digits),
-        "meansq" = round(ms, digits),
-        "statistic" = round(f, digits),
-        "p.value" = round(p, digits),
-        "signif" = signif,
-        "etasq" = round(eta, digits),
-        "omegasq" = round(omega, digits),
-        "cohen.f" = round(cohen, digits)
-      )
   } else {
-    out <-
-      cbind_fill(
-        "term" = c("Sex", "Residuals"),
-        "df" = round(df, 1),
-        "sumsq" = round(ss, digits),
-        "meansq" = round(ms, digits),
-        "statistic" = round(f, digits),
-        "p.value" = round(p, digits),
-        "signif" = signif
+    out <- switch(type_anova,
+      I = anova_I(
+        x,
+        es_anova,
+
+        digits, CI, lower.tail
+      ),
+      II = anova_II(
+        x,
+        es_anova,
+
+        digits, CI, lower.tail
+      ),
+      III = anova_III(
+        x,
+        es_anova,
+
+        digits, CI, lower.tail
       )
+    )
   }
 
-  # Pairwise comparisons ----------------------------------------------------
+
+
 
   if (isTRUE(pairwise)) {
     out <-
       list(
-        univariate = tibble::as_tibble(out),
-        pairwise = t_greene(
+        univariate = out,
+        pairwise = TestDimorph::t_greene(
           x,
           Pop = Pop,
           padjust = padjust,
-          es = es,
           ...
         )
       )
     out
   } else {
-    tibble::as_tibble(out)
+    out
   }
 }

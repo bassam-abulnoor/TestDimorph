@@ -4,15 +4,15 @@
 \alias{dataframe2list}
 \title{converts multivariate dataframe to list}
 \usage{
-dataframe2list(x, R.res, Parms, Pop)
+dataframe2list(x, R.res, Trait, Pop)
 }
 \arguments{
-\item{x}{Tibble/Data frame or list containing summary statistics for
+\item{x}{Data frame or list containing summary statistics for
 multiple parameters measured in both sexes in two or more populations.}
 
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
-\item{Parms}{Number of the column containing names of measured parameters,
+\item{Trait}{Number of the column containing names of measured parameters,
 Default: 1}
 
 \item{Pop}{Number of the column containing populations' names, Default: 2}

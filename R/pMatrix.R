@@ -25,10 +25,11 @@ pMatrix <- function(x,
                     Pop = 1,
                     plot = FALSE,
                     padjust = p.adjust.methods,
-                    sig.level = 0.05,
+                    CI = 0.95,
                     digits = 4,
                     alternative = c("two.sided", "less", "greater"),
                     ...) {
+  if (!identical(Sys.getenv("TESTTHAT"), "true"))
   .Deprecated("t_greene")
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -54,7 +55,9 @@ pMatrix <- function(x,
   if (!is.logical(plot)) {
     stop("pairwise should be either TRUE or FALSE")
   }
-  x <- data.frame(x)
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
   x$Pop <- x[, Pop]
   x$Pop <- factor(x$Pop)
   levels(x$Pop) <- sort(levels(x$Pop))
@@ -89,9 +92,9 @@ pMatrix <- function(x,
         N = ((nlevels(x$Pop)^2 - nlevels(x$Pop)) / 2),
         padjust = padjust,
         alternative = alternative,
-        sig.level = sig.level,
+        CI = CI,
         digits = digits,
-        es = FALSE
+        es = "none"
       )$p.value
   }
 
@@ -101,6 +104,7 @@ pMatrix <- function(x,
       corr = mat,
       p.mat = mat,
       is.corr = FALSE,
+      sig.level = 1-CI,
       ...
     )
   } else {

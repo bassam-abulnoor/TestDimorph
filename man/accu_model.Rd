@@ -10,6 +10,7 @@ accu_model(
   y = NULL,
   method = "lda",
   res_method = "repeatedcv",
+  prior = NULL,
   p = 0.75,
   nf = 10,
   nr = 3,
@@ -29,14 +30,18 @@ to the right hand side}
 
 \item{x}{Data frame to be fitted to the model}
 
-\item{y}{New data frame to be tested, if `NULL` `x` is splitted to test and
-training data seta, Default: NULL}
+\item{y}{New data frame to be tested, if `NULL` `x` is split to test and
+training datasets, Default: NULL}
 
 \item{method}{A string specifying which classification or regression model
-to use,}
+to use. For list of supported methods see \link[caret]{train_model_list}.}
 
 \item{res_method}{The resampling method used by
-[trainControl][caret::trainControl], Default: 'repeatedcv'}
+\link[caret]{trainControl}, Default: 'repeatedcv'}
+
+\item{prior}{prior probability i.e. c(0.5,0.5) for equal probabilities,
+if NULL it will be the sample frequencies,
+Default: NULL}
 
 \item{p}{Percentage of `x` for testing the model in case `y` is NULL,
 Default: 0.75}
@@ -64,23 +69,26 @@ of the new data frame, Default: FALSE.}
 \item{post.}{positive category in the grouping factor, Default: 'M'}
 
 \item{...}{additional arguments that can passed to modeling,
-[confusionMatrix][caret::confusionMatrix] function and roc curve generated
-by [plot_roc][cutpointr::plot_roc]}
+\link[caret]{confusionMatrix} function and roc curve generated
+by \link[cutpointr]{plot_roc}.}
 }
 \value{
 Visual and numerical accuracy parameters for the tested model
 }
 \description{
 Testing, cross validation and visualization of the accuracy of
-different sex prediction models using the
-[confusionMatrix][caret::confusionMatrix] and roc curves
+different sex prediction models using the \link[caret]{confusionMatrix}
+and roc curves.
 }
 \details{
 Data frames to be entered as input need to be arranged in a
-similar manner to [Howells] dataset.
+similar manner to [Howells] dataset. The "cut point" is found such that it
+maximizes the sum of "sensitivity" [TP/(TP+FN)] plus "specificity" [TN/(TN+FP)]
+where TP is the number of males identified as males, TN is the number of
+females identified as females, FN is the number of males identified as
+females, and FP is the number of females identified as males.
 }
 \examples{
-\donttest{
 # Using a single dataset
 library(TestDimorph)
 accu_model(
@@ -89,9 +97,4 @@ accu_model(
   method = "lda",
   plot = FALSE
 )
-}
-}
-\seealso{
-[cutpointr::plot_roc()]
-[caret::confusionMatrix()]
 }

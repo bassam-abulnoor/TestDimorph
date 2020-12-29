@@ -40,82 +40,77 @@ t_test <-
            padjust = padjust,
            N,
            digits,
-           sig.level,
+           CI,
            alternative,
            es) {
-    tg <-
-      ((M.mu - F.mu) - (M.mu2 - F.mu2)) / (sqrt(((((m - 1) * M.sdev ^ 2) + ((f -
-                                                                               1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^ 2) + ((f2 - 1) * F.sdev2 ^
-                                                                                                                                2)
-      )) / (m + f +
-              m2 + f2 - 4)) * sqrt((1 / m) + (1 / f) + (1 / m2) + (1 / f2)))
-    df <- (m + f + m2 + f2 - 4)
-    sdp <-
-      (sqrt(((((m - 1) * M.sdev ^ 2) + ((f - 1) * F.sdev ^ 2) + ((m2 - 1) * M.sdev2 ^
-                                                                   2) + ((f2 - 1) * F.sdev2 ^ 2)
-      )) / (m + f + m2 + f2 - 4)))
-    mean_diff <- ((M.mu - F.mu) - (M.mu2 - F.mu2))
-    d <- abs(mean_diff / sdp)
-    if (sig.level < 0 ||
-        sig.level > 1 || !is.numeric(sig.level)) {
-      stop("sig.level should be a number between 0 and 1")
+    if (CI < 0 ||
+      CI > 1 || !is.numeric(CI)) {
+      stop("CI should be a number between 0 and 1")
     }
+    CI <- 1-CI
+    es <-
+      match.arg(es, choices = c("none", "cohen_d", "hedge_g"))
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
       match.arg(padjust, choices = p.adjust.methods)
-    if (alternative == "less") {
-      upper <-
-        mean_diff + (abs(stats::qt(
-          p = (1 - sig.level), df = df
-        )) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      lower <-
-        mean_diff - (abs(stats::qt(
-          p = (1 - sig.level), df = df
-        )) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      p <-
-        (stats::pt(abs(tg), df, lower.tail = TRUE))
-    }
-    if (alternative == "greater") {
-      upper <-
-        mean_diff + (abs(stats::qt(
-          p = (1 - sig.level), df = df
-        )) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      lower <-
-        mean_diff - (abs(stats::qt(
-          p = (1 - sig.level), df = df
-        )) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      p <-
-        (stats::pt(abs(tg), df, lower.tail = FALSE))
+    df <- (m + f + m2 + f2 - 4)
+    sd_pooled <-
+      sqrt(((((m - 1) * M.sdev^2) + ((f - 1) * F.sdev^2) + ((m2 - 1) *
+        M.sdev2^2) + ((f2 - 1) * F.sdev2^2)
+      )) / df)
+    mean_diff <- ((M.mu - F.mu) - (M.mu2 - F.mu2))
+    tg <-
+      mean_diff / (sd_pooled * sqrt((1 / m) + (1 / f) + (1 / m2) + (1 / f2)))
+    d <- abs(2 * tg / sqrt(df))
+    var_d <-
+      (m + f + m2 + f2) / ((m + f) * (m2 + f2)) + (d^2) / (2 * (m + f + m2 + f2))
+    j <- 1 - (3 / (4 * df - 1))
+    g <- j * d
+    var_g <- j^2 * var_d
+    if (es == "cohen_d") {
+      eff <- d
+      var_eff <- var_d
+    } else {
+      eff <- g
+      var_eff <- var_g
     }
     if (alternative == "two.sided") {
-      upper <-
-        mean_diff + (abs(stats::qt(p = (
-          1 - (sig.level / 2)
-        ), df = df)) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      lower <-
-        mean_diff - (abs(stats::qt(p = (
-          1 - (sig.level / 2)
-        ), df = df)) * sdp * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
-      p <-
-        (2 * stats::pt(abs(tg), df, lower.tail = FALSE))
+      crit <- stats::qt(p = (1 - (CI / 2)), df = df)
+    } else {
+      crit <- stats::qt(p = (1 - CI), df = df)
     }
+    upper <-
+      mean_diff + (abs(crit) * sd_pooled * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
+    lower <-
+      mean_diff - (abs(crit) * sd_pooled * sqrt(sum(1 / m, 1 / f, 1 / m2, 1 / f2)))
+    upper_eff <- eff + crit * sqrt(var_eff)
+    lower_eff <- eff - crit * sqrt(var_eff)
+    p <- switch(
+      alternative,
+      less = stats::pt(abs(tg), df, lower.tail = TRUE),
+      greater = stats::pt(abs(tg), df, lower.tail = FALSE),
+      two.sided = 2 * stats::pt(abs(tg), df, lower.tail = FALSE)
+    )
+
     if (!is.null(N)) {
       p <-
-        padjust_n(p = p,
-                  method = padjust,
-                  n = N)
+        padjust_n(
+          p = p,
+          method = padjust,
+          n = N
+        )
     }
     signif <-
-      case_when(p > 0.05 ~ "ns",
-                p < 0.05 & p > 0.01 ~ "*",
-                p < 0.01 & p > 0.001 ~ "**",
-                p < 0.001 ~ "***")
-    if (!is.logical(es)) {
-      stop("es should be either TRUE or FALSE")
-    }
-    if (isTRUE(es)) {
-      data.frame(
+      case_when(
+        p > 0.05 ~ "ns",
+        p < 0.05 & p > 0.01 ~ "*",
+        p < 0.01 & p > 0.001 ~ "**",
+        p < 0.001 ~ "***"
+      )
+
+    if (es != "none") {
+      out <- data.frame(
         "df" = round(df, digits),
         "mean.diff" = round(mean_diff, digits),
         "conf.low" = round(lower, digits),
@@ -123,8 +118,12 @@ t_test <-
         "statistic" = round(tg, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
-        "cohen.d" = round(d, digits)
+        round(eff, digits),
+        "conf.es.low" = round(lower_eff, digits),
+        "conf.es.high" = round(upper_eff, digits)
       )
+      names(out)[8] <- es
+      return(out)
     } else {
       data.frame(
         "df" = round(df, digits),
@@ -152,7 +151,8 @@ multi_raw <- function(x,
                       upper) {
   if (dist == "log") {
     stop(
-      "Transformation of raw summary data to logged data is only possible for univariate distribution"
+      "Transformation of raw summary data to logged data is only possible for
+      univariate distribution"
     )
   }
   R <- x$R.res
@@ -174,25 +174,25 @@ multi_raw <- function(x,
   stop <- 0
   for (i in 1:n.pops) {
     start <- stop + 1
-    S <- diag(M.sdev[i,])
+    S <- diag(M.sdev[i, ])
     V <- S %*% R %*% S
     stop <- stop + m[i]
-    X[start:stop,] <-
+    X[start:stop, ] <-
       tmvtnorm::rtmvnorm(
         n = m[i],
-        mean = m_mean[i,],
+        mean = m_mean[i, ],
         sigma = V,
         lower = rep(lower, n.t),
         upper = rep(upper, n.t)
       )
     start <- stop + 1
-    S <- diag(F.sdev[i,])
+    S <- diag(F.sdev[i, ])
     V <- S %*% R %*% S
     stop <- stop + f[i]
-    X[start:stop,] <-
+    X[start:stop, ] <-
       tmvtnorm::rtmvnorm(
         n = f[i],
-        mean = f_mean[i,],
+        mean = f_mean[i, ],
         sigma = V,
         lower = rep(lower, n.t),
         upper = rep(upper, n.t)
@@ -225,45 +225,51 @@ multi_raw <- function(x,
 #' @description helper function for multivariate analysis
 #' @inheritParams multivariate
 #' @keywords internal
-dataframe2list <- function(x, R.res, Parms, Pop) {
-  x <- data.frame(x)
-
+dataframe2list <- function(x, R.res, Trait, Pop) {
+  x <- x %>%
+    rename("Pop" = Pop, "Trait" = Trait) %>%
+    mutate(Pop = factor(.data$Pop), Trait = factor(.data$Trait)) %>%
+    as.data.frame()
+  x$Pop <- droplevels(x$Pop)
+  x$Trait <- droplevels(x$Trait)
   R <- R.res
-  i <- list(levels(x[, Pop]), levels(x[, Parms]))
+  name_mat <- list(levels(x$Pop), levels(x$Trait))
+  z <- arrange(x, Trait, Pop)
   m_mean <-
     matrix(
       data = x$M.mu,
-      nrow = nlevels(x[, Pop]),
-      ncol = nlevels(x[, Parms]),
-      dimnames = i
+      nrow = nlevels(x$Pop),
+      ncol = nlevels(x$Trait),
+      dimnames = name_mat
     )
   f_mean <-
     matrix(
       data = x$F.mu,
-      nrow = nlevels(x[, Pop]),
-      ncol = nlevels(x[, Parms]),
-      dimnames = i
+      nrow = nlevels(x$Pop),
+      ncol = nlevels(x$Trait),
+      dimnames = name_mat
     )
-  nM <- as.vector(x$m)[seq(nlevels(x[, Pop]))]
-  nF <- as.vector(x$f)[seq(nlevels(x[, Pop]))]
+  nM <- as.vector(x$m)[seq(nlevels(x$Pop))]
+  nF <- as.vector(x$f)[seq(nlevels(x$Pop))]
   nM <- nM[!is.na(nM)]
   nF <- nF[!is.na(nF)]
   M.sd <-
     matrix(
       data = x$M.sdev,
-      nrow = nlevels(x[, Pop]),
-      ncol = nlevels(x[, Parms]),
-      dimnames = i
+      nrow = nlevels(x$Pop),
+      ncol = nlevels(x$Trait),
+      dimnames = name_mat
     )
   F.sd <-
     matrix(
       data = x$F.sdev,
-      nrow = nlevels(x[, Pop]),
-      ncol = nlevels(x[, Parms]),
-      dimnames = i
+      nrow = nlevels(x$Pop),
+      ncol = nlevels(x$Trait),
+      dimnames = name_mat
     )
   x <-
     list(
+      z = z,
       R.res = R,
       M.mu = m_mean,
       F.mu = f_mean,
@@ -278,7 +284,7 @@ dataframe2list <- function(x, R.res, Parms, Pop) {
 # cbind_fill --------------------------------------------------------------
 
 #' @title cbind_fill
-#' @description cbind columns with unequal length
+#' @description cbind columns with unequal length with naming
 #' @param ... columns with unequal length
 #' @keywords internal
 cbind_fill <- function(...) {
@@ -291,6 +297,18 @@ cbind_fill <- function(...) {
   names(df) <- names(nm)
   df
 }
+#' @title cbind_fill2
+#' @description cbind columns with unequal length without naming
+#' @param ... columns with unequal length
+#' @keywords internal
+cbind_fill2 <- function(...) {
+  nm <- list(...)
+  nm <- lapply(nm, as.matrix)
+  n <- max(sapply(nm, nrow))
+  do.call(cbind, lapply(nm, function(x) {
+    as.data.frame(rbind(x, matrix(data = NA, n - nrow(x), ncol(x))))
+  }))
+}
 
 # anov_es -----------------------------------------------------------------
 
@@ -301,8 +319,9 @@ cbind_fill <- function(...) {
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr case_when
 anova_es <- function(x,
-                     es = es,
-                     digits = digits) {
+                     es_anova = es_anova,
+                     digits = digits,
+                     CI = CI) {
   df1 <- summary(x)[[1]][1, 1]
   df2 <- summary(x)[[1]][2, 1]
   ssi <- summary(x)[[1]][1, 2]
@@ -311,34 +330,53 @@ anova_es <- function(x,
   between <- ssi / df1
   f <- summary(x)[[1]][[4]][1]
   p <- summary(x)[[1]][[5]][1]
-  signif <- dplyr::case_when(p > 0.05 ~ "ns",
-                             p < 0.05 & p > 0.01 ~ "*",
-                             p < 0.01 & p > 0.001 ~ "**",
-                             p < 0.001 ~ "***")
+  signif <- dplyr::case_when(
+    p > 0.05 ~ "ns",
+    p < 0.05 & p > 0.01 ~ "*",
+    p < 0.01 & p > 0.001 ~ "**",
+    p < 0.001 ~ "***"
+  )
   ss <- summary(x)[[1]][, 2]
   df <- summary(x)[[1]][, 1]
   ms <- summary(x)[[1]][, 3]
-  eta <- ssi / (ssi + sse)
+  eta <- f*df[1]/(f*df[1]+df[2])
   omega <- (ssi - (df1 * within)) / (ssi + sse + within)
-  cohen <- sqrt((eta) / (1 - eta))
-  if (isTRUE(es)) {
+  cohen_squared <- (eta) / (1 - eta)
+  if (es_anova != "none") {
+    eff <- switch(es_anova,
+      f = cohen_squared,
+      eta = eta,
+      omega = omega
+    )
+    eff <-
+      eff_CI(
+        f = f,
+        CI = CI,
+        eff = eff,
+        df1 = df1,
+        df2 = df2
+      )
+    lower_eff <- eff[[2]]
+    upper_eff <- eff[[3]]
+    eff <- eff[[1]]
     out <-
       cbind_fill(
-        "term" = c("Sex", "Residuals"),
+        "term" = c("Populations", "Residuals"),
         "df" = round(df, 1),
         "sumsq" = round(ss, digits),
         "meansq" = round(ms, digits),
         "statistic" = round(f, digits),
         "p.value" = round(p, digits),
         "signif" = signif,
-        "etasq" = round(eta, digits),
-        "omegasq" = round(omega, digits),
-        "cohen.f" = round(cohen, digits)
+        round(eff, digits),
+        "conf.es.low" = round(lower_eff, digits),
+        "conf.es.high" = round(upper_eff, digits)
       )
+    names(out)[8] <- es_anova
   } else {
     out <-
       cbind_fill(
-        "term" = c("Sex", "Residuals"),
+        "term" = c("Populations", "Residuals"),
         "df" = round(df, 1),
         "sumsq" = round(ss, digits),
         "meansq" = round(ms, digits),
@@ -347,7 +385,7 @@ anova_es <- function(x,
         "signif" = signif
       )
   }
-  tibble::as_tibble(out)
+  as.data.frame(out)
 }
 
 
@@ -439,18 +477,268 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 # pooled_cov --------------------------------------------------------------
 
 #' pooled_cov
-#'@description Pooled covariance matrix
+#' @description Pooled covariance matrix
 #' @param x A matrix with continuous data
 #' @param ina A numerical vector indicating the groups
 #' @keywords internal
-pooled_cov <- function (x, ina)
-{
+pooled_cov <- function(x, ina) {
   s <- crossprod(x)
   ni <- sqrt(tabulate(ina))
   mi <- rowsum(x, ina) / ni
   k <- length(ni)
   denom <- dim(x)[1] - k
-  for (i in 1:k)
-    s <- s - tcrossprod(mi[i,])
+  for (i in 1:k) s <- s - tcrossprod(mi[i, ])
   s / denom
 }
+
+# Confidence interval for anova and manova effect sizes -------------------
+#' eff_CI
+#' @description Confidence intervals for ANOVA and MANOVA effect sizes
+#' @param f critical F-value
+#' @param CI critical p-value, Default 0.05
+#' @param eff effect size
+#' @param df1 numerator degree of freedom
+#' @param df2 denominator degree of freedom
+#' @keywords internal
+eff_CI <- function(f, CI, eff, df1, df2) {
+  crit <-  CI
+  # to get the NCP for a critical f value
+  tail <- (1 - crit) * 0.5
+  # upper limit cutoff
+  upper_cutoff <- tail
+  # lower limit cutoff
+  lower_cutoff <- 1 - tail
+  # lower NCP limit calculations
+  lower_NCP <- 0
+  p_lower <- pf(f, df1, df2, ncp = lower_NCP)
+  while (p_lower >= lower_cutoff) {
+    p_lower <- pf(f, df1, df2, ncp = lower_NCP)
+    lower_NCP <- lower_NCP + 0.1
+  }
+  # lower NCP limit calculations
+  upper_NCP <- 0
+  p_upper <- pf(f, df1, df2, ncp = upper_NCP)
+  while (p_upper >= upper_cutoff) {
+    p_upper <- pf(f, df1, df2, ncp = upper_NCP)
+    upper_NCP <- upper_NCP + 0.1
+  }
+  # CI for effect size
+  lower_eff <- lower_NCP / (lower_NCP + df1 + df2 + 1)
+  upper_eff <- upper_NCP / (upper_NCP + df1 + df2 + 1)
+  cbind.data.frame(
+    ES = eff,
+    conf.es.low = lower_eff,
+    conf.es.high = upper_eff
+  )
+}
+
+# Van_vark from raw data --------------------------------------------------
+#' Van_vark_raw
+#' @description runs van_vark function on raw data
+#' @inheritParams extract_sum
+#' @keywords internal
+Van_vark_raw <- function(x, Sex, Pop, firstX, ...) {
+  vec_sum <- function(x, i) {
+    x$Pop <- factor(x$Pop, levels = unique(x$Pop))
+    cbind.data.frame(
+      Trait = rep(names(x)[i], nlevels(x$Pop)),
+      extract_sum(x, run = FALSE, firstX = i, Sex = Sex, Pop = Pop, test = 1)
+    )
+  }
+  vec_sum <-
+    Vectorize(vec_sum, vectorize.args = "i", SIMPLIFY = FALSE)
+  df <-
+    do.call(rbind.data.frame, c(vec_sum(x, firstX:ncol(x))))
+  df$Trait <- factor(df$Trait, levels = unique(df$Trait))
+  df <- df %>% relocate(.data$Trait, .before = 1)
+  x <- as.data.frame.list(x)
+  x <- x %>% arrange(Pop, Sex)
+  sex <- as.numeric(x$Sex) - 1
+  pop <- as.numeric(x$Pop)
+  pop.names <- names(table(x$Pop))
+  N.pops <- length(pop.names)
+  ina <- pop + N.pops * sex
+  X <- x[, -(1:(firstX - 1))]
+  list("W" = pooled_cov(as.matrix(X), ina), "x" = df)
+}
+
+# univariate pairwise -----------------------------------------------------
+#' post hoc univariate analysis to MANOVA
+#'
+#' @inheritParams univariate
+#' @inheritDotParams multivariate
+#' @param out output of multivariate function
+#' @param ... other arguments that are passed to univariate function
+#' @keywords internal
+univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
+  Parms <- NULL
+  x$R.res <- NULL
+  A <- (ncol(x$M.mu) * nrow(x$M.mu)) / length(x$m)
+  B <- (ncol(x$F.mu) * nrow(x$F.mu)) / length(x$f)
+  m_dat <- cbind.data.frame(m = rep(x$m, A), Pop = factor(rep(rownames(x$M.mu), A),
+    levels = rownames(x$M.mu)
+  ))
+  f_dat <- cbind.data.frame(f = rep(x$f, A), Pop = factor(rep(rownames(x$M.mu), A),
+    levels = rownames(x$M.mu)
+  ))
+  m_dat <- m_dat[order(m_dat$Pop), ]
+  f_dat <- f_dat[order(f_dat$Pop), ]
+  x$m <- NULL
+  x$f <- NULL
+  rownames(x$M.mu) -> r
+  colnames(x$M.mu) -> cl
+  x <- lapply(x[which(names(x) != "z")], function(y) {
+    matrix(y, nrow = nrow(y), ncol = ncol(y), dimnames = list(r, cl))
+  })
+  m_mean <-
+    x$M.mu %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "Pop") %>%
+    pivot_longer(cols = 2:(ncol(as.data.frame(x$M.mu)) +
+      1), names_to = "Parms", values_to = "M.mu") %>%
+    mutate(Pop = factor(.data$Pop, levels = rownames(x$M.mu)), Parms = factor(
+      .data$Parms,
+      levels = colnames(x$M.mu)
+    ))
+
+  m_mean <- with(m_mean, m_mean[order(Parms, Pop, M.mu), ])
+  f_mean <-
+    x$F.mu %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "Pop") %>%
+    pivot_longer(
+      cols = 2:(ncol(as.data.frame(x$F.mu)) + 1), names_to = "Parms",
+      values_to = "F.mu"
+    ) %>%
+    mutate(Pop = factor(.data$Pop,
+      levels =
+        rownames(x$F.mu)
+    ), Parms = factor(.data$Parms, levels = colnames(x$F.mu)))
+  f_mean <- with(f_mean, f_mean[order(Parms, Pop, F.mu), ])
+  Msd <-
+    x$M.sdev %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "Pop") %>%
+    pivot_longer(cols = 2:(ncol(as.data.frame(x$M.sdev)) + 1), names_to = "Parms", values_to = "M.sdev") %>%
+    mutate(Pop = factor(.data$Pop, levels = rownames(x$M.sdev)), Parms = factor(
+      .data$Parms,
+      levels = colnames(x$M.sdev)
+    ))
+  Msd <- with(Msd, Msd[order(Parms, Pop, M.sdev), ])
+  Fsd <-
+    x$F.sdev %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "Pop") %>%
+    pivot_longer(cols = 2:(ncol(as.data.frame(x$F.sdev)) +
+      1), names_to = "Parms", values_to = "F.sdev") %>%
+    mutate(Pop = factor(.data$Pop, levels = rownames(x$F.sdev)), Parms = factor(
+      .data$Parms,
+      levels = colnames(x$F.sdev)
+    ))
+  Fsd <- with(Fsd, Fsd[order(Parms, Pop, F.sdev), ])
+  my_merge <- function(df1, df2) {
+    merge(df1, df2, by = c("Pop", "Parms"), all.x = TRUE, all.y = TRUE)
+  }
+  list_frames <- Reduce(my_merge, list(m_mean, f_mean, Msd, Fsd)) %>%
+    mutate(Pop = factor(.data$Pop, levels = rownames(x$M.mu))) %>%
+    relocate(.data$Parms,
+      .before = 1
+    ) %>%
+    arrange(.data$Pop, .data$Parms)
+  df <- cbind.data.frame(list_frames, m = m_dat$m, f = f_dat$f)
+  if (is.data.frame(x)) {
+    out <- list(
+      tibble::as_tibble(out),
+      by(
+        df,
+        INDICES = df$Parms,
+        univariate,
+        N = nlevels(x[, Parms]),
+        padjust = padjust,
+        digits = digits,
+        lower.tail = lower.tail,
+        ...
+      )
+    )
+  } else {
+    out <-
+      list(
+        tibble::as_tibble(out),
+        by(
+          df,
+          df$Parms,
+          TestDimorph::univariate,
+          N = ncol(x[["M.mu"]]),
+          padjust = padjust,
+          digits = digits,
+          lower.tail = lower.tail,
+          ...
+        )
+      )
+  }
+  names(out) <- c("multivariate", "univariate")
+  out
+}
+
+# add_sig -----------------------------------------------------------------
+
+#' add_sig
+#'
+#' @param x output of ANOVA and MANOVA tests
+#'
+#' @return markers for significance values
+#' @keywords internal
+
+add_sig <- function(x) {
+  x %>%
+    as.data.frame() %>%
+    mutate(p.value = as.numeric(.data$p.value), signif = case_when(
+      .data$p.value > 0.05 ~ "ns",
+      .data$p.value < 0.05 & p.value > 0.01 ~ "*",
+      .data$p.value < 0.01 & p.value > 0.001 ~ "**",
+      .data$p.value < 0.001 ~ "***"
+    )) %>%
+    relocate(.data$signif, .after = .data$p.value) -> x
+}
+
+
+# to_symm_diag ------------------------------------------------------------
+
+#'
+#' @title Get pooled within group correlation matrix & standard deviations.
+#'
+#' @param x upper triangular matrix stored by rows.
+#'
+#' @return a symmetric matrix.
+#'
+#' @details A utility function to take an upper triangular matrix stored by
+#' rows and convert it to a symmetric matrix.
+#' @export
+#'
+#' @examples
+#' #the matrix: [,1] [,2]
+#' #[,3] [1,] 3089 1079 785 [2,] 1079 574 351 [3,] 785 351 330 Should be
+#' #passed as the vector: c(3089, 1079, 785, 574, 351, 350).
+#' to_symm_diag(c(3089, 1079, 785, 574, 351, 350))
+#'
+to_symm_diag <- function(x) {
+  # For example,
+
+  x <- as.numeric(x)
+  k <- length(x)
+  n.dim <- (sqrt(8 * k + 1) - 1) / 2
+  if (n.dim %% 1 != 0) {
+    return("Vector is wrong length for a triangular matrix")
+  }
+  sym.mat <- diag(n.dim)
+  ip <- 0
+  for (i in 1:n.dim) {
+    for (j in i:n.dim)
+    {
+      ip <- ip + 1
+      sym.mat[i, j] <- sym.mat[j, i] <- x[ip]
+    }
+  }
+  return(sym.mat)
+}
+

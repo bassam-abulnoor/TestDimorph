@@ -2,7 +2,7 @@ Type: Package
 Package: TestDimorph
 Title: Analysis Of The Interpopulation Difference In Degree of Sexual
         Dimorphism Using Summary Statistics
-Version: 0.3.6
+Version: 0.3.9
 Authors@R: 
     c(person(given = "Bassam",
              family = "A. Abulnoor",

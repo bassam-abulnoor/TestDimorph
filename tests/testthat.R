@@ -1,6 +1,6 @@
 library(TestDimorph)
-if (requireNamespace('testthat', quietly = TRUE)) {
-  library('testthat')
+if (requireNamespace("testthat", quietly = TRUE)) {
+  library("testthat")
 } else {
   message("'testthat' not available")
 }

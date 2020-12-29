@@ -1,10 +1,22 @@
-#' @keywords internal
-# Get pooled within group correlation matrix & standard deviations
+#'
+# Title Get pooled within group correlation matrix & standard deviations
+#'
+#' @param x upper triangular matrix stored by rows.
+#'
+#' @return a symmetric matrix.
+#'
+#' @details A utility function to take an upper triangular matrix stored by
+#' rows and convert it to a symmetric matrix.
+#' @export
+#'
+#' @examples
+#' #the matrix: [,1] [,2]
+#' #[,3] [1,] 3089 1079 785 [2,] 1079 574 351 [3,] 785 351 330 Should be
+#' #passed as the vector: c(3089, 1079, 785, 574, 351, 350).
+#' to_symm_diag(c(3089, 1079, 785, 574, 351, 350))
+#'
 to_symm_diag <- function(x) {
-  # A utility function to take an upper triangular matrix stored by rows
-  # and convert to a symmetric matrix For example, the matrix: [,1] [,2]
-  # [,3] [1,] 3089 1079 785 [2,] 1079 574 351 [3,] 785 351 330 Should be
-  # passed as the vector: c(3089, 1079, 785, 574, 351, 350)
+  # For example,
 
   x <- as.numeric(x)
   k <- length(x)

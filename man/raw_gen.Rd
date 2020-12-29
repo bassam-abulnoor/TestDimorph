@@ -6,7 +6,7 @@
 \usage{
 raw_gen(
   x,
-  Parms = 1,
+  Trait = 1,
   Pop = 2,
   R.res = NULL,
   dist = c("truncated", "log"),
@@ -17,10 +17,10 @@ raw_gen(
 )
 }
 \arguments{
-\item{x}{Tibble/Data frame or list containing summary statistics for
+\item{x}{Data frame or list containing summary statistics for
 multiple parameters measured in both sexes in two or more populations.}
 
-\item{Parms}{Number of the column containing names of measured parameters,
+\item{Trait}{Number of the column containing names of measured parameters,
 Default: 1}
 
 \item{Pop}{Number of the column containing populations' names, Default: 2}
@@ -28,7 +28,7 @@ Default: 1}
 \item{R.res}{Pooled within correlational matrix, Default: NULL}
 
 \item{dist}{univariate distribution used for data generation either `log`
-for log normal or `truncated` for truncated, Default: 'truncated'}
+for log normal or `truncated` for truncated distribution, Default: 'truncated'}
 
 \item{lower}{vector of lower bounds, Default: -Inf}
 
@@ -50,22 +50,21 @@ uni/multivariate log/truncated normal distribution
 \details{
 If data generation is desired using multivariate distribution data
 is entered in the form of a list of summary statistics and pooled within
-correlational matrix as in [baboon.parms_list], or the summary statistics
-are entered separately in the form of a data frame/tibble as in
-[baboon.parms_df] with a separate correlational matrix as in [R]. If data
-frame/tibble is entered without a correlational matrix, data generation is
-carried out using univariate distribution. N.B: Transformation of raw
-summary data to logged data is only possible for univariate distribution
-and if multivariate log normal distribution is desired logged values should
-be entered directly with `dist` set to `truncated`.
+correlational matrix as in \link{baboon.parms_list}, or the summary
+ statistics are entered separately in the form of a data frame/tibble as in
+\link{baboon.parms_df} with a separate correlational matrix as in
+\link{baboon.parms_R}. If data frame is entered without a correlational
+matrix, data generation is carried out using univariate distribution.
+N.B: Transformation of raw summary data to logged data is only possible
+for univariate distribution and if multivariate log normal distribution
+is desired logged values should be entered directly with `dist` set to
+`truncated`.
 }
 \examples{
-\donttest{
 # Data generation using univariate distribution
 library(TestDimorph)
 raw_gen(baboon.parms_df)
 # Data generation using multivariate distribution
 library(TestDimorph)
 raw_gen(baboon.parms_list)
-}
 }

@@ -14,7 +14,7 @@ A data frame with 441 rows and 10 variables:
 \item{BNL}{Bastion nasion length}
 \item{BBH}{Basion bregma height}
 \item{XCB}{Maximum cranial breadth}
-\item{XFB}{Max frontal breadth}
+\item{XFB}{Maximum frontal breadth}
 \item{ZYB}{Bizygomatic breadth}
 \item{AUB}{Biauricular breadth}
   }
@@ -25,10 +25,21 @@ Howells
 \description{
 A subset of a dataset that consists of 82 craniometric measurements taken
 from approximately two thousands and half human crania from 28
-geographically diverse populations.
+geographically diverse populations. The full data set can be found in
+\url{https://rdrr.io/github/geanes/bioanth/man/howell.html} and
+\url{https://web.utk.edu/~auerbach/HOWL.htm}
 }
 \references{
-Howells WW (1989). *Skull shapes and the map: craniometric analyses in the dispersion of modern
-Homo.*. Papers of the Peabody Museum of Archaeology and Ethnology, 79.
+Howells WW. (1989). Skull Shapes and the Map. Craniometric Analyses in the
+Dispersion of Modern Homo. Papers of the Peabody Museum of Archaeology and
+Ethnology, vol. 79, pp. 189. Cambridge, Mass.: Peabody Museum.
+
+Howells WW. (1995). Who's Who in Skulls. Ethnic Identification of Crania from
+Measurements. Papers of the Peabody Museum of Archaeology and Ethnology,
+vol. 82, pp. 108. Cambridge, Mass.: Peabody Museum.
+
+Howells, W. W. (1973). Cranial Variation in Man: A Study by Multivariate
+Analysis of Patterns of Difference Among Recent Human Populations (Vol. 67).
+Cambridge, MA: Peabody Museum of Archaeology and Ethnology.
 }
 \keyword{datasets}

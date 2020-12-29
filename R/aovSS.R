@@ -13,9 +13,10 @@ aovSS <-
            Pop = 1,
            pairwise = TRUE,
            letters = FALSE,
-           es = FALSE,
+           es_anova = "none",
            digits = 4,
-           sig.level = 0.05) {
+           CI = 0.95) {
+    if (!identical(Sys.getenv("TESTTHAT"), "true"))
     .Deprecated("aov_ss")
     # Data preparation --------------------------------------------------------
 
@@ -43,15 +44,20 @@ aovSS <-
     if (!is.logical(letters)) {
       stop("letters should be either TRUE or FALSE")
     }
-    if (!is.logical(es)) {
-      stop("es should be either TRUE or FALSE")
-    }
-    if (sig.level < 0 ||
-      sig.level > 1 || !is.numeric(sig.level)) {
-      stop("sig.level should be a number between 0 and 1")
+    es_anova <-
+      match.arg(es_anova, choices = c("none", "eta", "omega", "f"))
+    if (CI < 0 ||
+        CI > 1 || !is.numeric(CI)) {
+      stop("CI should be a number between 0 and 1")
     }
     x <- data.frame(x)
     x$Pop <- x[, Pop]
+    x$Pop <-
+      gsub(
+        x = x$Pop,
+        pattern = "[^[:alnum:]]",
+        replacement = "_"
+      )
     x$Pop <- factor(x$Pop)
     levels(x$Pop) <- droplevels(x$Pop)
     if (length(unique(x$Pop)) != length(x$Pop[which(!is.na(x$Pop))])) {
@@ -75,16 +81,21 @@ aovSS <-
     av_M <- stats::aov(x ~ Pop, data = av_M)
     av_F <- stats::aov(x ~ Pop, data = av_F)
     M_model <-
-      anova_es(x = av_M, es = es, digits = digits)
+      anova_es(x = av_M, es_anova = es_anova, digits = digits, CI = CI)
     F_model <-
-      anova_es(x = av_F, es = es, digits = digits)
+      anova_es(x = av_F, es_anova = es_anova, digits = digits, CI = CI)
 
     # Pairwise comparisons ----------------------------------------------------
 
     M_post <-
-      tibble::as_tibble(tibble::rownames_to_column(data.frame(
-        TukeyHSD(av_M, conf.level = 1 - sig.level)[[1]]
-      )))
+      data.frame(
+        TukeyHSD(av_M, conf.level = CI)[[1]]
+      )
+    rownames(M_post) -> populations
+    rownames(M_post) <- NULL
+    M_post <- apply(M_post,2,round,digits) %>% as.data.frame()
+    M_post$populations <- populations
+    M_post <- relocate(M_post,populations,.before=1)
     colnames(M_post) <-
       c(
         "populations",
@@ -106,14 +117,19 @@ aovSS <-
     names(M_letters) <- M_post$populations
     M_letters <-
       tibble::rownames_to_column(data.frame(
-        "letters" = multcompView::multcompLetters(M_letters, threshold = sig.level)[[1]]
+        "letters" = multcompView::multcompLetters(M_letters, threshold = CI)[[1]]
       ),
       var = "populations"
       )
     F_post <-
-      tibble::as_tibble(tibble::rownames_to_column(data.frame(
-        TukeyHSD(av_F, conf.level = 1 - sig.level)[[1]]
-      )))
+      data.frame(
+        TukeyHSD(av_F, conf.level =  CI)[[1]]
+      )
+    rownames(F_post) -> populations
+    rownames(F_post) <- NULL
+    F_post <- apply(F_post,2,round,digits) %>%  as.data.frame()
+    F_post$populations <- populations
+    F_post <- relocate(F_post,populations,.before=1)
     colnames(F_post) <-
       c(
         "populations",
@@ -135,7 +151,7 @@ aovSS <-
     names(F_letters) <- F_post$populations
     F_letters <-
       tibble::rownames_to_column(data.frame(
-        "letters" = multcompView::multcompLetters(F_letters, threshold = sig.level)[[1]]
+        "letters" = multcompView::multcompLetters(F_letters, threshold = CI)[[1]]
       ),
       var = "populations"
       )

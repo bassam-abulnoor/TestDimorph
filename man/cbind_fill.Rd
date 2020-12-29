@@ -10,6 +10,6 @@ cbind_fill(...)
 \item{...}{columns with unequal length}
 }
 \description{
-cbind columns with unequal length
+cbind columns with unequal length with naming
 }
 \keyword{internal}

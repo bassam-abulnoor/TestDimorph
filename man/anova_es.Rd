@@ -4,15 +4,17 @@
 \alias{anova_es}
 \title{anova_es}
 \usage{
-anova_es(x, es = es, digits = digits)
+anova_es(x, es_anova = es_anova, digits = digits, CI = CI)
 }
 \arguments{
 \item{x}{ANOVA model}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{es_anova}{Type of effect size either "f" for f squared,"eta" for eta
+squared,"omega" for omega squared or "none", Default:"none".}
 
 \item{digits}{Number of significant digits, Default: 4}
+
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 }
 \description{
 anova_es

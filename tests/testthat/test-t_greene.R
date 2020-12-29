@@ -5,10 +5,9 @@ test_that("t_greene", {
       Pop = 2,
       padjust = "none",
       letters = TRUE,
-      plot = TRUE,
-      es = TRUE,
+      plot = TRUE
     )[[1]]$p.value[1] ==
-      0.8564
+      0.3413
   )
   testthat::expect_error(
     t_greene(
@@ -24,7 +23,7 @@ test_that("t_greene", {
   testthat::expect_error(
     t_greene(
       baboon.parms_df[1:3, ],
-      sig.level = 500, Pop = 2
+      CI = 500, Pop = 2
     )
   )
   testthat::expect_error(
@@ -39,7 +38,7 @@ test_that("t_greene", {
       padjust = "none",
       alternative = "less"
     )$p.value[1] ==
-      0.5718
+      0.8293
   )
   testthat::expect_true(
     t_greene(
@@ -48,12 +47,17 @@ test_that("t_greene", {
       padjust = "none",
       alternative = "great"
     )$p.value[1] ==
-      0.4282
+      0.1707
   )
   testthat::expect_true(
-    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = TRUE)[9][[1]][1] == 0.0528
+    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "cohen_d")[9][[1]][1] == 0.0824
   )
-
+  testthat::expect_true(
+    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "hedge_g")[9][[1]][1] == 0.0823
+  )
+  testthat::expect_error(
+    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "qq")[9][[1]][1] == 0.0181
+  )
   testthat::expect_true(
     t_greene(data.frame(
       Pop = c("Ireland", "Colombia"),
@@ -64,5 +68,48 @@ test_that("t_greene", {
       F.mu = c(159, 151.3),
       F.sdev = c(5.35, 5.31)
     ))[[7]] == 0.0044
+  )
+  expect_doppelganger <- function(title, fig, path = NULL, ...) {
+    testthat::skip_if_not_installed("vdiffr")
+    vdiffr::expect_doppelganger(title, fig, path = path, ...)
+  }
+  expect_doppelganger(
+    title = "t_greene",
+    fig = t_greene(data.frame(
+      Pop = c("Ireland", "Colombia"),
+      m = c(347, 317),
+      M.mu = c(172.9, 163.3),
+      M.sdev = c(6.34, 6.11),
+      f = c(261, 317),
+      F.mu = c(159, 151.3),
+      F.sdev = c(5.35, 5.31)
+    ), plot = T)
+  )
+  testthat::expect_error(
+    t_greene(
+      baboon.parms_list
+    )
+  )
+  testthat::expect_error(
+    t_greene(
+      Howells
+    )
+  )
+  testthat::expect_error(
+    t_greene(
+      baboon.parms_df[1:3, ]
+    )
+  )
+  testthat::expect_error(
+    suppressWarnings(t_greene(
+      baboon.parms_df[1:3, ],
+      letters = 55
+    ))
+  )
+  testthat::expect_error(
+    suppressWarnings(t_greene(
+      baboon.parms_df[1:3, ],
+      plot = 55
+    ))
   )
 })

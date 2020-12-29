@@ -20,7 +20,7 @@ t_test(
   padjust = padjust,
   N,
   digits,
-  sig.level,
+  CI,
   alternative,
   es
 )
@@ -58,7 +58,7 @@ Default: NULL}
 Default: NULL}
 
 \item{padjust}{Method of p.value adjustment for multiple comparisons
-following [p.adjust.methods]}
+following \link[stats]{p.adjust.methods}  Default: "none".}
 
 \item{N}{Number of pairwise comparisons for [p.adjust.methods], if left
 `NULL` it will follow the formula `n(n 1)/2` where `n` is the number of
@@ -66,13 +66,13 @@ populations , Default: NULL}
 
 \item{digits}{Number of significant digits, Default: 4}
 
-\item{sig.level}{Critical p.value, Default: 0.05}
+\item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 
 \item{alternative}{a character string specifying the alternative
 hypothesis, must be one of "two.sided", "greater" or "less".}
 
-\item{es}{Logical; if TRUE effect size is included in the output , Default:
-FALSE}
+\item{es}{Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
+"none".}
 }
 \description{
 t-greene test

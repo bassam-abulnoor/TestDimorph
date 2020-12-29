@@ -4,12 +4,43 @@ test_that("aov_ss", {
       baboon.parms_df[1:3, ],
       Pop = 2,
       digits = 3,
-      es = TRUE,
       letters = TRUE,
       pairwise = TRUE,
     )[[1]]$p.value[1],
     3
   ) == 0.325)
+  testthat::expect_true(aov_ss(
+    baboon.parms_df[1:3, ],
+    Pop = 2,
+    digits = 3,
+    letters = TRUE,
+    pairwise = TRUE,
+    es_anova = "f"
+  )$`Female model`[[8]][1] == 0.028)
+  testthat::expect_true(aov_ss(
+    baboon.parms_df[1:3, ],
+    Pop = 2,
+    digits = 3,
+    letters = TRUE,
+    pairwise = TRUE,
+    es_anova = "eta"
+  )$`Female model`[[8]][1] == 0.027)
+  testthat::expect_true(aov_ss(
+    baboon.parms_df[1:3, ],
+    Pop = 2,
+    digits = 3,
+    letters = TRUE,
+    pairwise = TRUE,
+    es_anova = "omega"
+  )$`Female model`[[8]][1] == 0.022)
+  testthat::expect_error(aov_ss(
+    baboon.parms_df[1:3, ],
+    Pop = 2,
+    digits = 3,
+    letters = TRUE,
+    pairwise = TRUE,
+    es_anova = "qq"
+  )$`Female model`[[8]][1] == 0.028)
   testthat::expect_error(
     aov_ss(
       x = matrix(NA),

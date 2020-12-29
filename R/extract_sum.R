@@ -6,26 +6,26 @@
 #' @param Pop Number of the column containing populations' names, Default: 2
 #' @param firstX Number of column containing measured parameters (First of
 #' multiple in case of multivariate analysis), Default: 3
-#' @param test `1` for Greene t test [t_greene], `2` for [univariate], `3` for
-#' sex specific ANOVA [aov_ss], and `4` for [multivariate], Default: 1
+#' @param test `1` for Greene t test \link{t_greene}, `2` for
+#' \link{univariate}, `3` for sex specific ANOVA \link{aov_ss},
+#' `4` for \link{multivariate}, and `5`  for \link{van_vark},
+#' Default: 1
 #' @param run Logical; if TRUE runs the corresponding test after data
-#' extraction, Default: TRUE
+#' extraction, Default:TRUE
 #' @param ... Additional arguments that could be passed to the test of choice
 #' @return Input for other functions.
 #' @details Raw data is entered in a wide format data frame similar to
-#' [Howells] data set. The first two columns contain sex `Sex` (`M` for male
-#' and `F` for female) (Default: `1`) and populations' names `Pop` (Default:
-#' `2`). Starting from `firstX` column (Default: `3`), measured parameters are
-#' entered each in a separate column.
+#' \link{Howells} data set. The first two columns contain sex `Sex`
+#' (`M` for male and `F` for female) (Default: `1`) and populations' names `Pop`
+#' (Default:`2`). Starting from `firstX` column (Default: `3`), measured
+#' parameters are entered each in a separate column.
 #' @examples
-#' \donttest{
 #' # for multivariate test
 #' library(TestDimorph)
 #' extract_sum(Howells, test = 4)
 #' # for univariate test on a specific parameter
 #' library(TestDimorph)
 #' extract_sum(Howells, test = 2, firstX = 4)
-#' }
 #' @rdname extract_sum
 #' @export
 #' @import dplyr
@@ -41,7 +41,9 @@ extract_sum <-
     if (!(is.data.frame(x))) {
       stop("x should be a dataframe")
     }
-    x <- data.frame(x)
+    x <- x %>%
+      drop_na() %>%
+      as.data.frame()
     if (!(Sex %in% seq_along(x))) {
       stop("Sex should be number from 1 to ncol(x)")
     }
@@ -61,8 +63,8 @@ extract_sum <-
     if (length(unique(x$Sex)) != 2) {
       stop("Sex column should be a factor with only 2 levels `M` and `F`")
     }
-    if (!(test %in% 1:4)) {
-      stop("Test can only be be from 1 to 4")
+    if (!(test %in% 1:5)) {
+      stop("Test can only be be from 1 to 5")
     }
     if (test == 4) {
       x <- as.data.frame.list(x)
@@ -179,6 +181,16 @@ extract_sum <-
         } else {
           return(df)
         }
+      }
+    }
+    if (test == 5) {
+      if (isTRUE(run)) {
+        dat <- Van_vark_raw(x = x, Pop = Pop, Sex = Sex, firstX = firstX, ...)
+        x <- dat$x
+        W <- dat$W
+        van_vark(x = x, W = W, ...)
+      } else {
+        return(Van_vark_raw(x = x, Pop = Pop, Sex = Sex, firstX = firstX, ...))
       }
     }
   }
