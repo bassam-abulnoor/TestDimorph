@@ -46,7 +46,7 @@ AccuModel <-
       drop_na() %>%
       as.data.frame()
     x$Sex <- x[, Sex]
-    x$Sex <- as.factor(x$Sex)
+    x$Sex <- factor(x$Sex,levels = c(ref.,post.))
     if (is.null(Pop)) {
       x$Pop <- as.factor(rep("pop_1", nrow(x)))
     } else {
@@ -67,19 +67,21 @@ AccuModel <-
       test.data <- z[-train_ind, ]
 
 
-      train.control <- caret::trainControl(
-        method = res_method,
-        number = nf,
-        repeats = nr
+      train.control <- caret::trainControl(classProbs = TRUE,
+                                           method = res_method,
+                                           number = nf,
+                                           repeats = nr
       )
 
       model <- caret::train(f,
                             data = train.data,
                             method = method,
-                            trControl = train.control,parms = list(prior = prior)
+                            trControl = train.control
       )
       preds <-
-        data.frame("id" = test.data$id, "class" = predict(model, test.data))
+        data.frame("id" = test.data$id, "class" = predict(model, test.data),
+                   "prob"=predict(model, test.data,type="prob")[,2]
+        )
       df <-
         dplyr::full_join(data.frame("id" = test.data$id, "Sex" = test.data$Sex),
                          preds,
@@ -131,16 +133,23 @@ AccuModel <-
           (!(levels(y$Sex) %in% c("M", "F")))) {
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
-
+      train.control <- caret::trainControl(classProbs = TRUE,
+                                           method = res_method,
+                                           number = nf,
+                                           repeats = nr
+      )
       model <- caret::train(f,
                             data = x,
-                            method = method,parms = list(prior = prior)
+                            method = method,
+                            trControl = train.control
       )
-      preds <- stats::predict(model, newdata = y)
+      preds <- cbind.data.frame(class=predict(model, newdata = y),
+                                prob=predict(model, newdata = y,type="prob")[,2])
 
       df <- data.frame(
         "Sex" = y$Sex,
-        "class" = preds,
+        "class" = preds$class,
+        "prob"=preds$prob,
         "Pop" = y$Pop,
         stringsAsFactors = TRUE
       )
@@ -161,12 +170,13 @@ AccuModel <-
 
       cutpoint <-    cutpointr::cutpointr(
         data = df,
-        x = class,
+        x = prob,
         class = Sex,
         subgroup = Pop,
         pos_class = 2,
         neg_class = 1,
-        silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
+        silent = TRUE,method = cutpointr::maximize_metric,
+        metric = cutpointr::sum_sens_spec
       )
 
 
@@ -190,16 +200,18 @@ AccuModel <-
       }
     } else {
       xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
+      df$Sex <- factor(df$Sex,levels = c(ref.,post.))
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
 
       cutpoint <- cutpointr::cutpointr(
         data = df,
-        x = class,
+        x = prob,
         class = Sex,
         pos_class = 2,
         neg_class = 1,
-        silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
+        silent = TRUE,method = cutpointr::maximize_metric,
+        metric = cutpointr::sum_sens_spec
 
       )
       roc <-
@@ -215,9 +227,9 @@ AccuModel <-
         )
       cutpoint <- pull(cutpoint,2)
       if (isTRUE(plot)) {
-        list(cutpoint=cutpoint, conf,roc)
+        list(cutpoint=round(cutpoint,4), conf,roc)
       } else {
-        list(cutpoint=cutpoint, conf)
+        list(cutpoint=round(cutpoint,4), conf)
       }
     }
   }

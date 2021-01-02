@@ -4,7 +4,7 @@
 \alias{Hedges_g}
 \title{Hedges' g}
 \usage{
-Hedges_g(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE)
+Hedges_g(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE, digits = 4)
 }
 \arguments{
 \item{x}{A data frame containing summary statistics.}
@@ -15,11 +15,13 @@ Default: 1}
 \item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 
 \item{B}{number of bootstrap samples for generating confidence intervals. Higher
-number means greater accuracy but slower execution. If NULL confidence
+number means greater accuracy but slower execution. If NULL bootstrap confidence
 intervals are not produced, Default:NULL}
 
 \item{rand}{logical; if TRUE, uses random seed.  If FALSE, then set.seed(42)
 for repeatability, Default: TRUE}
+
+\item{digits}{Number of significant digits, Default: 4}
 }
 \value{
 a table of Hedge's g values with confidence interval for different traits.

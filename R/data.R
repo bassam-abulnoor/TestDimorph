@@ -15,12 +15,13 @@
 
 
 #' data frame format for the baboon.parms_df for multivariate analysis
-
-#' A dataset containing summary statistics for low density lipoprotein (LDL) and
+#'
+#'
+#'@description  A dataset containing summary statistics for low density lipoprotein (LDL) and
 #' apolipoprotein B (apo B) levels in 604 baboons measured on two different diets:
 #' a basal diet basal' and a high cholesterol, saturated fat diet (HCSF). The
 #' baboons were classified into one of three subspecies (Papio hamadryas
-#' anubis, P.h. cynocephalus, or anubistcynocephalus hybrid). Each animal was
+#' anubis, P.h. cynocephalus, or anubis). Each animal was
 #' measured on each of the two diets.
 #'
 #' @format A data frame with 12 rows and 8 variables \describe{
@@ -164,12 +165,12 @@
 #'
 "Australia"
 
-#' NHANES_1999
+#' NHANES 1999
 #'
-#' Raw data from 1999-2000 NHANES (National Health and Nutrition Examination
-#' Survey). Centers for Disease Control and Prevention (CDC). National Center
-#' for Health Statistics (NCHS). National Health and Nutrition Examination Survey
-#' Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers
+#' @description Raw data from 1999-2000 NHANES (National Health and Nutrition
+#' Examination Survey). Centers for Disease Control and Prevention (CDC). National
+#' Center for Health Statistics (NCHS). National Health and Nutrition Examination
+#' Survey Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers
 #' for Disease Control and Prevention, 2020, \url{https://www.cdc.gov/nchs/nhanes/index.htm}
 #'
 #'
@@ -188,3 +189,7 @@
 #' greater than or equal to 20 and less than or equal to 40
 #'
 "NHANES_1999"
+
+#' List of accu_model supported models
+#' @format A list of length 20.
+"models"

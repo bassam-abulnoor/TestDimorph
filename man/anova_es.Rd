@@ -10,7 +10,7 @@ anova_es(x, es_anova = es_anova, digits = digits, CI = CI)
 \item{x}{ANOVA model}
 
 \item{es_anova}{Type of effect size either "f" for f squared,"eta" for eta
-squared,"omega" for omega squared or "none", Default:"none".}
+squared or "none", Default:"none".}
 
 \item{digits}{Number of significant digits, Default: 4}
 

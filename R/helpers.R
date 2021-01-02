@@ -337,7 +337,9 @@ anova_es <- function(x,
     p < 0.001 ~ "***"
   )
   ss <- summary(x)[[1]][, 2]
+  SST <- sum(ss)
   df <- summary(x)[[1]][, 1]
+  N <- sum(df)
   ms <- summary(x)[[1]][, 3]
   eta <- f*df[1]/(f*df[1]+df[2])
   omega <- (ssi - (df1 * within)) / (ssi + sse + within)
@@ -345,8 +347,7 @@ anova_es <- function(x,
   if (es_anova != "none") {
     eff <- switch(es_anova,
       f = cohen_squared,
-      eta = eta,
-      omega = omega
+      eta = eta
     )
     eff <-
       eff_CI(
@@ -354,7 +355,9 @@ anova_es <- function(x,
         CI = CI,
         eff = eff,
         df1 = df1,
-        df2 = df2
+        df2 = df2,
+        es_type =es_anova
+
       )
     lower_eff <- eff[[2]]
     upper_eff <- eff[[3]]
@@ -481,58 +484,129 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 #' @param x A matrix with continuous data
 #' @param ina A numerical vector indicating the groups
 #' @keywords internal
-pooled_cov <- function(x, ina) {
-  s <- crossprod(x)
-  ni <- sqrt(tabulate(ina))
-  mi <- rowsum(x, ina) / ni
-  k <- length(ni)
-  denom <- dim(x)[1] - k
-  for (i in 1:k) s <- s - tcrossprod(mi[i, ])
-  s / denom
-}
+  pooled_cov <- function(x, ina) {
+    Morpho::covW(x,as.factor(ina))
+  }
+
 
 # Confidence interval for anova and manova effect sizes -------------------
 #' eff_CI
 #' @description Confidence intervals for ANOVA and MANOVA effect sizes
 #' @param f critical F-value
-#' @param CI critical p-value, Default 0.05
+#' @param CI confidence level, Default 0.95
 #' @param eff effect size
 #' @param df1 numerator degree of freedom
 #' @param df2 denominator degree of freedom
+#' @param SS sum of squares
+#' @param SST total SS
+#' @param N sum of df
+#' @param es_type type of effect size
 #' @keywords internal
-eff_CI <- function(f, CI, eff, df1, df2) {
-  crit <-  CI
-  # to get the NCP for a critical f value
-  tail <- (1 - crit) * 0.5
-  # upper limit cutoff
-  upper_cutoff <- tail
-  # lower limit cutoff
-  lower_cutoff <- 1 - tail
-  # lower NCP limit calculations
-  lower_NCP <- 0
-  p_lower <- pf(f, df1, df2, ncp = lower_NCP)
-  while (p_lower >= lower_cutoff) {
-    p_lower <- pf(f, df1, df2, ncp = lower_NCP)
-    lower_NCP <- lower_NCP + 0.1
+eff_CI <- function(f, CI, eff, df1, df2,es_type = "eta") {
+  get_NCP<-function (F, df.1, df.2, CI)
+  {
+    # From the FORTRAN code in:
+    # Guirguis, G. H. (1990). A note on computing the noncentrality
+    # parameter of the noncentral F-distribution.
+    # Communications in Statistics-Simulation and Computation, 19(4), 1497-1511.
+
+    #### ANORM function  #########
+    ANORM=function (X,DFN,DFD,FL,QUANT)
+    {
+      A = DFN+FL
+      B = 0.22222*(1+FL/A)/A
+      A = exp(log(X*DFN/A)/3)
+      anorm = (A*(1-0.22222/DFD)-(1-B))/sqrt(B+0.22222/DFD*A^2)-QUANT
+      return(anorm)
+    }
+
+    ### GUESS function #########
+    GUESS = function (X=20,DFN=2,DFD=2,FX=0.01)
+    {
+      ACC=0.01
+      N=50
+      QUANT=qnorm(FX)
+      FA = pf(X,DFN,DFD)
+      if(FA-FX<=0) return(0)
+
+      REFQ = ANORM(X,DFN,DFD,0,QUANT)
+      FL = 2*log(FA/FX)
+      FL = max(c(FL,1))
+      FLO = 1.e30
+
+      for(I in 1:50){
+        REF = ANORM(X,DFN,DFD,FL,QUANT)
+        if(abs(FLO-FL)<ACC){
+          if(FL<0) FL=0
+          return(FL)
+        }
+        FLO = FL
+        FL = FL*REFQ/(REFQ-REF)
+      }
+      if(FL<0) FL=0
+      return(FL)
+    }
+
+    ### FLAMDA function #####
+    FLAMDA=function (X=20,DFN=2,DFD=2,FX=0.01)
+    {
+      ACC=1.e-06
+
+      FL = GUESS(X,DFN,DFD,FX)
+      if(FL==0) return(0)
+
+      B = X*DFN/(DFN+2)
+
+      for(I in 1:50){
+        FA = pf(X,DFN,DFD,FL)
+        FC = pf(B,DFN+2,DFD,FL)
+        APROX = 2*FA/(FC-FA)*log(FX/FA)
+        FL = FL + APROX
+        if(abs(APROX)<ACC*max(c(FL,1))) return(FL)
+      }
+    }
+    ##################################################
+
+    hi=(1-CI)/2
+    lo=1-hi
+    lo=FLAMDA(F,df.1,df.2,lo)
+    hi=FLAMDA(F,df.1,df.2,hi)
+    return(c(lo,hi))
   }
-  # lower NCP limit calculations
-  upper_NCP <- 0
-  p_upper <- pf(f, df1, df2, ncp = upper_NCP)
-  while (p_upper >= upper_cutoff) {
-    p_upper <- pf(f, df1, df2, ncp = upper_NCP)
-    upper_NCP <- upper_NCP + 0.1
+
+  eta_squared <- function(f, CI, eff, df1, df2) {
+    ncps <- get_NCP(f, df1, df2, CI)
+    N <- df1 + df2 + 1
+    ci <- ncps / (ncps + N)
+    lower_eff <- ci[1]
+    upper_eff <- ci[2]
+    cbind.data.frame(lower_eff = lower_eff, upper_eff = upper_eff)
   }
-  # CI for effect size
-  lower_eff <- lower_NCP / (lower_NCP + df1 + df2 + 1)
-  upper_eff <- upper_NCP / (upper_NCP + df1 + df2 + 1)
+  f_squared <- function(f, CI, eff, df1, df2) {
+    ncps <- get_NCP(f, df1, df2, CI)
+    N <- df1 + df2 + 1
+    ci <- ncps / (ncps + N)
+    lower_eff <- ci[1] / (1 - ci[1])
+    upper_eff <- ci[2] / (1 - ci[2])
+    cbind.data.frame(lower_eff = lower_eff, upper_eff = upper_eff)
+  }
+
+
+  out <- switch(es_type,
+                none=eta_squared(f, CI, eff, df1, df2),
+                eta = eta_squared(f, CI, eff, df1, df2),
+                f = f_squared(f, CI, eff, df1, df2)
+  )
+
   cbind.data.frame(
     ES = eff,
-    conf.es.low = lower_eff,
-    conf.es.high = upper_eff
+    conf.es.low = out$lower_eff,
+    conf.es.high = out$upper_eff
   )
 }
 
-# Van_vark from raw data --------------------------------------------------
+
+# van_vark from raw data --------------------------------------------------
 #' Van_vark_raw
 #' @description runs van_vark function on raw data
 #' @inheritParams extract_sum
@@ -662,8 +736,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
     )
   } else {
     out <-
-      list(
-        tibble::as_tibble(out),
+      list(out,
         by(
           df,
           df$Parms,
@@ -700,45 +773,3 @@ add_sig <- function(x) {
     )) %>%
     relocate(.data$signif, .after = .data$p.value) -> x
 }
-
-
-# to_symm_diag ------------------------------------------------------------
-
-#'
-#' @title Get pooled within group correlation matrix & standard deviations.
-#'
-#' @param x upper triangular matrix stored by rows.
-#'
-#' @return a symmetric matrix.
-#'
-#' @details A utility function to take an upper triangular matrix stored by
-#' rows and convert it to a symmetric matrix.
-#' @export
-#'
-#' @examples
-#' #the matrix: [,1] [,2]
-#' #[,3] [1,] 3089 1079 785 [2,] 1079 574 351 [3,] 785 351 330 Should be
-#' #passed as the vector: c(3089, 1079, 785, 574, 351, 350).
-#' to_symm_diag(c(3089, 1079, 785, 574, 351, 350))
-#'
-to_symm_diag <- function(x) {
-  # For example,
-
-  x <- as.numeric(x)
-  k <- length(x)
-  n.dim <- (sqrt(8 * k + 1) - 1) / 2
-  if (n.dim %% 1 != 0) {
-    return("Vector is wrong length for a triangular matrix")
-  }
-  sym.mat <- diag(n.dim)
-  ip <- 0
-  for (i in 1:n.dim) {
-    for (j in i:n.dim)
-    {
-      ip <- ip + 1
-      sym.mat[i, j] <- sym.mat[j, i] <- x[ip]
-    }
-  }
-  return(sym.mat)
-}
-

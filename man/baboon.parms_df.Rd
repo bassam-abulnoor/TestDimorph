@@ -3,13 +3,7 @@
 \docType{data}
 \name{baboon.parms_df}
 \alias{baboon.parms_df}
-\title{data frame format for the baboon.parms_df for multivariate analysis
-A dataset containing summary statistics for low density lipoprotein (LDL) and
-apolipoprotein B (apo B) levels in 604 baboons measured on two different diets:
-a basal diet basal' and a high cholesterol, saturated fat diet (HCSF). The
-baboons were classified into one of three subspecies (Papio hamadryas
-anubis, P.h. cynocephalus, or anubistcynocephalus hybrid). Each animal was
-measured on each of the two diets.}
+\title{data frame format for the baboon.parms_df for multivariate analysis}
 \format{
 A data frame with 12 rows and 8 variables \describe{
 \item{Trait}{Apolipoprotein B and LDL on two diets} \item{Sub}{Type of species}
@@ -25,12 +19,11 @@ deviations for females}
 baboon.parms_df
 }
 \description{
-data frame format for the baboon.parms_df for multivariate analysis
 A dataset containing summary statistics for low density lipoprotein (LDL) and
 apolipoprotein B (apo B) levels in 604 baboons measured on two different diets:
 a basal diet basal' and a high cholesterol, saturated fat diet (HCSF). The
 baboons were classified into one of three subspecies (Papio hamadryas
-anubis, P.h. cynocephalus, or anubistcynocephalus hybrid). Each animal was
+anubis, P.h. cynocephalus, or anubis). Each animal was
 measured on each of the two diets.
 }
 \note{

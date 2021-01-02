@@ -4,18 +4,26 @@
 \alias{eff_CI}
 \title{eff_CI}
 \usage{
-eff_CI(f, CI, eff, df1, df2)
+eff_CI(f, CI, eff, df1, df2, es_type = "eta")
 }
 \arguments{
 \item{f}{critical F-value}
 
-\item{CI}{critical p-value, Default 0.05}
+\item{CI}{confidence level, Default 0.95}
 
 \item{eff}{effect size}
 
 \item{df1}{numerator degree of freedom}
 
 \item{df2}{denominator degree of freedom}
+
+\item{es_type}{type of effect size}
+
+\item{SS}{sum of squares}
+
+\item{SST}{total SS}
+
+\item{N}{sum of df}
 }
 \description{
 Confidence intervals for ANOVA and MANOVA effect sizes

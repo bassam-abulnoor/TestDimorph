@@ -8,13 +8,16 @@
 #' @param fill Specify which sex's density to be filled with color in the plot;
 #' either "male" in blue color, "female" in pink color or "both", Default: 'female'
 #' @param B number of bootstrap samples for generating confidence intervals. Higher
-#' number means greater accuracy but slower execution. If NULL confidence
+#' number means greater accuracy but slower execution. If NULL bootstrap confidence
 #' intervals are not produced, Default:NULL
 #' @param rand logical; if TRUE, uses random seed.  If FALSE, then set.seed(42)
 #' for repeatability, Default: TRUE
 #' @details Chakraborty and Majumder's (1982) D index.  The calculations are done
 #' using Inman and Bradley's (1989) equations, and the relationship that
 #' D =  1 - OVL where OVL is the overlap coefficient described in Inman and Bradley.
+#' A parametric bootstrap was used assuming normal distributions. The method is
+#' known as the "bias-corrected percentile method" (Efron, 1981) or
+#' the "bias-corrected percentile interval" (Tibshirani, 1984)
 #' @return a table and a graphical representation of the selected traits and
 #' their corresponding dissimilarity indices, confidence intervals and
 #' significance tests.
@@ -33,6 +36,14 @@
 #' measure of agreement between probability distributions and point estimation
 #' of the overlap of two normal densities." Communications in Statistics-Theory
 #' and Methods 18.10:3851-3874.
+#'
+#' Efron, B. (1981). Nonparametric standard errors and confidence intervals.
+#' Canadian Journal of Statistics, 9(2), 139-158.
+#'
+#' Tibshirani, R. J. (1984). Bootstrap confidence intervals. Technical Report
+#' No. 3, Laboratory for Computational Statistics, Department of Statistics,
+#' Stanford University.
+#'
 #' @examples
 #' library(TestDimorph)
 #' data("Cremains_measurements")
@@ -44,7 +55,7 @@
 #' }
 #'
 D_index <- function(x, plot = FALSE, fill = "female", Trait = 1, B = NULL, CI = 0.95,
-                    rand = TRUE) {
+                    rand = TRUE,digits=4) {
   fill <- match.arg(fill, choices = c("female", "male", "both"))
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -91,7 +102,7 @@ D_index <- function(x, plot = FALSE, fill = "female", Trait = 1, B = NULL, CI = 
   x <- x %>%
     drop_na() %>%
     as.data.frame()
-  Trait <- x[, Trait]
+  x$Trait <- x[, Trait]
   x$Trait <- factor(x$Trait, levels = x$Trait)
   m <- x$m
   M.mu <- x$M.mu
@@ -234,6 +245,13 @@ D_index <- function(x, plot = FALSE, fill = "female", Trait = 1, B = NULL, CI = 
     theme(legend.title = element_blank()) +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0))
-  D_df <- rownames_to_column(as.data.frame(D_df), var = "Trait")
-  list(D = as_tibble(D_df), plot = p)
+  D_df <- rownames_to_column(as.data.frame(D_df), var = "Trait") %>% mutate(
+    across(where(is.numeric),round,digits)) %>% as.data.frame()
+  if(isTRUE(plot)){
+  list(D = D_df, plot = p)
+  }else{
+
+    return(D_df)
+
+}
 }

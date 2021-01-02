@@ -9,12 +9,11 @@
 #' @param y New data frame to be tested, if `NULL` `x` is split to test and
 #' training datasets, Default: NULL
 #' @param method A string specifying which classification or regression model
-#' to use. For list of supported methods see \link[caret]{train_model_list}.
-#' @param res_method The resampling method used by
-#' \link[caret]{trainControl}, Default: 'repeatedcv'
-#' @param prior prior probability i.e. c(0.5,0.5) for equal probabilities,
-#' if NULL it will be the sample frequencies,
-#' Default: NULL
+#' to use. For list of supported methods see \link{models}.
+#' @param res_method 	The resampling method: "boot", "boot632", "optimism_boot",
+#' "boot_all", "cv", "repeatedcv", "LOOCV", "LGOCV" (for repeated training/test
+#' splits), "none" (only fits one model to the entire training set), timeslice,
+#'  "adaptive_cv", "adaptive_boot" or "adaptive_LGOCV", Default: 'repeatedcv'
 #' @param p Percentage of `x` for testing the model in case `y` is NULL,
 #' Default: 0.75
 #' @param nf number of folds or of resampling iterations, Default: 10
@@ -53,7 +52,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom stats relevel predict
-#' @importFrom cutpointr plot_roc cutpointr
+#' @importFrom cutpointr plot_roc cutpointr maximize_metric sum_sens_spec
 #' @importFrom caret confusionMatrix trainControl train
 accu_model <-
   function(f,
@@ -61,7 +60,6 @@ accu_model <-
            y = NULL,
            method = "lda",
            res_method = "repeatedcv",
-           prior=NULL,
            p = 0.75,
            nf = 10,
            nr = 3,
@@ -91,7 +89,7 @@ accu_model <-
       drop_na() %>%
       as.data.frame()
     x$Sex <- x[, Sex]
-    x$Sex <- as.factor(x$Sex)
+    x$Sex <- factor(x$Sex,levels = c(ref.,post.))
     if (is.null(Pop)) {
       x$Pop <- as.factor(rep("pop_1", nrow(x)))
     } else {
@@ -112,7 +110,7 @@ accu_model <-
       test.data <- z[-train_ind, ]
 
 
-      train.control <- caret::trainControl(
+      train.control <- caret::trainControl(classProbs = TRUE,
         method = res_method,
         number = nf,
         repeats = nr
@@ -121,10 +119,12 @@ accu_model <-
       model <- caret::train(f,
         data = train.data,
         method = method,
-        trControl = train.control,parms = list(prior = prior)
+        trControl = train.control
       )
       preds <-
-        data.frame("id" = test.data$id, "class" = predict(model, test.data))
+        data.frame("id" = test.data$id, "class" = predict(model, test.data),
+                   "prob"=predict(model, test.data,type="prob")[,2]
+                   )
       df <-
         dplyr::full_join(data.frame("id" = test.data$id, "Sex" = test.data$Sex),
           preds,
@@ -176,16 +176,23 @@ accu_model <-
         (!(levels(y$Sex) %in% c("M", "F")))) {
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
-
+      train.control <- caret::trainControl(classProbs = TRUE,
+                                           method = res_method,
+                                           number = nf,
+                                           repeats = nr
+      )
       model <- caret::train(f,
         data = x,
-        method = method,parms = list(prior = prior)
+        method = method,
+        trControl = train.control
       )
-      preds <- stats::predict(model, newdata = y)
+      preds <- cbind.data.frame(class=predict(model, newdata = y),
+                                prob=predict(model, newdata = y,type="prob")[,2])
 
       df <- data.frame(
         "Sex" = y$Sex,
-        "class" = preds,
+        "class" = preds$class,
+        "prob"=preds$prob,
         "Pop" = y$Pop,
         stringsAsFactors = TRUE
       )
@@ -206,12 +213,13 @@ accu_model <-
 
       cutpoint <-    cutpointr::cutpointr(
             data = df,
-            x = class,
+            x = prob,
             class = Sex,
             subgroup = Pop,
             pos_class = 2,
             neg_class = 1,
-            silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
+            silent = TRUE,method = cutpointr::maximize_metric,
+            metric = cutpointr::sum_sens_spec
           )
 
 
@@ -235,16 +243,18 @@ roc <-
       }
     } else {
       xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
+      df$Sex <- factor(df$Sex,levels = c(ref.,post.))
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
 
   cutpoint <- cutpointr::cutpointr(
             data = df,
-            x = class,
+            x = prob,
             class = Sex,
             pos_class = 2,
             neg_class = 1,
-            silent = TRUE,method = cutpointr::maximize_metric, metric = cutpointr::sum_sens_spec
+            silent = TRUE,method = cutpointr::maximize_metric,
+            metric = cutpointr::sum_sens_spec
 
         )
   roc <-
@@ -260,9 +270,9 @@ roc <-
         )
 cutpoint <- pull(cutpoint,2)
       if (isTRUE(plot)) {
-        list(cutpoint=cutpoint, conf,roc)
+        list(cutpoint=round(cutpoint,4), conf,roc)
       } else {
-        list(cutpoint=cutpoint, conf)
+        list(cutpoint=round(cutpoint,4), conf)
       }
     }
   }

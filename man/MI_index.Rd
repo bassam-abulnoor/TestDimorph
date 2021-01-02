@@ -7,13 +7,13 @@
 MI_index(
   x,
   plot = FALSE,
-  fill = "both",
   Trait = 1,
   B = NULL,
   CI = 0.95,
   p.f = 0,
   index_type = "MI",
-  rand = TRUE
+  rand = TRUE,
+  digits = 4
 )
 }
 \arguments{
@@ -22,14 +22,11 @@ MI_index(
 \item{plot}{logical; if true a plot of densities for both sexes is returned,
 Default: FALSE}
 
-\item{fill}{Specify which sex's density to be filled with color in the plot;
-either "male" in blue color, "female" in pink color or "both", Default: 'female'}
-
 \item{Trait}{Number of the column containing names of measured parameters,
 Default: 1}
 
 \item{B}{number of bootstrap samples for generating confidence intervals. Higher
-number means greater accuracy but slower execution. If NULL confidence
+number means greater accuracy but slower execution. If NULL bootstrap confidence
 intervals are not produced, Default:NULL}
 
 \item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
@@ -44,6 +41,8 @@ which is equal to 1 – D_index, Default: 'MI'}
 
 \item{rand}{logical; if TRUE, uses random seed.  If FALSE, then set.seed(42)
 for repeatability, Default: TRUE}
+
+\item{digits}{Number of significant digits, Default: 4}
 }
 \value{
 returns a table of Ipina and Durand's (2010) mixture index ("MI")
@@ -77,4 +76,8 @@ Inman, H. F., & Bradley Jr, E. L. (1989). The overlapping
 coefficient as a measure of agreement between probability distributions and
 point estimation of the overlap of two normal densities. Communications in
 Statistics-Theory and Methods, 18(10), 3851-3874.
+
+Ipina, S. L., & Durand, A. I. (2010). Assessment of sexual dimorphism: a
+critical discussion in a (paleo-) anthropological context. Human Biology,
+82(2), 199-220.
 }

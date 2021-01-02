@@ -11,7 +11,8 @@ D_index(
   Trait = 1,
   B = NULL,
   CI = 0.95,
-  rand = TRUE
+  rand = TRUE,
+  digits = 4
 )
 }
 \arguments{
@@ -27,13 +28,15 @@ either "male" in blue color, "female" in pink color or "both", Default: 'female'
 Default: 1}
 
 \item{B}{number of bootstrap samples for generating confidence intervals. Higher
-number means greater accuracy but slower execution. If NULL confidence
+number means greater accuracy but slower execution. If NULL bootstrap confidence
 intervals are not produced, Default:NULL}
 
 \item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 
 \item{rand}{logical; if TRUE, uses random seed.  If FALSE, then set.seed(42)
 for repeatability, Default: TRUE}
+
+\item{digits}{Number of significant digits, Default: 4}
 }
 \value{
 a table and a graphical representation of the selected traits and
@@ -48,6 +51,9 @@ the trait distribution between two sex groups.
 Chakraborty and Majumder's (1982) D index.  The calculations are done
 using Inman and Bradley's (1989) equations, and the relationship that
 D =  1 - OVL where OVL is the overlap coefficient described in Inman and Bradley.
+A parametric bootstrap was used assuming normal distributions. The method is
+known as the "bias-corrected percentile method" (Efron, 1981) or
+the "bias-corrected percentile interval" (Tibshirani, 1984)
 }
 \examples{
 library(TestDimorph)
@@ -70,4 +76,11 @@ Inman, Henry F., and Edwin L. Bradley Jr.(1989) "The overlapping coefficient as 
 measure of agreement between probability distributions and point estimation
 of the overlap of two normal densities." Communications in Statistics-Theory
 and Methods 18.10:3851-3874.
+
+Efron, B. (1981). Nonparametric standard errors and confidence intervals.
+Canadian Journal of Statistics, 9(2), 139-158.
+
+Tibshirani, R. J. (1984). Bootstrap confidence intervals. Technical Report
+No. 3, Laboratory for Computational Statistics, Department of Statistics,
+Stanford University.
 }

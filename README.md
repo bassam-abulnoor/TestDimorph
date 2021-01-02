@@ -27,7 +27,7 @@ The input can be in the form of wide format **raw data** or **summary statistics
 
 1. **Sex** : either **M** for male or **F** for female (*Raw data*)
 2. **Pop** : studied populations (*Summary/Raw data*)
-3. **Parms** : numerical parameters for multivariate analysis and raw data generation (*Summary*)
+3. **Trait** : studied traits or parameters (*Summary*)
 4. **m** : male sample size (*Summary*)
 5. **f** : female sample size (*Summary*)
 6. **M.mu**: male mean (*Summary*)

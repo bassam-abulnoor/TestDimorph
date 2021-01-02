@@ -38,8 +38,8 @@ Default: 1}
 for "Pillai", "HL" for "Hotelling-Lawley" or "R" for "Roy's largest root",
 Default: "W".}
 
-\item{interact_manova}{Logical; if TRUE calculates MANOVA for main effects,
-Default: FALSE.}
+\item{interact_manova}{Logical; if TRUE calculates MANOVA for the interaction
+effects,Default: TRUE.}
 
 \item{es_manova}{effect size either ,"eta" for eta squared, or "none"for
 not reporting an effect size, Default:"none".}
@@ -85,4 +85,5 @@ library(TestDimorph)
 multivariate(baboon.parms_list, univariate = TRUE, padjust = "bonferroni")
 #reproduces results from Konigsberg (1991)
 multivariate(baboon.parms_df, R.res = baboon.parms_R)[3,]
+multivariate(baboon.parms_df, R.res = baboon.parms_R,interact_manova=FALSE)
 }

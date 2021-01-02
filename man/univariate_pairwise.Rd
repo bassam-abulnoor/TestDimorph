@@ -30,8 +30,8 @@ Default: 1}
     \item{\code{manova_test_statistic}}{type of test statistic used either "W" for "Wilks","P"
 for "Pillai", "HL" for "Hotelling-Lawley" or "R" for "Roy's largest root",
 Default: "W".}
-    \item{\code{interact_manova}}{Logical; if TRUE calculates MANOVA for main effects,
-Default: FALSE.}
+    \item{\code{interact_manova}}{Logical; if TRUE calculates MANOVA for the interaction
+effects,Default: TRUE.}
     \item{\code{es_manova}}{effect size either ,"eta" for eta squared, or "none"for
 not reporting an effect size, Default:"none".}
     \item{\code{univariate}}{Logical; if TRUE conducts multiple univariate analyses on

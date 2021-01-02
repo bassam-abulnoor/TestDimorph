@@ -3,7 +3,7 @@
 \docType{data}
 \name{NHANES_1999}
 \alias{NHANES_1999}
-\title{NHANES_1999}
+\title{NHANES 1999}
 \format{
 A data frame with 1430 rows and 5 variables:
  \describe{
@@ -19,10 +19,10 @@ A data frame with 1430 rows and 5 variables:
 NHANES_1999
 }
 \description{
-Raw data from 1999-2000 NHANES (National Health and Nutrition Examination
-Survey). Centers for Disease Control and Prevention (CDC). National Center
-for Health Statistics (NCHS). National Health and Nutrition Examination Survey
-Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers
+Raw data from 1999-2000 NHANES (National Health and Nutrition
+Examination Survey). Centers for Disease Control and Prevention (CDC). National
+Center for Health Statistics (NCHS). National Health and Nutrition Examination
+Survey Data. Hyattsville, MD: U.S. Department of Health and Human Services, Centers
 for Disease Control and Prevention, 2020, \url{https://www.cdc.gov/nchs/nhanes/index.htm}
 }
 \note{

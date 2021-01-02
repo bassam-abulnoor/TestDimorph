@@ -27,10 +27,10 @@ univariate(
 \item{type_anova}{type of ANOVA test "I","II" or "III", Default:"II".}
 
 \item{interact_anova}{Logical; if TRUE calculates interaction effect,
-Default: FALSE.}
+Default: TRUE.}
 
 \item{es_anova}{Type of effect size either "f" for f squared,"eta" for eta
-squared,"omega" for omega squared or "none", Default:"none".}
+squared or "none", Default:"none".}
 
 \item{pairwise}{Logical; if TRUE runs multiple pairwise comparisons on
 different populations using \link{t_greene} Default: FALSE}

@@ -13,6 +13,8 @@
 #'   2
 #' @param plot Logical; if TRUE returns a graphical representation of dimorphism
 #'   differences, Default: TRUE
+#' @param reverse Logical; if TRUE returns a graphical representation of dimorphism
+#'   differences, Default: TRUE
 #' @return The output includes a two-dimensional plot that illustrate the
 #'   existing differences between tested populations and a statistical test of
 #'   significance for the difference in dimorphism using chi square
@@ -46,6 +48,7 @@ van_vark <- function(x,
                      Trait = 1,
                      Pop = 2,
                      plot = TRUE,
+                     reverse=FALSE,
                      lower.tail = FALSE,
                      digits = 4) {
   if (!(Trait %in% seq_along(x))) {
@@ -111,7 +114,13 @@ van_vark <- function(x,
       names_from = Trait, values_from = .data$no
     ) %>%
     as.data.frame()
-  x$Sex <- factor(x$Sex, levels = c("F", "M"))
+  if(isFALSE(reverse)){
+
+  sex_levels <- c("F", "M")
+  }else{
+    sex_levels <- c("M", "F")
+}
+  x$Sex <- factor(x$Sex, levels = sex_levels)
   p <- NCOL(x) - 3
   g <- NROW(x)
   Rank <- min(c(g - 1, p))
@@ -152,7 +161,7 @@ van_vark <- function(x,
       Sex = x$Sex,
       stringsAsFactors = FALSE
     )
-  CVs$Sex <- factor(CVs$Sex, levels = c("F", "M"))
+  CVs$Sex <- factor(CVs$Sex, levels = sex_levels)
   CVs <- arrange(CVs, Pop, Sex)
   pairs <- utils::combn(levels(x$Pop), 2, simplify = FALSE)
 

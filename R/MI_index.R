@@ -30,6 +30,10 @@
 #' coefficient as a measure of agreement between probability distributions and
 #' point estimation of the overlap of two normal densities. Communications in
 #' Statistics-Theory and Methods, 18(10), 3851-3874.
+#'
+#' Ipina, S. L., & Durand, A. I. (2010). Assessment of sexual dimorphism: a
+#' critical discussion in a (paleo-) anthropological context. Human Biology,
+#' 82(2), 199-220.
 #' @rdname MI_index
 #' @import dplyr
 #' @import ggplot2
@@ -38,9 +42,8 @@
 #' @importFrom utils flush.console
 #' @export
 
-MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0.95,
-                     p.f = 0, index_type = "MI", rand = TRUE) {
-  fill <- match.arg(fill, choices = c("female", "male", "both"))
+MI_index <- function(x, plot = FALSE, Trait = 1, B = NULL, CI = 0.95,
+                     p.f = 0, index_type = "MI", rand = TRUE,digits=4) {
   index_type <- match.arg(index_type, choices = c("MI", "NI"))
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -88,7 +91,15 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
   if (isFALSE(rand)) {
     set.seed(42)
   }
-  x %>% drop_na() %>% as.data.frame()
+  if(p.f > 0){
+message("if p.f>0 bootstrap won't be available")
+    B <- NULL
+
+  }
+  x <-x %>% drop_na() %>% as.data.frame()
+  x$Trait <- x[,Trait]
+  x$Trait <- factor(x$Trait, levels = x$Trait)
+  x$Trait <- droplevels(x$Trait)
   m <- x$m
   M.mu <- x$M.mu
   M.sdev <- x$M.sdev
@@ -110,7 +121,7 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
     p.m <- 1
   }
 
-  Ipina_Durand <- function(Trait, m, M.mu, M.sdev, f, F.mu, F.sdev, i) {
+  Ipina_Durand <- function(i) {
     m <- x$m[i]
     M.mu <- x$M.mu[i]
     M.sdev <- x$M.sdev[i]
@@ -129,17 +140,21 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
     dn_male <- p.m * dnorm(z, as.numeric(na.omit(M.mu)), as.numeric(na.omit(
       M.sdev
     ))) %>% as.data.frame()
+    dn_overlap=vector(mode = "numeric",length = length(z))
+    for(k in 1:length(z)) {dn_overlap[k]=ID(z[k])}
+    dn_overlap <- cbind.data.frame(z = z, dn = dn_overlap, sex = rep("MI", length(dn_overlap)))
     dn_male <- cbind.data.frame(z = z, dn = dn_male, sex = rep("M", nrow(dn_male)))
     dn_female <- p.f * dnorm(z, as.numeric(na.omit(F.mu)), as.numeric(na.omit(
       F.sdev
     ))) %>% as.data.frame()
     dn_female <- cbind.data.frame(z = z, dn = dn_female, sex = rep("F", nrow(dn_female)))
-    df <- rbind.data.frame(dn_male, dn_female)
+    names(dn_overlap) <- names(dn_male)
+    df <- rbind.data.frame(dn_male, dn_female,dn_overlap)
     names(df) <- c("z", "dn", "sex")
     df <- cbind.data.frame(trait = trait, df)
     if (!is.null(CI) && !is.null(B)) {
       sto_boot <- rep(NA, B)
-      for (i in 1:B) {
+      for (j in 1:B) {
         males <- rnorm(m, M.mu, M.sdev)
         females <- rnorm(f, F.mu, F.sdev)
         M.mu_boot <- mean(males)
@@ -161,7 +176,7 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
           )))
         }
         MI_boot <- round(integrate(Vectorize(ID_boot), left_boot, right_boot)$val, 4)
-        sto_boot[i] <- MI_boot
+        sto_boot[j] <- MI_boot
         cat(paste("\r", i, " of ", B, "bootstraps"))
         flush.console()
       }
@@ -188,29 +203,15 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
   vec_Ipina_Durand <- Vectorize(Ipina_Durand, vectorize.args = "i", SIMPLIFY = F)
   all_list <- vec_Ipina_Durand(i = seq_len(nrow(x)))
   IM_list <- lapply(all_list, function(x) x[[1]])
-  x$Trait <- factor(x$Trait, levels = x$Trait)
   names(IM_list) <- levels(x$Trait)
   df <- lapply(all_list, function(x) x[[2]])
   df <- do.call(rbind.data.frame, df)
   IM_df <- do.call(rbind, IM_list)
-  fill_list <- switch(fill,
-    female = list(
-      col = c("pink1", "white"),
-      col2 = c("pink1", "light blue"),
-      sex_levels = c("F", "M")
-    ),
-
-    male = list(
-      col = c("light blue", "white"),
-      col2 = c("light blue", "pink1"),
-      sex_levels = c("M", "F")
-    ),
-    both = list(
-      col = c("pink1", "light blue"),
-      col2 = c("pink1", "light blue"),
-      sex_levels = c("F", "M")
+  fill_list <-  list(
+      col = c("white", "white","dark grey"),
+      col2 = c("pink1", "light blue","dark grey"),
+      sex_levels = c("F", "M","MI")
     )
-  )
   col <- fill_list$col
   col2 <- fill_list$col2
   df$sex <- factor(df$sex, levels = fill_list$sex_levels)
@@ -226,7 +227,7 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
     geom_polygon(aes(
       fill =
         .data$sex
-    )) +
+    ),size=1) +
     scale +
     scale2 +
     geom_density(stat = "identity") +
@@ -235,11 +236,12 @@ MI_index <- function(x, plot = FALSE, fill = "both", Trait = 1, B = NULL, CI = 0
     xlab("x") +
     theme(legend.title = element_blank()) +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous(expand = c(0, 0))
+    scale_y_continuous(expand = c(0, 0))+ theme(legend.position = "none")
   IM_df <- rownames_to_column(as.data.frame(IM_df), var = "Trait")
+  IM_df <- IM_df %>% mutate(across(where(is.numeric),round,digits))
   if (isTRUE(plot)) {
-    list(index = as_tibble(IM_df), plot = p)
+    list(index = as.data.frame(IM_df), plot = p)
   } else {
-    as_tibble(IM_df)
+    as.data.frame(IM_df)
   }
 }

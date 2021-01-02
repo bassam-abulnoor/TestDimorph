@@ -15,7 +15,7 @@ test_that("univariate", {
   )[[8]][3] == 0.0072)
   testthat::expect_true(univariate(baboon.parms_df[1:10, ], es_anova = "eta")
   [[8]][3] == 0.0071)
-  testthat::expect_true(univariate(baboon.parms_df[1:10, ], es_anova = "omega")
+  testthat::expect_error(univariate(baboon.parms_df[1:10, ], es_anova = "omega")
   [[8]][3] == 0.0029)
   testthat::expect_error(univariate(baboon.parms_df[1:10, ], es_anova = "qq")
   [[8]][1] == 0.0029)

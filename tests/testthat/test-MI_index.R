@@ -9,6 +9,6 @@ test_that("MI_index", {
   }
   expect_doppelganger(
     title = "MI_index",
-    fig = MI_index(Cremains_measurements[1, ], plot = TRUE,fill="both")[[2]]
+    fig = MI_index(Cremains_measurements[1, ], plot = TRUE)[[2]]
   )
 })

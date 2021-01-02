@@ -10,8 +10,8 @@
 #' @param manova_test_statistic type of test statistic used either "W" for "Wilks","P"
 #' for "Pillai", "HL" for "Hotelling-Lawley" or "R" for "Roy's largest root",
 #' Default: "W".
-#' @param interact_manova Logical; if TRUE calculates MANOVA for main effects,
-#' Default: FALSE.
+#' @param interact_manova Logical; if TRUE calculates MANOVA for the interaction
+#' effects,Default: TRUE.
 #' @param es_manova effect size either ,"eta" for eta squared, or "none"for
 #' not reporting an effect size, Default:"none".
 #' @param univariate Logical; if TRUE conducts multiple univariate analyses on
@@ -38,8 +38,7 @@
 #' multivariate(baboon.parms_list, univariate = TRUE, padjust = "bonferroni")
 #' #reproduces results from Konigsberg (1991)
 #' multivariate(baboon.parms_df, R.res = baboon.parms_R)[3,]
-# multivariate(baboon.parms_df, R.res = baboon.parms_R,interact_manova=T)
-
+#' multivariate(baboon.parms_df, R.res = baboon.parms_R,interact_manova=FALSE)
 #' @rdname multivariate
 #' @export
 #' @importFrom stats pf

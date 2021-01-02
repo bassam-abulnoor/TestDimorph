@@ -59,7 +59,7 @@ extract_sum <-
     x$Pop <- x[, Pop]
     x$Sex <- x[, Sex]
     x$Pop <- factor(x$Pop)
-    x$Sex <- factor(x$Sex)
+    x$Sex <-  factor(x$Sex)
     if (length(unique(x$Sex)) != 2) {
       stop("Sex column should be a factor with only 2 levels `M` and `F`")
     }

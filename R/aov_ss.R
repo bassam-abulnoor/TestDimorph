@@ -62,7 +62,7 @@ aov_ss <-
       stop("letters should be either TRUE or FALSE")
     }
     es_anova <-
-      match.arg(es_anova, choices = c("none", "eta", "omega", "f"))
+      match.arg(es_anova, choices = c("none", "eta", "f"))
     if (CI < 0 ||
       CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")

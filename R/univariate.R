@@ -4,9 +4,9 @@
 #' ANOVA and summary statistics as input
 #' @param type_anova type of ANOVA test "I","II" or "III", Default:"II".
 #' @param interact_anova Logical; if TRUE calculates interaction effect,
-#' Default: FALSE.
+#' Default: TRUE.
 #' @param es_anova Type of effect size either "f" for f squared,"eta" for eta
-#' squared,"omega" for omega squared or "none", Default:"none".
+#' squared or "none", Default:"none".
 #' @inheritParams t_greene
 #' @inheritParams t_test
 #' @param lower.tail Logical; if TRUE probabilities are `P[X <= x]`,
@@ -52,7 +52,7 @@ univariate <- function(x,
                        digits = 4) {
   padjust <- match.arg(padjust, choices = p.adjust.methods)
   es_anova <-
-    match.arg(es_anova, choices = c("none", "eta", "omega", "f"))
+    match.arg(es_anova, choices = c("none", "eta", "f"))
 
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -118,7 +118,6 @@ univariate <- function(x,
       II = anova_II(
         x,
         es_anova,
-
         digits, CI, lower.tail
       ),
       III = anova_III(

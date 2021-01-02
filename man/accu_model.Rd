@@ -10,7 +10,6 @@ accu_model(
   y = NULL,
   method = "lda",
   res_method = "repeatedcv",
-  prior = NULL,
   p = 0.75,
   nf = 10,
   nr = 3,
@@ -34,14 +33,12 @@ to the right hand side}
 training datasets, Default: NULL}
 
 \item{method}{A string specifying which classification or regression model
-to use. For list of supported methods see \link[caret]{train_model_list}.}
+to use. For list of supported methods see \link{models}.}
 
-\item{res_method}{The resampling method used by
-\link[caret]{trainControl}, Default: 'repeatedcv'}
-
-\item{prior}{prior probability i.e. c(0.5,0.5) for equal probabilities,
-if NULL it will be the sample frequencies,
-Default: NULL}
+\item{res_method}{The resampling method: "boot", "boot632", "optimism_boot",
+"boot_all", "cv", "repeatedcv", "LOOCV", "LGOCV" (for repeated training/test
+splits), "none" (only fits one model to the entire training set), timeslice,
+ "adaptive_cv", "adaptive_boot" or "adaptive_LGOCV", Default: 'repeatedcv'}
 
 \item{p}{Percentage of `x` for testing the model in case `y` is NULL,
 Default: 0.75}
