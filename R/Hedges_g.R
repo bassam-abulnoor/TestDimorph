@@ -116,7 +116,7 @@ Hedges_g <- function(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE,digits=4) {
   name_hedge_list <- names(hedge_list)
   hedge_df <- do.call(rbind.data.frame, hedge_list)
   rownames(hedge_df) <- name_hedge_list
-  rownames_to_column(hedge_df, "Trait") %>% relocate(.data$lower, .before =
-  .data$g) %>% mutate(across(where(is.numeric),round,digits)) %>%
+  rown_col(hedge_df, "Trait") %>% relocate(.data$lower, .before =
+  .data$g) %>% mutate(across(-1,round,digits)) %>%
     as.data.frame() %>% drop_na()
 }

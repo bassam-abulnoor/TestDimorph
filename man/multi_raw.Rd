@@ -10,7 +10,7 @@ multi_raw(x, format, complete_cases, dist, lower, upper)
 \item{x}{Data frame or list containing summary statistics for
 multiple parameters measured in both sexes in two or more populations.}
 
-\item{format}{form of the resultant tibble either 'long' or 'wide',
+\item{format}{form of the resultant data frame either 'long' or 'wide',
 Default: 'wide'}
 
 \item{complete_cases}{Logical; if TRUE rows with missing values will be

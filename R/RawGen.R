@@ -104,7 +104,7 @@ RawGen <- function(x,
         df <- by(x, list(x$Trait), list)
         df <- lapply(df, gen_m)
         df <- lapply(df, as.data.frame)
-        df <- do.call(cbind_fill, df)
+        df <- do.call(cbind_fill2, df)
         colnames(df) <- levels(x$Trait)
         df
       }
@@ -112,7 +112,7 @@ RawGen <- function(x,
         df <- by(x, list(x$Trait), list)
         df <- lapply(df, gen_f)
         df <- lapply(df, as.data.frame)
-        df <- do.call(cbind_fill, df)
+        df <- do.call(cbind_fill2, df)
         colnames(df) <- levels(x$Trait)
         df
       }
@@ -137,7 +137,7 @@ RawGen <- function(x,
 
       # Joining both datasets ---------------------------------------------------
 
-      wide <- tibble::as_tibble(rbind.data.frame(male, female))
+      wide <- rbind.data.frame(male, female)
       if (format == "wide") {
         if (isTRUE(complete_cases)) {
           return(tidyr::drop_na(wide))
@@ -147,13 +147,11 @@ RawGen <- function(x,
       }
       if (format == "long") {
         long <-
-          tibble::as_tibble(
-            pivot_longer(
-              data = wide,
-              cols = -c("Sex", "Pop"),
-              names_to = "Trait",
-              values_drop_na = complete_cases
-            )
+          pivot_longer(
+            data = wide,
+            cols = -c("Sex", "Pop"),
+            names_to = "Trait",
+            values_drop_na = complete_cases
           )
 
         return(long)

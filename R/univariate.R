@@ -16,7 +16,7 @@
 #' @param ... Additional arguments that could be passed to the \link{t_greene}
 #' function
 #' @return  ANOVA tale.
-#' @details Data is entered as a tibble/data frame of summary statistics where
+#' @details Data is entered as a data frame of summary statistics where
 #' the column containing population names is chosen by position (first by
 #' default), other columns of summary data should have specific names (case
 #' sensitive) similar to \link{baboon.parms_df}
@@ -37,7 +37,6 @@
 #' @rdname univariate
 #' @export
 #' @importFrom stats pf
-#' @importFrom tibble as_tibble
 univariate <- function(x,
                        Pop = 1,
                        type_anova = "II",

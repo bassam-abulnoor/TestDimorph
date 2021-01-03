@@ -25,7 +25,11 @@ License: GPL-3
 URL: https://github.com/bassam-abulnoor/TestDimorph
 BugReports: https://github.com/bassam-abulnoor/TestDimorph/issues
 Depends: R (>= 2.10)
-Suggests: AnthropMMD, testthat (>= 2.1.0), vdiffr
+Suggests: 
+    AnthropMMD,
+    testthat (>= 2.1.0),
+    vdiffr,
+    covr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
@@ -39,9 +43,7 @@ Imports:
   Morpho,
   multcompView,
   stats,
-  tibble,
   tidyr,
   tmvtnorm,
   truncnorm,
   utils
-

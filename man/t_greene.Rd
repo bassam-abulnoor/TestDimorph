@@ -45,7 +45,7 @@ Default: FALSE'}
 \item{CI}{confidence interval coverage takes value from 0 to 1, Default: 0.95.}
 }
 \value{
-Tibble of t.test results
+data frame of t.test results
 }
 \description{
 Calculation and visualization of the differences in degree

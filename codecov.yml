@@ -12,8 +12,3 @@ coverage:
         target: auto
         threshold: 1%
         informational: true
-<p>language: R</p>
-<p>sudo: false</p>
-<p>cache: packages</p>
-<p>after_success:</p>
-- Rscript -e 'covr::codecov()'

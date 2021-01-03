@@ -237,8 +237,8 @@ message("if p.f>0 bootstrap won't be available")
     theme(legend.title = element_blank()) +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0))+ theme(legend.position = "none")
-  IM_df <- rownames_to_column(as.data.frame(IM_df), var = "Trait")
-  IM_df <- IM_df %>% mutate(across(where(is.numeric),round,digits))
+  IM_df <- rown_col(as.data.frame(IM_df), var = "Trait")
+  IM_df <- IM_df %>% mutate(across(-1,round,digits))
   if (isTRUE(plot)) {
     list(index = as.data.frame(IM_df), plot = p)
   } else {

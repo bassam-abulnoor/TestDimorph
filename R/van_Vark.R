@@ -13,8 +13,6 @@
 #'   2
 #' @param plot Logical; if TRUE returns a graphical representation of dimorphism
 #'   differences, Default: TRUE
-#' @param reverse Logical; if TRUE returns a graphical representation of dimorphism
-#'   differences, Default: TRUE
 #' @return The output includes a two-dimensional plot that illustrate the
 #'   existing differences between tested populations and a statistical test of
 #'   significance for the difference in dimorphism using chi square
@@ -39,7 +37,6 @@
 #' @import dplyr
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom stats pchisq
-#' @importFrom tibble is_tibble rownames_to_column
 #' @importFrom utils combn
 #' @export
 van_vark <- function(x,
@@ -48,7 +45,6 @@ van_vark <- function(x,
                      Trait = 1,
                      Pop = 2,
                      plot = TRUE,
-                     reverse=FALSE,
                      lower.tail = FALSE,
                      digits = 4) {
   if (!(Trait %in% seq_along(x))) {
@@ -112,15 +108,8 @@ van_vark <- function(x,
     full_join(means, size, by = c("Trait", "Pop", "Sex")) %>%
     pivot_wider(
       names_from = Trait, values_from = .data$no
-    ) %>%
+    ) %>% mutate(Sex=factor(.data$Sex,levels = c("F","M"))) %>%
     as.data.frame()
-  if(isFALSE(reverse)){
-
-  sex_levels <- c("F", "M")
-  }else{
-    sex_levels <- c("M", "F")
-}
-  x$Sex <- factor(x$Sex, levels = sex_levels)
   p <- NCOL(x) - 3
   g <- NROW(x)
   Rank <- min(c(g - 1, p))
@@ -161,8 +150,19 @@ van_vark <- function(x,
       Sex = x$Sex,
       stringsAsFactors = FALSE
     )
-  CVs$Sex <- factor(CVs$Sex, levels = sex_levels)
+  CVs$Sex <- factor(CVs$Sex, levels = c("F", "M"))
   CVs <- arrange(CVs, Pop, Sex)
+  means <- CVs %>% select(-.data$Pop)  %>% group_by(.data$Sex) %>% summarise_all(mean)
+  if(means[means$Sex=="F","x1"]>means[means$Sex=="M","x1"]){
+
+    CVs$x1 <- CVs$x1*-1
+
+  }
+  if(q>1 && means[means$Sex=="F","x2"]>means[means$Sex=="M","x2"]){
+
+    CVs$x2 <- CVs$x2*-1
+
+  }
   pairs <- utils::combn(levels(x$Pop), 2, simplify = FALSE)
 
   names(pairs) <- lapply(pairs, paste, collapse = "-")
