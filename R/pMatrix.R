@@ -6,7 +6,7 @@
 #' pairwise comparisons. N.B: contrary to the usual corrplots where higher
 #' values indicate stronger correlation, here lower values indicate
 #' significance
-#' @details Data is entered as a tibble/data frame of summary statistics where
+#' @details Data is entered as a data frame of summary statistics where
 #' the column containing population names is chosen by position (first by
 #' default), other columns of summary data should have specific names (case
 #' sensitive) similar to [baboon.parms_df]

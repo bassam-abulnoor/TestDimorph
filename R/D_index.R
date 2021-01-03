@@ -245,8 +245,8 @@ D_index <- function(x, plot = FALSE, fill = "female", Trait = 1, B = NULL, CI = 
     theme(legend.title = element_blank()) +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(expand = c(0, 0))
-  D_df <- rownames_to_column(as.data.frame(D_df), var = "Trait") %>% mutate(
-    across(where(is.numeric),round,digits)) %>% as.data.frame()
+  D_df <- rown_col(as.data.frame(D_df), var = "Trait") %>% mutate(
+    across(-1,round,digits)) %>% as.data.frame()
   if(isTRUE(plot)){
   list(D = D_df, plot = p)
   }else{

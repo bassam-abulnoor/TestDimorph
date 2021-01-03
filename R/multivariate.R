@@ -43,7 +43,6 @@
 #' @export
 #' @importFrom stats pf
 #' @importFrom tidyr pivot_longer
-#' @importFrom tibble as_tibble is_tibble
 
 multivariate <- function(x,
                          R.res = NULL,

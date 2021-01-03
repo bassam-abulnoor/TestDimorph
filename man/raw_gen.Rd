@@ -34,14 +34,14 @@ for log normal or `truncated` for truncated distribution, Default: 'truncated'}
 
 \item{upper}{vector of upper bounds, Default: Inf}
 
-\item{format}{form of the resultant tibble either 'long' or 'wide',
+\item{format}{form of the resultant data frame either 'long' or 'wide',
 Default: 'wide'}
 
 \item{complete_cases}{Logical; if TRUE rows with missing values will be
 removed, Default: FALSE}
 }
 \value{
-tibble of raw data
+a data frame of raw data
 }
 \description{
 Generates raw data from summary statistics using
@@ -51,7 +51,7 @@ uni/multivariate log/truncated normal distribution
 If data generation is desired using multivariate distribution data
 is entered in the form of a list of summary statistics and pooled within
 correlational matrix as in \link{baboon.parms_list}, or the summary
- statistics are entered separately in the form of a data frame/tibble as in
+ statistics are entered separately in the form of a data frame as in
 \link{baboon.parms_df} with a separate correlational matrix as in
 \link{baboon.parms_R}. If data frame is entered without a correlational
 matrix, data generation is carried out using univariate distribution.

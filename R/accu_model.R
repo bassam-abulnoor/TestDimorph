@@ -38,8 +38,13 @@
 #' maximizes the sum of "sensitivity" [TP/(TP+FN)] plus "specificity" [TN/(TN+FP)]
 #' where TP is the number of males identified as males, TN is the number of
 #' females identified as females, FN is the number of males identified as
-#' females, and FP is the number of females identified as males.
+#' females, and FP is the number of females identified as males. For methods that
+#' employ prior probabilities, they are calculated based on sampling frequencies.
 #' @examples
+#' #using 2 datasets
+#' accu_model(
+#' Sex ~ GOL + NOL + BNL,
+#' x = Howells, y=Howells, plot = FALSE)
 #' # Using a single dataset
 #' library(TestDimorph)
 #' accu_model(
@@ -70,6 +75,7 @@ accu_model <-
            ref. = "F",
            post. = "M",
            ...) {
+    prob <- NULL
     if (!(is.data.frame(x))) {
       stop("x and y should be dataframes")
     }

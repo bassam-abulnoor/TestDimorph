@@ -25,7 +25,6 @@
 #' @rdname aov_ss
 #' @export
 #' @importFrom stats rnorm aov TukeyHSD
-#' @importFrom tibble rownames_to_column as_tibble
 #' @importFrom multcompView multcompLetters
 aov_ss <-
   function(x,
@@ -133,7 +132,7 @@ aov_ss <-
     M_letters <- M_post$p.value
     names(M_letters) <- M_post$populations
     M_letters <-
-      tibble::rownames_to_column(data.frame(
+      rown_col(data.frame(
         "letters" = multcompView::multcompLetters(M_letters, threshold = CI)[[1]]
       ),
       var = "populations"
@@ -167,7 +166,7 @@ aov_ss <-
     F_letters <- F_post$p.value
     names(F_letters) <- F_post$populations
     F_letters <-
-      tibble::rownames_to_column(data.frame(
+      rown_col(data.frame(
         "letters" = multcompView::multcompLetters(F_letters, threshold = CI)[[1]]
       ),
       var = "populations"

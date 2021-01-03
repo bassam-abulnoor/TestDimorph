@@ -61,7 +61,7 @@ sexual dimorphism between multiple populations using a modified one way
 ANOVA and summary statistics as input
 }
 \details{
-Data is entered as a tibble/data frame of summary statistics where
+Data is entered as a data frame of summary statistics where
 the column containing population names is chosen by position (first by
 default), other columns of summary data should have specific names (case
 sensitive) similar to \link{baboon.parms_df}

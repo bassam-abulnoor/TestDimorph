@@ -203,19 +203,17 @@ multi_raw <- function(x,
 
   if (format == "wide") {
     if (isTRUE(complete_cases)) {
-      return(as_tibble(tidyr::drop_na(X)))
+      return(tidyr::drop_na(X))
     } else {
-      return(tibble::as_tibble(X))
+      return(X)
     }
   } else {
-    tibble::as_tibble(
       pivot_longer(
         data = X,
         cols = -c("Sex", "Pop"),
         names_to = "Parms",
         values_drop_na = complete_cases
       )
-    )
   }
 }
 
@@ -316,7 +314,6 @@ cbind_fill2 <- function(...) {
 #' @param x ANOVA model
 #' @inheritParams univariate
 #' @keywords internal
-#' @importFrom tibble as_tibble
 #' @importFrom dplyr case_when
 anova_es <- function(x,
                      es_anova = es_anova,
@@ -667,7 +664,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
   m_mean <-
     x$M.mu %>%
     as.data.frame() %>%
-    rownames_to_column(var = "Pop") %>%
+    rown_col(var = "Pop") %>%
     pivot_longer(cols = 2:(ncol(as.data.frame(x$M.mu)) +
       1), names_to = "Parms", values_to = "M.mu") %>%
     mutate(Pop = factor(.data$Pop, levels = rownames(x$M.mu)), Parms = factor(
@@ -679,7 +676,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
   f_mean <-
     x$F.mu %>%
     as.data.frame() %>%
-    rownames_to_column(var = "Pop") %>%
+    rown_col(var = "Pop") %>%
     pivot_longer(
       cols = 2:(ncol(as.data.frame(x$F.mu)) + 1), names_to = "Parms",
       values_to = "F.mu"
@@ -692,7 +689,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
   Msd <-
     x$M.sdev %>%
     as.data.frame() %>%
-    rownames_to_column(var = "Pop") %>%
+    rown_col(var = "Pop") %>%
     pivot_longer(cols = 2:(ncol(as.data.frame(x$M.sdev)) + 1), names_to = "Parms", values_to = "M.sdev") %>%
     mutate(Pop = factor(.data$Pop, levels = rownames(x$M.sdev)), Parms = factor(
       .data$Parms,
@@ -702,7 +699,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
   Fsd <-
     x$F.sdev %>%
     as.data.frame() %>%
-    rownames_to_column(var = "Pop") %>%
+    rown_col(var = "Pop") %>%
     pivot_longer(cols = 2:(ncol(as.data.frame(x$F.sdev)) +
       1), names_to = "Parms", values_to = "F.sdev") %>%
     mutate(Pop = factor(.data$Pop, levels = rownames(x$F.sdev)), Parms = factor(
@@ -722,7 +719,7 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
   df <- cbind.data.frame(list_frames, m = m_dat$m, f = f_dat$f)
   if (is.data.frame(x)) {
     out <- list(
-      tibble::as_tibble(out),
+      out,
       by(
         df,
         INDICES = df$Parms,
@@ -772,4 +769,21 @@ add_sig <- function(x) {
       .data$p.value < 0.001 ~ "***"
     )) %>%
     relocate(.data$signif, .after = .data$p.value) -> x
+}
+
+# rown_col -----------------------------------------------------------------
+
+#' rown_col
+#'
+#' @param x dataframe with rownames
+#' @param var new column name
+#' @details convert rownames to column
+#' @keywords internal
+rown_col <- function(x, var) {
+  x <- as.data.frame(x)
+  rownames(x) -> var2
+  x[, var] <- var2
+  relocate(x, var, .before = 1) -> x
+  rownames(x) <- NULL
+  as.data.frame(x)
 }

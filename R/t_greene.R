@@ -18,7 +18,7 @@
 #' Default: FALSE'
 #' @param digits Number of significant digits, Default: 4
 #' @param CI confidence interval coverage takes value from 0 to 1, Default: 0.95.
-#' @return Tibble of t.test results
+#' @return data frame of t.test results
 #' @details The input is a data frame of summary statistics where the column
 #' containing population names is chosen by position (first by default), other
 #' columns of summary data should have specific names (case sensitive) similar
@@ -68,7 +68,6 @@
 #' @export
 #' @importFrom stats qt pt
 #' @importFrom utils combn
-#' @importFrom tibble as_tibble rownames_to_column
 #' @importFrom multcompView multcompLetters vec2mat
 #' @importFrom corrplot corrplot
 #' @importFrom dplyr contains
@@ -157,7 +156,7 @@ t_greene <- function(x,
       )
     })
   tg <- do.call(rbind.data.frame, tg)
-  tg <- tibble::rownames_to_column(tg, var = "populations")
+  tg <- rown_col(tg, var = "populations")
 
   # Pairwise comparisons and corrplot ---------------------------------------
 
@@ -170,8 +169,8 @@ t_greene <- function(x,
   if (isTRUE(letters)) {
     tg <-
       list(
-        "t.test" = tibble::as_tibble(tg),
-        "pairwise letters" = tibble::rownames_to_column(
+        "t.test" = tg,
+        "pairwise letters" = rown_col(
           data.frame(
             "letters" = multcompView::multcompLetters(pval,
               threshold = CI
@@ -181,7 +180,7 @@ t_greene <- function(x,
         )
       )
   } else {
-    tg <- tibble::as_tibble(tg)
+    tg <- tg
   }
   if (!is.logical(plot)) {
     stop("plot should be either TRUE or FALSE")

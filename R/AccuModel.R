@@ -27,6 +27,7 @@ AccuModel <-
            ...) {
     if (!identical(Sys.getenv("TESTTHAT"), "true"))
     .Deprecated("accu_model")
+    prob <- NULL
     if (!(is.data.frame(x))) {
       stop("x and y should be dataframes")
     }

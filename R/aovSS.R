@@ -45,7 +45,7 @@ aovSS <-
       stop("letters should be either TRUE or FALSE")
     }
     es_anova <-
-      match.arg(es_anova, choices = c("none", "eta", "omega", "f"))
+      match.arg(es_anova, choices = c("none", "eta", "f"))
     if (CI < 0 ||
         CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")
@@ -116,7 +116,7 @@ aovSS <-
     M_letters <- M_post$p.value
     names(M_letters) <- M_post$populations
     M_letters <-
-      tibble::rownames_to_column(data.frame(
+      rown_col(data.frame(
         "letters" = multcompView::multcompLetters(M_letters, threshold = CI)[[1]]
       ),
       var = "populations"
@@ -150,7 +150,7 @@ aovSS <-
     F_letters <- F_post$p.value
     names(F_letters) <- F_post$populations
     F_letters <-
-      tibble::rownames_to_column(data.frame(
+      rown_col(data.frame(
         "letters" = multcompView::multcompLetters(F_letters, threshold = CI)[[1]]
       ),
       var = "populations"

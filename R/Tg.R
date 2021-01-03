@@ -92,7 +92,7 @@ Tg <- function(x = NULL,
       )
     })
   tg <- do.call(rbind.data.frame, tg)
-  tg <- tibble::rownames_to_column(tg, var = "populations")
+  tg <- rown_col(tg, var = "populations")
 
   # Pairwise comparisons and corrplot ---------------------------------------
 
@@ -105,8 +105,8 @@ Tg <- function(x = NULL,
   if (isTRUE(letters)) {
     tg <-
       list(
-        "t.test" = tibble::as_tibble(tg),
-        "pairwise letters" = tibble::rownames_to_column(
+        "t.test" = tg,
+        "pairwise letters" = rown_col(
           data.frame(
             "letters" = multcompView::multcompLetters(pval,
                                                       threshold = CI
@@ -116,7 +116,7 @@ Tg <- function(x = NULL,
         )
       )
   } else {
-    tg <- tibble::as_tibble(tg)
+    tg <- tg
   }
   if (!is.logical(plot)) {
     stop("plot should be either TRUE or FALSE")

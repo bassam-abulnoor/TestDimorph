@@ -6,15 +6,15 @@
 #' for log normal or `truncated` for truncated distribution, Default: 'truncated'
 #' @param lower vector of lower bounds, Default: -Inf
 #' @param upper vector of upper bounds, Default: Inf
-#' @param format form of the resultant tibble either 'long' or 'wide',
+#' @param format form of the resultant data frame either 'long' or 'wide',
 #' Default: 'wide'
 #' @param complete_cases Logical; if TRUE rows with missing values will be
 #' removed, Default: FALSE
-#' @return tibble of raw data
+#' @return a data frame of raw data
 #' @details If data generation is desired using multivariate distribution data
 #' is entered in the form of a list of summary statistics and pooled within
 #' correlational matrix as in \link{baboon.parms_list}, or the summary
-#'  statistics are entered separately in the form of a data frame/tibble as in
+#'  statistics are entered separately in the form of a data frame as in
 #' \link{baboon.parms_df} with a separate correlational matrix as in
 #' \link{baboon.parms_R}. If data frame is entered without a correlational
 #' matrix, data generation is carried out using univariate distribution.
@@ -32,7 +32,6 @@
 #' @rdname raw_gen
 #' @export
 #' @importFrom truncnorm rtruncnorm
-#' @importFrom tibble as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom tmvtnorm rtmvnorm
 #' @importFrom stats rlnorm
@@ -164,7 +163,7 @@ raw_gen <- function(x,
 
       # Joining both datasets ---------------------------------------------------
 
-      wide <- tibble::as_tibble(rbind.data.frame(male, female))
+      wide <- rbind.data.frame(male, female)
       if (format == "wide") {
         if (isTRUE(complete_cases)) {
           return(tidyr::drop_na(wide))
@@ -174,14 +173,12 @@ raw_gen <- function(x,
       }
       if (format == "long") {
         long <-
-          tibble::as_tibble(
             pivot_longer(
               data = wide,
               cols = -c("Sex", "Pop"),
               names_to = "Trait",
               values_drop_na = complete_cases
             )
-          )
 
         return(long)
       }
