@@ -17,7 +17,7 @@
 #' data frame format for the baboon.parms_df for multivariate analysis
 #'
 #'
-#'@description  A dataset containing summary statistics for low density lipoprotein (LDL) and
+#' @description  A dataset containing summary statistics for low density lipoprotein (LDL) and
 #' apolipoprotein B (apo B) levels in 604 baboons measured on two different diets:
 #' a basal diet basal' and a high cholesterol, saturated fat diet (HCSF). The
 #' baboons were classified into one of three subspecies (Papio hamadryas
@@ -56,8 +56,7 @@
 #' A subset of a dataset that consists of 82 craniometric measurements taken
 #' from approximately two thousands and half human crania from 28
 #' geographically diverse populations. The full data set can be found in
-#' \url{https://rdrr.io/github/geanes/bioanth/man/howell.html} and
-#' \url{https://web.utk.edu/~auerbach/HOWL.htm}
+#' \url{https://rdrr.io/github/geanes/bioanth/man/howell.html}
 #'
 #' @format A data frame with 441 rows and 10 variables:
 #'  \describe{
@@ -82,9 +81,9 @@
 #' Measurements. Papers of the Peabody Museum of Archaeology and Ethnology,
 #' vol. 82, pp. 108. Cambridge, Mass.: Peabody Museum.
 #'
-#'Howells, W. W. (1973). Cranial Variation in Man: A Study by Multivariate
-#'Analysis of Patterns of Difference Among Recent Human Populations (Vol. 67).
-#'Cambridge, MA: Peabody Museum of Archaeology and Ethnology.
+#' Howells, W. W. (1973). Cranial Variation in Man: A Study by Multivariate
+#' Analysis of Patterns of Difference Among Recent Human Populations (Vol. 67).
+#' Cambridge, MA: Peabody Museum of Archaeology and Ethnology.
 "Howells"
 
 #' Summary of the Howells' craniometric data
@@ -139,7 +138,6 @@
 #' Australia
 #'
 #' Raw data from Joseph Birdsell's 1938 survey of Australian Aborigines
-#' (available from \url{http://www.peterbrown-palaeoanthropology.net/resource.html})
 #'  The data is from two regions (B1 and B19), see Gilligan and Bulbeck (2007)
 #'  for a map of the regions.
 #'
@@ -160,7 +158,7 @@
 #' @references
 #'
 #' Gilligan, I., & Bulbeck, D. (2007). Environment and morphology in Australian
-#' Aborigines: A re‐analysis of the Birdsell database. American Journal of Physical
+#' Aborigines: A re<U+2010>analysis of the Birdsell database. American Journal of Physical
 #' Anthropology, 134(1), 75-91.
 #'
 "Australia"

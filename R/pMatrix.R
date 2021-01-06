@@ -29,8 +29,9 @@ pMatrix <- function(x,
                     digits = 4,
                     alternative = c("two.sided", "less", "greater"),
                     ...) {
-  if (!identical(Sys.getenv("TESTTHAT"), "true"))
-  .Deprecated("t_greene")
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    .Deprecated("t_greene")
+  }
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
   }
@@ -104,7 +105,7 @@ pMatrix <- function(x,
       corr = mat,
       p.mat = mat,
       is.corr = FALSE,
-      sig.level = 1-CI,
+      sig.level = 1 - CI,
       ...
     )
   } else {

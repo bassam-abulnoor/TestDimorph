@@ -1,7 +1,9 @@
 test_that("raw_gen", {
-
-  testthat::expect_true(ncol(Cremains_measurements %>% mutate(Pop=rep("A",nrow(.)))  %>% raw_gen(Pop =
-                    ncol(.)))==23)
+  library(TestDimorph)
+  testthat::expect_true(ncol(Cremains_measurements %>% mutate(Pop = rep("A", nrow(.))) %>% raw_gen(
+    Pop =
+      ncol(.)
+  )) == 23)
   # univariate log distribution
   set.seed(123)
   testthat::expect_true(round(raw_gen(baboon.parms_df, dist = "log")[1, 6][[1]], 2) == 70.93)

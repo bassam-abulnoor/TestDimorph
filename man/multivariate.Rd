@@ -83,7 +83,7 @@ multivariate(baboon.parms_df, R.res = baboon.parms_R)
 # x is a list with the correlational matrix included
 library(TestDimorph)
 multivariate(baboon.parms_list, univariate = TRUE, padjust = "bonferroni")
-#reproduces results from Konigsberg (1991)
-multivariate(baboon.parms_df, R.res = baboon.parms_R)[3,]
-multivariate(baboon.parms_df, R.res = baboon.parms_R,interact_manova=FALSE)
+# reproduces results from Konigsberg (1991)
+multivariate(baboon.parms_df, R.res = baboon.parms_R)[3, ]
+multivariate(baboon.parms_df, R.res = baboon.parms_R, interact_manova = FALSE)
 }

@@ -24,13 +24,12 @@ Australia
 }
 \description{
 Raw data from Joseph Birdsell's 1938 survey of Australian Aborigines
-(available from \url{http://www.peterbrown-palaeoanthropology.net/resource.html})
  The data is from two regions (B1 and B19), see Gilligan and Bulbeck (2007)
  for a map of the regions.
 }
 \references{
 Gilligan, I., & Bulbeck, D. (2007). Environment and morphology in Australian
-Aborigines: A re‐analysis of the Birdsell database. American Journal of Physical
+Aborigines: A re<U+2010>analysis of the Birdsell database. American Journal of Physical
 Anthropology, 134(1), 75-91.
 }
 \keyword{datasets}

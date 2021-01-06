@@ -56,7 +56,7 @@ anova_main_I <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 2)
   prob <- rep(NA, 2)
   for (i in 1:2) {
-    prob[i] <- pf(F[i], Df[i], Df[3],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[3], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[3])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[3])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[3])
@@ -64,10 +64,12 @@ anova_main_I <- function(x, es_aov, digits, CI, lower.tail) {
   F <- c(round(F, digits), NA)
   prob <- round(prob, digits)
   prob[3] <- NA
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
   for (i in 1:2) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
-    df2 = Df[3],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
+      df2 = Df[3], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -108,7 +110,7 @@ anova_main_I <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 2)
   prob <- rep(NA, 2)
   for (i in 1:2) {
-    prob[i] <- pf(F[i], Df[i], Df[3],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[3], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[3])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[3])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[3])
@@ -116,12 +118,14 @@ anova_main_I <- function(x, es_aov, digits, CI, lower.tail) {
   F <- c(round(F, digits), NA)
   prob <- round(prob, digits)
   prob[3] <- NA
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
 
 
   for (i in 1:2) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
-    df2 = Df[3],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
+      df2 = Df[3], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -197,7 +201,7 @@ anova_main_II <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 2)
   prob <- rep(NA, 2)
   for (i in 1:2) {
-    prob[i] <- pf(F[i], Df[i], Df[3],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[3], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[3])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[3])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[3])
@@ -205,10 +209,12 @@ anova_main_II <- function(x, es_aov, digits, CI, lower.tail) {
   F <- c(round(F, digits), NA)
   prob <- round(prob, digits)
   prob[3] <- NA
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
   for (i in 1:2) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
-      df2 = Df[3],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
+      df2 = Df[3], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -286,7 +292,7 @@ anova_I <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 3)
   prob <- rep(NA, 3)
   for (i in 1:3) {
-    prob[i] <-  pf(F[i], Df[i], Df[4],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[4], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[4])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[4])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[4])
@@ -295,12 +301,14 @@ anova_I <- function(x, es_aov, digits, CI, lower.tail) {
   prob <- round(prob, digits)
   prob[4] <- NA
 
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
 
 
   for (i in 1:3) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
-            df2 = Df[4],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
+      df2 = Df[4], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -343,7 +351,7 @@ anova_I <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 3)
   prob <- rep(NA, 3)
   for (i in 1:3) {
-    prob[i] <-  pf(F[i], Df[i], Df[4],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[4], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[4])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[4])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[4])
@@ -352,12 +360,14 @@ anova_I <- function(x, es_aov, digits, CI, lower.tail) {
   prob <- round(prob, digits)
   prob[4] <- NA
 
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
 
 
   for (i in 1:3) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
-    df2 = Df[4],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i], df1 = Df[i],
+      df2 = Df[4], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -437,7 +447,7 @@ anova_II <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 3)
   prob <- rep(NA, 3)
   for (i in 1:3) {
-    prob[i] <-  pf(F[i], Df[i], Df[4],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[4], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[4])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[4])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[4])
@@ -446,12 +456,14 @@ anova_II <- function(x, es_aov, digits, CI, lower.tail) {
   prob <- round(prob, digits)
   prob[4] <- NA
 
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
 
 
   for (i in 1:3) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i],
-    df1 = Df[i], df2 = Df[4],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i],
+      df1 = Df[i], df2 = Df[4], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }
@@ -573,7 +585,7 @@ anova_III <- function(x, es_aov, digits, CI, lower.tail) {
   cohen_f <- rep(NA, 3)
   prob <- rep(NA, 3)
   for (i in 1:3) {
-    prob[i] <-  pf(F[i], Df[i], Df[4],lower.tail = lower.tail)
+    prob[i] <- pf(F[i], Df[i], Df[4], lower.tail = lower.tail)
     eta[i] <- SS[i] / (SS[i] + SS[4])
     cohen_f[i] <- (eta[i]) / (1 - eta[i])
     omega[i] <- (Df[i] * (MSQ[i] - MSQ[4])) / ((Df[i] * MSQ[i]) + (N - Df[i]) * MSQ[4])
@@ -582,12 +594,14 @@ anova_III <- function(x, es_aov, digits, CI, lower.tail) {
   prob <- round(prob, digits)
   prob[4] <- NA
 
-  eff <- switch(es_aov, f = cohen_f, eta = eta,  none = eta)
+  eff <- switch(es_aov, f = cohen_f, eta = eta, none = eta)
 
 
   for (i in 1:3) {
-    eff_all[i, ] <- as.matrix(eff_CI(f = F[i], CI = CI, eff = eff[i],
-    df1 = Df[i], df2 = Df[4],es_type = es_aov))
+    eff_all[i, ] <- as.matrix(eff_CI(
+      f = F[i], CI = CI, eff = eff[i],
+      df1 = Df[i], df2 = Df[4], es_type = es_aov
+    ))
     lower [i] <- eff_all[i, 2]
     upper [i] <- eff_all[i, 3]
   }

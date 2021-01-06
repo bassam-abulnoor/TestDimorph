@@ -43,7 +43,7 @@
 #' @export
 
 MI_index <- function(x, plot = FALSE, Trait = 1, B = NULL, CI = 0.95,
-                     p.f = 0, index_type = "MI", rand = TRUE,digits=4) {
+                     p.f = 0, index_type = "MI", rand = TRUE, digits = 4) {
   index_type <- match.arg(index_type, choices = c("MI", "NI"))
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
@@ -91,13 +91,14 @@ MI_index <- function(x, plot = FALSE, Trait = 1, B = NULL, CI = 0.95,
   if (isFALSE(rand)) {
     set.seed(42)
   }
-  if(p.f > 0){
-message("if p.f>0 bootstrap won't be available")
+  if (p.f > 0) {
+    message("if p.f>0 bootstrap won't be available")
     B <- NULL
-
   }
-  x <-x %>% drop_na() %>% as.data.frame()
-  x$Trait <- x[,Trait]
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
+  x$Trait <- x[, Trait]
   x$Trait <- factor(x$Trait, levels = x$Trait)
   x$Trait <- droplevels(x$Trait)
   m <- x$m
@@ -140,8 +141,10 @@ message("if p.f>0 bootstrap won't be available")
     dn_male <- p.m * dnorm(z, as.numeric(na.omit(M.mu)), as.numeric(na.omit(
       M.sdev
     ))) %>% as.data.frame()
-    dn_overlap=vector(mode = "numeric",length = length(z))
-    for(k in 1:length(z)) {dn_overlap[k]=ID(z[k])}
+    dn_overlap <- vector(mode = "numeric", length = length(z))
+    for (k in 1:length(z)) {
+      dn_overlap[k] <- ID(z[k])
+    }
     dn_overlap <- cbind.data.frame(z = z, dn = dn_overlap, sex = rep("MI", length(dn_overlap)))
     dn_male <- cbind.data.frame(z = z, dn = dn_male, sex = rep("M", nrow(dn_male)))
     dn_female <- p.f * dnorm(z, as.numeric(na.omit(F.mu)), as.numeric(na.omit(
@@ -149,7 +152,7 @@ message("if p.f>0 bootstrap won't be available")
     ))) %>% as.data.frame()
     dn_female <- cbind.data.frame(z = z, dn = dn_female, sex = rep("F", nrow(dn_female)))
     names(dn_overlap) <- names(dn_male)
-    df <- rbind.data.frame(dn_male, dn_female,dn_overlap)
+    df <- rbind.data.frame(dn_male, dn_female, dn_overlap)
     names(df) <- c("z", "dn", "sex")
     df <- cbind.data.frame(trait = trait, df)
     if (!is.null(CI) && !is.null(B)) {
@@ -207,11 +210,11 @@ message("if p.f>0 bootstrap won't be available")
   df <- lapply(all_list, function(x) x[[2]])
   df <- do.call(rbind.data.frame, df)
   IM_df <- do.call(rbind, IM_list)
-  fill_list <-  list(
-      col = c("white", "white","dark grey"),
-      col2 = c("pink1", "light blue","dark grey"),
-      sex_levels = c("F", "M","MI")
-    )
+  fill_list <- list(
+    col = c("white", "white", "dark grey"),
+    col2 = c("pink1", "light blue", "dark grey"),
+    sex_levels = c("F", "M", "MI")
+  )
   col <- fill_list$col
   col2 <- fill_list$col2
   df$sex <- factor(df$sex, levels = fill_list$sex_levels)
@@ -227,7 +230,7 @@ message("if p.f>0 bootstrap won't be available")
     geom_polygon(aes(
       fill =
         .data$sex
-    ),size=1) +
+    ), size = 1) +
     scale +
     scale2 +
     geom_density(stat = "identity") +
@@ -236,9 +239,10 @@ message("if p.f>0 bootstrap won't be available")
     xlab("x") +
     theme(legend.title = element_blank()) +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous(expand = c(0, 0))+ theme(legend.position = "none")
+    scale_y_continuous(expand = c(0, 0)) +
+    theme(legend.position = "none")
   IM_df <- rown_col(as.data.frame(IM_df), var = "Trait")
-  IM_df <- IM_df %>% mutate(across(-1,round,digits))
+  IM_df <- IM_df %>% mutate(across(-1, round, digits))
   if (isTRUE(plot)) {
     list(index = as.data.frame(IM_df), plot = p)
   } else {
