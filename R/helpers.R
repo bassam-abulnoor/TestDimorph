@@ -480,7 +480,6 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 #' @description Pooled covariance matrix
 #' @param x A matrix with continuous data
 #' @param ina A numerical vector indicating the groups
-#' @importFrom Morpho covW
 #' @keywords internal
 pooled_cov <- function(x, ina) {
   x <- as.matrix(x)
