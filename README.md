@@ -3,7 +3,10 @@
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/TestDimorph)](https://cran.r-project.org/package=TestDimorph)
+<<<<<<< HEAD
 [![Travis build status](https://travis-ci.com/bassam-abulnoor/TestDimorph.svg?branch=master)](https://travis-ci.com/bassam-abulnoor/TestDimorph)
+=======
+>>>>>>> new5
 <!-- badges: end -->
 
 Analysis Of The Interpopulation Difference In Degree of Sexual Dimorphism Using Summary Statistics

@@ -1,78 +1,20 @@
-#' @title Evaluation Of Sex prediction Accuracy
-#' @description Testing, cross validation and visualization of the accuracy of
-#' different sex prediction models using the \link[caret]{confusionMatrix}
-#' and roc curves.
-#' @param f Formula in the form `groups ~ x1 + x2 + ...`. The grouping factor
-#' is placed to the left hand side while the numerical measurements are placed
-#' to the right hand side
-#' @param x Data frame to be fitted to the model
-#' @param y New data frame to be tested, if `NULL` `x` is split to test and
-#' training datasets, Default: NULL
-#' @param method A string specifying which classification or regression model
-#' to use. For list of supported methods see \link{models}.
-#' @param res_method 	The resampling method: "boot", "boot632", "optimism_boot",
-#' "boot_all", "cv", "repeatedcv", "LOOCV", "LGOCV" (for repeated training/test
-#' splits), "none" (only fits one model to the entire training set), timeslice,
-#'  "adaptive_cv", "adaptive_boot" or "adaptive_LGOCV", Default: 'repeatedcv'
-#' @param p Percentage of `x` for testing the model in case `y` is NULL,
-#' Default: 0.75
-#' @param nf number of folds or of resampling iterations, Default: 10
-#' @param nr Number of repeats for repeated k fold cross validation, Default:
-#' 3
-#' @param plot Logical; if TRUE returns an roc curve for model accuracy,
-#' Default:
-#'  FALSE
-#' @param Pop Number of the column containing populations' names, Default:
-#' NULL
-#' @inheritParams extract_sum
-#' @param byPop Logical; if TRUE returns the accuracy in different populations
-#' of the new data frame, Default: FALSE.
-#' @param ref. reference category in the grouping factor, Default: 'F'
-#' @param post. positive category in the grouping factor, Default: 'M'
-#' @param ... additional arguments that can passed to modeling,
-#' \link[caret]{confusionMatrix} function and roc curve generated
-#' by \link[cutpointr]{plot_roc}.
-#' @return Visual and numerical accuracy parameters for the tested model
-#' @details Data frames to be entered as input need to be arranged in a
-#' similar manner to [Howells] dataset. The "cut point" is found such that it
-#' maximizes the sum of "sensitivity" [TP/(TP+FN)] plus "specificity" [TN/(TN+FP)]
-#' where TP is the number of males identified as males, TN is the number of
-#' females identified as females, FN is the number of males identified as
-#' females, and FP is the number of females identified as males. For methods that
-#' employ prior probabilities, they are calculated based on sampling frequencies.
-#' @examples
-<<<<<<< HEAD
-#' # using 2 datasets
-=======
-#' \dontrun{
-#' if(!require("e1071")) install.packages("e1071")
-#' library ("e1071")
-#' library(TestDimorph)
->>>>>>> new5
-#' accu_model(
-#'   Sex ~ GOL + NOL + BNL,
-#'   x = Howells, y = Howells, plot = FALSE
-#' )
-#' # Using a single dataset
-#' accu_model(
-#'   Sex ~ GOL + NOL + BNL,
-#'   x = Howells,
-#'   method = "lda",
-#'   plot = FALSE
-#' )
-#' }
+#' @title AccuModel
+#' @seealso
+#'  [TestDimorph-deprecated()]
+#' @name AccuModel-deprecated
+#' @keywords internal
+NULL
+#' @rdname TestDimorph-deprecated
+#' @section `AccuModel`:
+#' For `AccuModel`, use [accu_model()].
 #' @export
-#' @import dplyr
-#' @import ggplot2
-#' @importFrom stats relevel predict
-#' @importFrom cutpointr plot_roc cutpointr maximize_metric sum_sens_spec
-#' @importFrom caret confusionMatrix trainControl train
-accu_model <-
+AccuModel <-
   function(f,
            x,
            y = NULL,
            method = "lda",
            res_method = "repeatedcv",
+           prior = NULL,
            p = 0.75,
            nf = 10,
            nr = 3,
@@ -83,6 +25,9 @@ accu_model <-
            ref. = "F",
            post. = "M",
            ...) {
+    if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+      .Deprecated("accu_model")
+    }
     prob <- NULL
     if (!(is.data.frame(x))) {
       stop("x and y should be dataframes")

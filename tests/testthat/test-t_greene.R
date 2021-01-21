@@ -70,22 +70,6 @@ test_that("t_greene", {
       F.sdev = c(5.35, 5.31)
     ))[[7]] == 0.0044
   )
-  expect_doppelganger <- function(title, fig, path = NULL, ...) {
-    testthat::skip_if_not_installed("vdiffr")
-    vdiffr::expect_doppelganger(title, fig, path = path, ...)
-  }
-  expect_doppelganger(
-    title = "t_greene",
-    fig = t_greene(data.frame(
-      Pop = c("Ireland", "Colombia"),
-      m = c(347, 317),
-      M.mu = c(172.9, 163.3),
-      M.sdev = c(6.34, 6.11),
-      f = c(261, 317),
-      F.mu = c(159, 151.3),
-      F.sdev = c(5.35, 5.31)
-    ), plot = T)
-  )
   testthat::expect_error(
     t_greene(
       baboon.parms_list

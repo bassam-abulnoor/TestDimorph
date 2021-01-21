@@ -1,5 +1,8 @@
 test_that("raw_gen", {
+<<<<<<< HEAD
   library(TestDimorph)
+=======
+>>>>>>> new5
   testthat::expect_true(ncol(Cremains_measurements %>% mutate(Pop = rep("A", nrow(.))) %>% raw_gen(
     Pop =
       ncol(.)
