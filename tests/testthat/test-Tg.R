@@ -1,4 +1,5 @@
 test_that("Tg", {
+  library(TestDimorph)
   testthat::expect_true(
     Tg(
       baboon.parms_df[1:3, ],
@@ -50,10 +51,10 @@ test_that("Tg", {
       0.1707
   )
   testthat::expect_true(
-    Tg(baboon.parms_df[1:3, ], Pop = 2, es = "cohen_d")[9][[1]][1] == 0.0824
+    Tg(baboon.parms_df[1:3, ], Pop = 2, es = "d")[9][[1]][1] == 0.0824
   )
   testthat::expect_true(
-    Tg(baboon.parms_df[1:3, ], Pop = 2, es = "hedge_g")[9][[1]][1] == 0.0823
+    Tg(baboon.parms_df[1:3, ], Pop = 2, es = "g")[9][[1]][1] == 0.0823
   )
   testthat::expect_error(
     Tg(baboon.parms_df[1:3, ], Pop = 2, es = "qq")[9][[1]][1] == 0.0181

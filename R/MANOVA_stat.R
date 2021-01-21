@@ -18,7 +18,7 @@ Wilks <- function(p, H, E, v.h, v.e, CI, lower.tail) {
     df1 <- p
     df2 <- t - p
     R <- (1 - Lamb) / Lamb * (df2 / df1)
-    prob <-  pf(R, df1, df2,lower.tail = lower.tail)
+    prob <- pf(R, df1, df2, lower.tail = lower.tail)
     eta <- 1 - Lamb^(1 / r)
     eff <- eff_CI(
       f = R,
@@ -39,7 +39,7 @@ Wilks <- function(p, H, E, v.h, v.e, CI, lower.tail) {
     R <- (1 - sqrt.L) / sqrt.L * ((v.e - p + 1) / p)
     df1 <- 2 * p
     df2 <- 2 * (t - p - 1)
-    prob <-  pf(R, df1, df2,lower.tail = lower.tail)
+    prob <- pf(R, df1, df2, lower.tail = lower.tail)
     eta <- 1 - Lamb^(1 / r)
     eff <- eff_CI(
       f = R,
@@ -61,7 +61,7 @@ Wilks <- function(p, H, E, v.h, v.e, CI, lower.tail) {
     R <- (1 - sqrt.L) / sqrt.L * ((t - q - 1) / q)
     df1 <- 2 * q
     df2 <- 2 * (t - q - 1)
-    prob <-  pf(R, df1, df2,lower.tail = lower.tail)
+    prob <- pf(R, df1, df2, lower.tail = lower.tail)
     eta <- 1 - Lamb^(1 / r)
     eff <- eff_CI(
       f = R,
@@ -85,7 +85,7 @@ Wilks <- function(p, H, E, v.h, v.e, CI, lower.tail) {
 
   Lamb.s <- Lamb^(1 / s)
   R <- (1 - Lamb.s) / Lamb.s * (df2 / df1)
-  prob <-  pf(R, df1, df2,lower.tail = lower.tail)
+  prob <- pf(R, df1, df2, lower.tail = lower.tail)
   eta <- 1 - Lamb^(1 / r)
   eff <- eff_CI(
     f = R,
@@ -123,7 +123,7 @@ Pillai <- function(p, H, E, v.h, v.e, CI, lower.tail) {
 
   df1 <- s * (2 * m + s + 1)
   df2 <- s * (2 * n + s + 1)
-  prob <-  pf(F, df1, df2,lower.tail = lower.tail)
+  prob <- pf(F, df1, df2, lower.tail = lower.tail)
   eta <- Vs / s
   eff <- eff_CI(
     f = F,
@@ -167,7 +167,7 @@ HL <- function(p, H, E, v.h, v.e, CI, lower.tail) {
   df1 <- b * r
   df2 <- r * (df.e - p - 1) + 2
   F <- (r * (df.e - p - 1) + 2) / (r^2 * b) * T
-  prob <-  pf(F, df1, df2,lower.tail = lower.tail)
+  prob <- pf(F, df1, df2, lower.tail = lower.tail)
   eta <- (T / r) / (T / r + 1)
   eff <- eff_CI(
     f = F,
@@ -205,7 +205,7 @@ Roy <- function(p, H, E, v.h, v.e, CI, lower.tail) {
   df1 <- v1
   df2 <- v2
   F <- df2 / df1 * R
-  prob <-  pf(F, df1, df2,lower.tail = lower.tail)
+  prob <- pf(F, df1, df2, lower.tail = lower.tail)
   eta <- R / (R + 1)
   eff <- eff_CI(
     f = F,

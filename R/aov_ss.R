@@ -109,9 +109,9 @@ aov_ss <-
       )
     rownames(M_post) -> populations
     rownames(M_post) <- NULL
-    M_post <- apply(M_post,2,round,digits) %>% as.data.frame()
+    M_post <- apply(M_post, 2, round, digits) %>% as.data.frame()
     M_post$populations <- populations
-    M_post <- relocate(M_post,populations,.before=1)
+    M_post <- relocate(M_post, populations, .before = 1)
     colnames(M_post) <-
       c(
         "populations",
@@ -139,13 +139,13 @@ aov_ss <-
       )
     F_post <-
       data.frame(
-        TukeyHSD(av_F, conf.level =  CI)[[1]]
+        TukeyHSD(av_F, conf.level = CI)[[1]]
       )
     rownames(F_post) -> populations
     rownames(F_post) <- NULL
-    F_post <- apply(F_post,2,round,digits) %>%  as.data.frame()
+    F_post <- apply(F_post, 2, round, digits) %>% as.data.frame()
     F_post$populations <- populations
-    F_post <- relocate(F_post,populations,.before=1)
+    F_post <- relocate(F_post, populations, .before = 1)
     colnames(F_post) <-
       c(
         "populations",

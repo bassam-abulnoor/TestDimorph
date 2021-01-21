@@ -1,4 +1,5 @@
 test_that("pMatrix", {
+  library(TestDimorph)
   testthat::expect_true(suppressWarnings(pMatrix(extract_sum(
     Howells,
     test = 1, run = FALSE
