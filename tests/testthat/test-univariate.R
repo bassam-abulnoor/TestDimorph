@@ -1,4 +1,5 @@
 test_that("univariate", {
+  library(TestDimorph)
   testthat::expect_true(univariate(baboon.parms_df[1:3, ], Pop = 2)$p.value[3] ==
     0.6498)
   testthat::expect_true(univariate(baboon.parms_df[1:3, ],

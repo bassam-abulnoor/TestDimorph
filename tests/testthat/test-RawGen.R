@@ -1,4 +1,5 @@
 test_that("RawGen", {
+  library(TestDimorph)
   # univariate log distribution
   set.seed(123)
   testthat::expect_true(suppressWarnings(round(RawGen(baboon.parms_df,

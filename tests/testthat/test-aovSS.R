@@ -1,4 +1,5 @@
 test_that("aovSS", {
+  library(TestDimorph)
   testthat::expect_true(round(
     aovSS(
       baboon.parms_df[1:3, ],
