@@ -26,8 +26,7 @@ Howells
 A subset of a dataset that consists of 82 craniometric measurements taken
 from approximately two thousands and half human crania from 28
 geographically diverse populations. The full data set can be found in
-\url{https://rdrr.io/github/geanes/bioanth/man/howell.html} and
-\url{https://web.utk.edu/~auerbach/HOWL.htm}
+\url{https://rdrr.io/github/geanes/bioanth/man/howell.html}
 }
 \references{
 Howells WW. (1989). Skull Shapes and the Map. Craniometric Analyses in the

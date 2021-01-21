@@ -57,15 +57,15 @@ Input is a data frame of means and sample sizes similar to
 \examples{
 library(TestDimorph)
 # selecting means and sample sizes
-van_vark_data <- Howells_summary[which(!endsWith(
+van_vark_data <- Howells_summary[!endsWith(
   x = names(Howells_summary),
   suffix = "dev"
-))]
-van_vark(van_vark_data, Howells_V)
+)]
+# running the function
 van_vark(van_vark_data, Howells_V)
 }
 \references{
-Van Vark, G. N., et al. (1989). Van Vark, G. N., et al. "Some
+van Vark, G. N., et al. (1989). van Vark, G. N., et al. "Some
 multivariate tests for differences in sexual dimorphism between human
 populations." Annals of human biology 16.4: 301-310.
 }

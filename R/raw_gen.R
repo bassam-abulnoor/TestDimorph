@@ -173,12 +173,12 @@ raw_gen <- function(x,
       }
       if (format == "long") {
         long <-
-            pivot_longer(
-              data = wide,
-              cols = -c("Sex", "Pop"),
-              names_to = "Trait",
-              values_drop_na = complete_cases
-            )
+          pivot_longer(
+            data = wide,
+            cols = -c("Sex", "Pop"),
+            names_to = "Trait",
+            values_drop_na = complete_cases
+          )
 
         return(long)
       }

@@ -47,9 +47,9 @@ t_test <-
       CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")
     }
-    CI <- 1-CI
+    CI <- 1 - CI
     es <-
-      match.arg(es, choices = c("none", "cohen_d", "hedge_g"))
+      match.arg(es, choices = c("none", "d", "g"))
     alternative <-
       match.arg(alternative, choices = c("two.sided", "less", "greater"))
     padjust <-
@@ -68,7 +68,7 @@ t_test <-
     j <- 1 - (3 / (4 * df - 1))
     g <- j * d
     var_g <- j^2 * var_d
-    if (es == "cohen_d") {
+    if (es == "d") {
       eff <- d
       var_eff <- var_d
     } else {
@@ -208,12 +208,12 @@ multi_raw <- function(x,
       return(X)
     }
   } else {
-      pivot_longer(
-        data = X,
-        cols = -c("Sex", "Pop"),
-        names_to = "Parms",
-        values_drop_na = complete_cases
-      )
+    pivot_longer(
+      data = X,
+      cols = -c("Sex", "Pop"),
+      names_to = "Parms",
+      values_drop_na = complete_cases
+    )
   }
 }
 
@@ -338,7 +338,7 @@ anova_es <- function(x,
   df <- summary(x)[[1]][, 1]
   N <- sum(df)
   ms <- summary(x)[[1]][, 3]
-  eta <- f*df[1]/(f*df[1]+df[2])
+  eta <- f * df[1] / (f * df[1] + df[2])
   omega <- (ssi - (df1 * within)) / (ssi + sse + within)
   cohen_squared <- (eta) / (1 - eta)
   if (es_anova != "none") {
@@ -353,8 +353,7 @@ anova_es <- function(x,
         eff = eff,
         df1 = df1,
         df2 = df2,
-        es_type =es_anova
-
+        es_type = es_anova
       )
     lower_eff <- eff[[2]]
     upper_eff <- eff[[3]]
@@ -480,12 +479,11 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 #' @description Pooled covariance matrix
 #' @param x A matrix with continuous data
 #' @param ina A numerical vector indicating the groups
+#' @importFrom Morpho covW
 #' @keywords internal
-  pooled_cov <- function(x, ina) {
-    Morpho::covW(x,as.factor(ina))
-  }
-
-
+pooled_cov <- function(x, ina) {
+  Morpho::covW(x, as.factor(ina))
+}
 # Confidence interval for anova and manova effect sizes -------------------
 #' eff_CI
 #' @description Confidence intervals for ANOVA and MANOVA effect sizes
@@ -499,76 +497,78 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 #' @param N sum of df
 #' @param es_type type of effect size
 #' @keywords internal
-eff_CI <- function(f, CI, eff, df1, df2,es_type = "eta") {
-  get_NCP<-function (F, df.1, df.2, CI)
-  {
+eff_CI <- function(f, CI, eff, df1, df2, es_type = "eta") {
+  get_NCP <- function(F, df.1, df.2, CI) {
     # From the FORTRAN code in:
     # Guirguis, G. H. (1990). A note on computing the noncentrality
     # parameter of the noncentral F-distribution.
     # Communications in Statistics-Simulation and Computation, 19(4), 1497-1511.
 
     #### ANORM function  #########
-    ANORM=function (X,DFN,DFD,FL,QUANT)
-    {
-      A = DFN+FL
-      B = 0.22222*(1+FL/A)/A
-      A = exp(log(X*DFN/A)/3)
-      anorm = (A*(1-0.22222/DFD)-(1-B))/sqrt(B+0.22222/DFD*A^2)-QUANT
+    ANORM <- function(X, DFN, DFD, FL, QUANT) {
+      A <- DFN + FL
+      B <- 0.22222 * (1 + FL / A) / A
+      A <- exp(log(X * DFN / A) / 3)
+      anorm <- (A * (1 - 0.22222 / DFD) - (1 - B)) / sqrt(B + 0.22222 / DFD * A^2) - QUANT
       return(anorm)
     }
 
     ### GUESS function #########
-    GUESS = function (X=20,DFN=2,DFD=2,FX=0.01)
-    {
-      ACC=0.01
-      N=50
-      QUANT=qnorm(FX)
-      FA = pf(X,DFN,DFD)
-      if(FA-FX<=0) return(0)
+    GUESS <- function(X = 20, DFN = 2, DFD = 2, FX = 0.01) {
+      ACC <- 0.01
+      N <- 50
+      QUANT <- qnorm(FX)
+      FA <- pf(X, DFN, DFD)
+      if (FA - FX <= 0) {
+        return(0)
+      }
 
-      REFQ = ANORM(X,DFN,DFD,0,QUANT)
-      FL = 2*log(FA/FX)
-      FL = max(c(FL,1))
-      FLO = 1.e30
+      REFQ <- ANORM(X, DFN, DFD, 0, QUANT)
+      FL <- 2 * log(FA / FX)
+      FL <- max(c(FL, 1))
+      FLO <- 1.e30
 
-      for(I in 1:50){
-        REF = ANORM(X,DFN,DFD,FL,QUANT)
-        if(abs(FLO-FL)<ACC){
-          if(FL<0) FL=0
+      for (I in 1:50) {
+        REF <- ANORM(X, DFN, DFD, FL, QUANT)
+        if (abs(FLO - FL) < ACC) {
+          if (FL < 0) FL <- 0
           return(FL)
         }
-        FLO = FL
-        FL = FL*REFQ/(REFQ-REF)
+        FLO <- FL
+        FL <- FL * REFQ / (REFQ - REF)
       }
-      if(FL<0) FL=0
+      if (FL < 0) FL <- 0
       return(FL)
     }
 
     ### FLAMDA function #####
-    FLAMDA=function (X=20,DFN=2,DFD=2,FX=0.01)
-    {
-      ACC=1.e-06
+    FLAMDA <- function(X = 20, DFN = 2, DFD = 2, FX = 0.01) {
+      ACC <- 1.e-06
 
-      FL = GUESS(X,DFN,DFD,FX)
-      if(FL==0) return(0)
+      FL <- GUESS(X, DFN, DFD, FX)
+      if (FL == 0) {
+        return(0)
+      }
 
-      B = X*DFN/(DFN+2)
+      B <- X * DFN / (DFN + 2)
 
-      for(I in 1:50){
-        FA = pf(X,DFN,DFD,FL)
-        FC = pf(B,DFN+2,DFD,FL)
-        APROX = 2*FA/(FC-FA)*log(FX/FA)
-        FL = FL + APROX
-        if(abs(APROX)<ACC*max(c(FL,1))) return(FL)
+      for (I in 1:50) {
+        FA <- pf(X, DFN, DFD, FL)
+        FC <- pf(B, DFN + 2, DFD, FL)
+        APROX <- 2 * FA / (FC - FA) * log(FX / FA)
+        FL <- FL + APROX
+        if (abs(APROX) < ACC * max(c(FL, 1))) {
+          return(FL)
+        }
       }
     }
     ##################################################
 
-    hi=(1-CI)/2
-    lo=1-hi
-    lo=FLAMDA(F,df.1,df.2,lo)
-    hi=FLAMDA(F,df.1,df.2,hi)
-    return(c(lo,hi))
+    hi <- (1 - CI) / 2
+    lo <- 1 - hi
+    lo <- FLAMDA(F, df.1, df.2, lo)
+    hi <- FLAMDA(F, df.1, df.2, hi)
+    return(c(lo, hi))
   }
 
   eta_squared <- function(f, CI, eff, df1, df2) {
@@ -590,9 +590,9 @@ eff_CI <- function(f, CI, eff, df1, df2,es_type = "eta") {
 
 
   out <- switch(es_type,
-                none=eta_squared(f, CI, eff, df1, df2),
-                eta = eta_squared(f, CI, eff, df1, df2),
-                f = f_squared(f, CI, eff, df1, df2)
+    none = eta_squared(f, CI, eff, df1, df2),
+    eta = eta_squared(f, CI, eff, df1, df2),
+    f = f_squared(f, CI, eff, df1, df2)
   )
 
   cbind.data.frame(
@@ -733,7 +733,8 @@ univariate_pairwise <- function(x, out, padjust, digits, lower.tail, ...) {
     )
   } else {
     out <-
-      list(out,
+      list(
+        out,
         by(
           df,
           df$Parms,

@@ -71,8 +71,8 @@ populations , Default: NULL}
 \item{alternative}{a character string specifying the alternative
 hypothesis, must be one of "two.sided", "greater" or "less".}
 
-\item{es}{Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
-"none".}
+\item{es}{Type of effect size either "d" for Cohen's d,"g" for Hedge's g
+or "none" , Default:"none".}
 }
 \description{
 t-greene test

@@ -22,8 +22,8 @@ t_greene(
 
 \item{Pop}{Number of the column containing populations' names, Default: 1}
 
-\item{es}{Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
-"none".}
+\item{es}{Type of effect size either "d" for Cohen's d,"g" for Hedge's g
+or "none" , Default:"none".}
 
 \item{plot}{Logical; if TRUE graphical matrix of p values, Default: FALSE}
 
