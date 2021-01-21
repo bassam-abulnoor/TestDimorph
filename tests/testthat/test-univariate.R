@@ -31,27 +31,27 @@ test_that("univariate", {
     ))[[6]][3] == 0.0044
   )
   testthat::expect_true(length(univariate(baboon.parms_df,
-    interact_anova=F, type_anova = "I", es_anova =
+    interact_anova = F, type_anova = "I", es_anova =
       "eta", pairwise = F
   )) == 2)
   testthat::expect_true(length(univariate(baboon.parms_df,
-    interact_anova=T, type_anova = "I", es_anova =
+    interact_anova = T, type_anova = "I", es_anova =
       "eta", pairwise = F
   )) == 2)
   testthat::expect_true(univariate(baboon.parms_df,
-    interact_anova=F, type_anova = "II", es_anova =
+    interact_anova = F, type_anova = "II", es_anova =
       "eta", pairwise = F
   )$p.value[1] == 0)
   testthat::expect_true(univariate(baboon.parms_df,
-    interact_anova=T, type_anova = "II", es_anova =
+    interact_anova = T, type_anova = "II", es_anova =
       "eta", pairwise = F
   )$p.value[1] == 0)
   testthat::expect_error(univariate(baboon.parms_df,
-    interact_anova=F, type_anova = "III", es_anova =
+    interact_anova = F, type_anova = "III", es_anova =
       "eta", pairwise = F
   )$p.value[1] == 0)
   testthat::expect_true(univariate(baboon.parms_df,
-    interact_anova=T, type_anova = "III", es_anova =
+    interact_anova = T, type_anova = "III", es_anova =
       "eta", pairwise = F
   )$p.value[3] == 0.0755)
 })

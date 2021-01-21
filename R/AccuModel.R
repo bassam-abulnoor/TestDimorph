@@ -14,7 +14,7 @@ AccuModel <-
            y = NULL,
            method = "lda",
            res_method = "repeatedcv",
-           prior=NULL,
+           prior = NULL,
            p = 0.75,
            nf = 10,
            nr = 3,
@@ -25,8 +25,9 @@ AccuModel <-
            ref. = "F",
            post. = "M",
            ...) {
-    if (!identical(Sys.getenv("TESTTHAT"), "true"))
-    .Deprecated("accu_model")
+    if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+      .Deprecated("accu_model")
+    }
     prob <- NULL
     if (!(is.data.frame(x))) {
       stop("x and y should be dataframes")
@@ -47,7 +48,7 @@ AccuModel <-
       drop_na() %>%
       as.data.frame()
     x$Sex <- x[, Sex]
-    x$Sex <- factor(x$Sex,levels = c(ref.,post.))
+    x$Sex <- factor(x$Sex, levels = c(ref., post.))
     if (is.null(Pop)) {
       x$Pop <- as.factor(rep("pop_1", nrow(x)))
     } else {
@@ -68,32 +69,33 @@ AccuModel <-
       test.data <- z[-train_ind, ]
 
 
-      train.control <- caret::trainControl(classProbs = TRUE,
-                                           method = res_method,
-                                           number = nf,
-                                           repeats = nr
+      train.control <- caret::trainControl(
+        classProbs = TRUE,
+        method = res_method,
+        number = nf,
+        repeats = nr
       )
 
       model <- caret::train(f,
-                            data = train.data,
-                            method = method,
-                            trControl = train.control
+        data = train.data,
+        method = method,
+        trControl = train.control
       )
       preds <-
-        data.frame("id" = test.data$id, "class" = predict(model, test.data),
-                   "prob"=predict(model, test.data,type="prob")[,2]
+        data.frame(
+          "id" = test.data$id, "class" = predict(model, test.data),
+          "prob" = predict(model, test.data, type = "prob")[, 2]
         )
       df <-
         dplyr::full_join(data.frame("id" = test.data$id, "Sex" = test.data$Sex),
-                         preds,
-                         by = "id"
+          preds,
+          by = "id"
         )
       df <-
         dplyr::right_join(data.frame("id" = x$id, "Pop" = x$Pop), df,
-                          by =
-                            "id"
+          by =
+            "id"
         )
-
     } else {
       if (!(is.data.frame(y))) {
         stop("x and y should be dataframes")
@@ -127,30 +129,33 @@ AccuModel <-
       x$Sex <- stats::relevel(x$Sex, ref = ref.)
       y$Sex <- stats::relevel(y$Sex, ref = ref.)
       if (length(unique(x$Sex)) != 2 &&
-          (!(levels(x$Sex) %in% c("M", "F")))) {
+        (!(levels(x$Sex) %in% c("M", "F")))) {
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
       if (length(unique(y$Sex)) != 2 &&
-          (!(levels(y$Sex) %in% c("M", "F")))) {
+        (!(levels(y$Sex) %in% c("M", "F")))) {
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
-      train.control <- caret::trainControl(classProbs = TRUE,
-                                           method = res_method,
-                                           number = nf,
-                                           repeats = nr
+      train.control <- caret::trainControl(
+        classProbs = TRUE,
+        method = res_method,
+        number = nf,
+        repeats = nr
       )
       model <- caret::train(f,
-                            data = x,
-                            method = method,
-                            trControl = train.control
+        data = x,
+        method = method,
+        trControl = train.control
       )
-      preds <- cbind.data.frame(class=predict(model, newdata = y),
-                                prob=predict(model, newdata = y,type="prob")[,2])
+      preds <- cbind.data.frame(
+        class = predict(model, newdata = y),
+        prob = predict(model, newdata = y, type = "prob")[, 2]
+      )
 
       df <- data.frame(
         "Sex" = y$Sex,
         "class" = preds$class,
-        "prob"=preds$prob,
+        "prob" = preds$prob,
         "Pop" = y$Pop,
         stringsAsFactors = TRUE
       )
@@ -169,39 +174,39 @@ AccuModel <-
       df$class <- as.numeric(df$class)
 
 
-      cutpoint <-    cutpointr::cutpointr(
+      cutpoint <- cutpointr::cutpointr(
         data = df,
         x = prob,
         class = Sex,
         subgroup = Pop,
         pos_class = 2,
         neg_class = 1,
-        silent = TRUE,method = cutpointr::maximize_metric,
+        silent = TRUE, method = cutpointr::maximize_metric,
         metric = cutpointr::sum_sens_spec
       )
 
 
       roc <-
-        cutpointr::plot_roc(cutpoint)  +
+        cutpointr::plot_roc(cutpoint) +
         theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         lapply(list,
-               caret::confusionMatrix,
-               positive = post.,
-               reference = ref.,
+          caret::confusionMatrix,
+          positive = post.,
+          reference = ref.,
 
-               ...
+          ...
         )
-      cutpoint <- cbind.data.frame(cutpoint[,1],cutpoint[,3])
-      names(cutpoint) <- c("populations","cutpoint")
+      cutpoint <- cbind.data.frame(cutpoint[, 1], cutpoint[, 3])
+      names(cutpoint) <- c("populations", "cutpoint")
       if (isTRUE(plot)) {
-        list(cutpoint=cutpoint, conf,roc)
+        list(cutpoint = cutpoint, conf, roc)
       } else {
-        list(cutpoint=cutpoint, conf)
+        list(cutpoint = cutpoint, conf)
       }
     } else {
       xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
-      df$Sex <- factor(df$Sex,levels = c(ref.,post.))
+      df$Sex <- factor(df$Sex, levels = c(ref., post.))
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
 
@@ -211,12 +216,11 @@ AccuModel <-
         class = Sex,
         pos_class = 2,
         neg_class = 1,
-        silent = TRUE,method = cutpointr::maximize_metric,
+        silent = TRUE, method = cutpointr::maximize_metric,
         metric = cutpointr::sum_sens_spec
-
       )
       roc <-
-        cutpointr::plot_roc(cutpoint)+
+        cutpointr::plot_roc(cutpoint) +
         theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         caret::confusionMatrix(
@@ -226,11 +230,11 @@ AccuModel <-
           dnn = c("Prediction", "Reference"),
           ...
         )
-      cutpoint <- pull(cutpoint,2)
+      cutpoint <- pull(cutpoint, 2)
       if (isTRUE(plot)) {
-        list(cutpoint=round(cutpoint,4), conf,roc)
+        list(cutpoint = round(cutpoint, 4), conf, roc)
       } else {
-        list(cutpoint=round(cutpoint,4), conf)
+        list(cutpoint = round(cutpoint, 4), conf)
       }
     }
   }

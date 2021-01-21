@@ -23,14 +23,14 @@
 #' @examples
 #' library(TestDimorph)
 #' # selecting means and sample sizes
-#' van_vark_data <- Howells_summary[which(!endsWith(
+#' van_vark_data <- Howells_summary[!endsWith(
 #'   x = names(Howells_summary),
 #'   suffix = "dev"
-#' ))]
-#' van_vark(van_vark_data, Howells_V)
+#' )]
+#' # running the function
 #' van_vark(van_vark_data, Howells_V)
 #' @rdname van_vark
-#' @references Van Vark, G. N., et al. (1989). Van Vark, G. N., et al. "Some
+#' @references van Vark, G. N., et al. (1989). van Vark, G. N., et al. "Some
 #' multivariate tests for differences in sexual dimorphism between human
 #' populations." Annals of human biology 16.4: 301-310.
 #' @import ggplot2
@@ -108,7 +108,8 @@ van_vark <- function(x,
     full_join(means, size, by = c("Trait", "Pop", "Sex")) %>%
     pivot_wider(
       names_from = Trait, values_from = .data$no
-    ) %>% mutate(Sex=factor(.data$Sex,levels = c("F","M"))) %>%
+    ) %>%
+    mutate(Sex = factor(.data$Sex, levels = c("F", "M"))) %>%
     as.data.frame()
   p <- NCOL(x) - 3
   g <- NROW(x)
@@ -152,16 +153,15 @@ van_vark <- function(x,
     )
   CVs$Sex <- factor(CVs$Sex, levels = c("F", "M"))
   CVs <- arrange(CVs, Pop, Sex)
-  means <- CVs %>% select(-.data$Pop)  %>% group_by(.data$Sex) %>% summarise_all(mean)
-  if(means[means$Sex=="F","x1"]>means[means$Sex=="M","x1"]){
-
-    CVs$x1 <- CVs$x1*-1
-
+  means <- CVs %>%
+    select(-.data$Pop) %>%
+    group_by(.data$Sex) %>%
+    summarise_all(mean)
+  if (means[means$Sex == "F", "x1"] > means[means$Sex == "M", "x1"]) {
+    CVs$x1 <- CVs$x1 * -1
   }
-  if(q>1 && means[means$Sex=="F","x2"]>means[means$Sex=="M","x2"]){
-
-    CVs$x2 <- CVs$x2*-1
-
+  if (q > 1 && means[means$Sex == "F", "x2"] > means[means$Sex == "M", "x2"]) {
+    CVs$x2 <- CVs$x2 * -1
   }
   pairs <- utils::combn(levels(x$Pop), 2, simplify = FALSE)
 
@@ -232,10 +232,6 @@ van_vark <- function(x,
       vector(mode = "double", length = nlevels(x$Pop))
     line2 <-
       vector(mode = "double", length = nlevels(x$Pop))
-    line3 <-
-      vector(mode = "double", length = nlevels(x$Pop))
-    line4 <-
-      vector(mode = "double", length = nlevels(x$Pop))
     point1 <-
       vector(mode = "double", length = nlevels(x$Pop))
     point2 <-
@@ -245,8 +241,6 @@ van_vark <- function(x,
     {
       line1[i] <- CVs[i:(i + 1), 1][1]
       line2[i] <- CVs[i:(i + 1), 2][1]
-      line3[i] <- CVs[i:(i + 1), 1][2]
-      line4[i] <- CVs[i:(i + 1), 2][2]
     }
     for (i in seq(2, g, 2))
     {

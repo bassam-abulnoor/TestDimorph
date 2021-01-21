@@ -4,8 +4,8 @@
 #' input.
 #' @param x A data frame containing summary statistics.
 #' @param Pop Number of the column containing populations' names, Default: 1
-#' @param es Type of effect size either "Cohen_d","hedge_g" or "none" , Default:
-#' "none".
+#' @param es Type of effect size either "d" for Cohen's d,"g" for Hedge's g
+#' or "none" , Default:"none".
 #' @param plot Logical; if TRUE graphical matrix of p values, Default: FALSE
 #' @param ... additional arguments that can be passed to
 #' [corrplot][corrplot::corrplot] function.
@@ -118,7 +118,7 @@ t_greene <- function(x,
         replacement = "_"
       )
   }
-  x$Pop <- factor(x$Pop,levels = x$Pop)
+  x$Pop <- factor(x$Pop, levels = x$Pop)
   x$Pop <- droplevels(x$Pop)
   if (length(unique(x$Pop)) != length(which(!is.na(x$Pop)))) {
     warning("Population names are not unique")
@@ -191,7 +191,7 @@ t_greene <- function(x,
       corrplot::corrplot(
         corr = pmatrix,
         p.mat = pmatrix,
-        sig.level = 1-CI,
+        sig.level = 1 - CI,
         number.digits = digits,
         is.corr = FALSE,
         ...

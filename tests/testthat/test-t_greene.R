@@ -50,10 +50,10 @@ test_that("t_greene", {
       0.1707
   )
   testthat::expect_true(
-    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "cohen_d")[9][[1]][1] == 0.0824
+    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "d")[9][[1]][1] == 0.0824
   )
   testthat::expect_true(
-    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "hedge_g")[9][[1]][1] == 0.0823
+    t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "g")[9][[1]][1] == 0.0823
   )
   testthat::expect_error(
     t_greene(baboon.parms_df[1:3, ], Pop = 2, es = "qq")[9][[1]][1] == 0.0181
@@ -68,22 +68,6 @@ test_that("t_greene", {
       F.mu = c(159, 151.3),
       F.sdev = c(5.35, 5.31)
     ))[[7]] == 0.0044
-  )
-  expect_doppelganger <- function(title, fig, path = NULL, ...) {
-    testthat::skip_if_not_installed("vdiffr")
-    vdiffr::expect_doppelganger(title, fig, path = path, ...)
-  }
-  expect_doppelganger(
-    title = "t_greene",
-    fig = t_greene(data.frame(
-      Pop = c("Ireland", "Colombia"),
-      m = c(347, 317),
-      M.mu = c(172.9, 163.3),
-      M.sdev = c(6.34, 6.11),
-      f = c(261, 317),
-      F.mu = c(159, 151.3),
-      F.sdev = c(5.35, 5.31)
-    ), plot = T)
   )
   testthat::expect_error(
     t_greene(

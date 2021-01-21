@@ -41,18 +41,20 @@
 #' females, and FP is the number of females identified as males. For methods that
 #' employ prior probabilities, they are calculated based on sampling frequencies.
 #' @examples
-#' #using 2 datasets
-#' accu_model(
-#' Sex ~ GOL + NOL + BNL,
-#' x = Howells, y=Howells, plot = FALSE)
-#' # Using a single dataset
+#' \dontrun{
 #' library(TestDimorph)
+#' accu_model(
+#'   Sex ~ GOL + NOL + BNL,
+#'   x = Howells, y = Howells, plot = FALSE
+#' )
+#' # Using a single dataset
 #' accu_model(
 #'   Sex ~ GOL + NOL + BNL,
 #'   x = Howells,
 #'   method = "lda",
 #'   plot = FALSE
 #' )
+#' }
 #' @export
 #' @import dplyr
 #' @import ggplot2
@@ -95,7 +97,7 @@ accu_model <-
       drop_na() %>%
       as.data.frame()
     x$Sex <- x[, Sex]
-    x$Sex <- factor(x$Sex,levels = c(ref.,post.))
+    x$Sex <- factor(x$Sex, levels = c(ref., post.))
     if (is.null(Pop)) {
       x$Pop <- as.factor(rep("pop_1", nrow(x)))
     } else {
@@ -116,7 +118,8 @@ accu_model <-
       test.data <- z[-train_ind, ]
 
 
-      train.control <- caret::trainControl(classProbs = TRUE,
+      train.control <- caret::trainControl(
+        classProbs = TRUE,
         method = res_method,
         number = nf,
         repeats = nr
@@ -128,9 +131,10 @@ accu_model <-
         trControl = train.control
       )
       preds <-
-        data.frame("id" = test.data$id, "class" = predict(model, test.data),
-                   "prob"=predict(model, test.data,type="prob")[,2]
-                   )
+        data.frame(
+          "id" = test.data$id, "class" = predict(model, test.data),
+          "prob" = predict(model, test.data, type = "prob")[, 2]
+        )
       df <-
         dplyr::full_join(data.frame("id" = test.data$id, "Sex" = test.data$Sex),
           preds,
@@ -141,7 +145,6 @@ accu_model <-
           by =
             "id"
         )
-
     } else {
       if (!(is.data.frame(y))) {
         stop("x and y should be dataframes")
@@ -182,23 +185,26 @@ accu_model <-
         (!(levels(y$Sex) %in% c("M", "F")))) {
         stop("Sex column should be a factor with only 2 levels `M` and `F`")
       }
-      train.control <- caret::trainControl(classProbs = TRUE,
-                                           method = res_method,
-                                           number = nf,
-                                           repeats = nr
+      train.control <- caret::trainControl(
+        classProbs = TRUE,
+        method = res_method,
+        number = nf,
+        repeats = nr
       )
       model <- caret::train(f,
         data = x,
         method = method,
         trControl = train.control
       )
-      preds <- cbind.data.frame(class=predict(model, newdata = y),
-                                prob=predict(model, newdata = y,type="prob")[,2])
+      preds <- cbind.data.frame(
+        class = predict(model, newdata = y),
+        prob = predict(model, newdata = y, type = "prob")[, 2]
+      )
 
       df <- data.frame(
         "Sex" = y$Sex,
         "class" = preds$class,
-        "prob"=preds$prob,
+        "prob" = preds$prob,
         "Pop" = y$Pop,
         stringsAsFactors = TRUE
       )
@@ -217,21 +223,21 @@ accu_model <-
       df$class <- as.numeric(df$class)
 
 
-      cutpoint <-    cutpointr::cutpointr(
-            data = df,
-            x = prob,
-            class = Sex,
-            subgroup = Pop,
-            pos_class = 2,
-            neg_class = 1,
-            silent = TRUE,method = cutpointr::maximize_metric,
-            metric = cutpointr::sum_sens_spec
-          )
+      cutpoint <- cutpointr::cutpointr(
+        data = df,
+        x = prob,
+        class = Sex,
+        subgroup = Pop,
+        pos_class = 2,
+        neg_class = 1,
+        silent = TRUE, method = cutpointr::maximize_metric,
+        metric = cutpointr::sum_sens_spec
+      )
 
 
-roc <-
-  cutpointr::plot_roc(cutpoint)  +
-    theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
+      roc <-
+        cutpointr::plot_roc(cutpoint) +
+        theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         lapply(list,
           caret::confusionMatrix,
@@ -240,31 +246,30 @@ roc <-
 
           ...
         )
-      cutpoint <- cbind.data.frame(cutpoint[,1],cutpoint[,3])
-      names(cutpoint) <- c("populations","cutpoint")
+      cutpoint <- cbind.data.frame(cutpoint[, 1], cutpoint[, 3])
+      names(cutpoint) <- c("populations", "cutpoint")
       if (isTRUE(plot)) {
-        list(cutpoint=cutpoint, conf,roc)
+        list(cutpoint = cutpoint, conf, roc)
       } else {
-        list(cutpoint=cutpoint, conf)
+        list(cutpoint = cutpoint, conf)
       }
     } else {
       xtab <- table(df$class, df$Sex, dnn = c("Prediction", "Reference"))
-      df$Sex <- factor(df$Sex,levels = c(ref.,post.))
+      df$Sex <- factor(df$Sex, levels = c(ref., post.))
       df$Sex <- as.numeric(df$Sex)
       df$class <- as.numeric(df$class)
 
-  cutpoint <- cutpointr::cutpointr(
-            data = df,
-            x = prob,
-            class = Sex,
-            pos_class = 2,
-            neg_class = 1,
-            silent = TRUE,method = cutpointr::maximize_metric,
-            metric = cutpointr::sum_sens_spec
-
-        )
-  roc <-
-    cutpointr::plot_roc(cutpoint)+
+      cutpoint <- cutpointr::cutpointr(
+        data = df,
+        x = prob,
+        class = Sex,
+        pos_class = 2,
+        neg_class = 1,
+        silent = TRUE, method = cutpointr::maximize_metric,
+        metric = cutpointr::sum_sens_spec
+      )
+      roc <-
+        cutpointr::plot_roc(cutpoint) +
         theme(legend.title = ggplot2::element_blank()) + labs(title = NULL, subtitle = NULL)
       conf <-
         caret::confusionMatrix(
@@ -274,11 +279,11 @@ roc <-
           dnn = c("Prediction", "Reference"),
           ...
         )
-cutpoint <- pull(cutpoint,2)
+      cutpoint <- pull(cutpoint, 2)
       if (isTRUE(plot)) {
-        list(cutpoint=round(cutpoint,4), conf,roc)
+        list(cutpoint = round(cutpoint, 4), conf, roc)
       } else {
-        list(cutpoint=round(cutpoint,4), conf)
+        list(cutpoint = round(cutpoint, 4), conf)
       }
     }
   }

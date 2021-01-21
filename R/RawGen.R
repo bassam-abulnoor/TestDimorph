@@ -17,8 +17,9 @@ RawGen <- function(x,
                    upper = Inf,
                    format = c("wide", "long"),
                    complete_cases = FALSE) {
-  if (!identical(Sys.getenv("TESTTHAT"), "true"))
-  .Deprecated("raw_gen")
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    .Deprecated("raw_gen")
+  }
   if (!(is.list(x) || is.data.frame(x))) {
     stop("x should be a list or a dataframe")
   }

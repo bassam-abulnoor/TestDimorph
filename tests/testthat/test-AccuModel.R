@@ -1,4 +1,5 @@
 test_that("AccuModel", {
+  testthat::skip_if_not_installed("e1071")
   testthat::expect_true(round(
     AccuModel(
       f = Sex ~ GOL + NOL + BNL,
