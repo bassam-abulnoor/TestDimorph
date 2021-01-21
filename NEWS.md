@@ -1,6 +1,11 @@
-# TestDimorph 0.3.7
+# TestDimorph 0.4.0
 
-* Added confidence intervals to different effect sizes.
+* A major update.
+* New functions:`van_var`, `Hedges_g`,`MI_index` and `D_index`.
+* `univariate` and `multivariate` functions report different types of ANOVA and MANOVA.
+* effect sizes are reported with confidence intervals.
+* added 3 new datasets.
+* added a list `models` of the supported models for `accu_model` function.
 
 # TestDimorph 0.3.6
 

@@ -26,7 +26,7 @@
 #' Methods for Psychology, 14(4), 242-265.
 #' @export
 
-Hedges_g <- function(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE,digits=4) {
+Hedges_g <- function(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE, digits = 4) {
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
   }
@@ -54,7 +54,9 @@ Hedges_g <- function(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE,digits=4) {
   if (is.numeric(CI) && any(CI < 0, CI > 1)) {
     stop("confidence level should be a number from 0 to 1")
   }
-  x <- x %>% drop_na() %>% as.data.frame()
+  x <- x %>%
+    drop_na() %>%
+    as.data.frame()
   x$Trait <- x[, Trait]
   hedge <- function(x) {
     m <- x$m[1]
@@ -109,14 +111,19 @@ Hedges_g <- function(x, Trait = 1, CI = 0.95, B = NULL, rand = TRUE,digits=4) {
       alpha.2 <- pnorm(qnorm(top) - 2 * b)
       bounds <- quantile(sto.boot, c(alpha.1, alpha.2))
       bounds <- as.numeric(bounds)
-     cbind.data.frame(g, lower = bounds[1], upper = bounds[2])
+      cbind.data.frame(g, lower = bounds[1], upper = bounds[2])
     }
   }
   hedge_list <- lapply(split.data.frame(x, x$Trait), hedge)
   name_hedge_list <- names(hedge_list)
   hedge_df <- do.call(rbind.data.frame, hedge_list)
   rownames(hedge_df) <- name_hedge_list
-  rown_col(hedge_df, "Trait") %>% relocate(.data$lower, .before =
-  .data$g) %>% mutate(across(-1,round,digits)) %>%
-    as.data.frame() %>% drop_na()
+  rown_col(hedge_df, "Trait") %>%
+    relocate(.data$lower,
+      .before =
+        .data$g
+    ) %>%
+    mutate(across(-1, round, digits)) %>%
+    as.data.frame() %>%
+    drop_na()
 }

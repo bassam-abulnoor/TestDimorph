@@ -87,16 +87,18 @@ females, and FP is the number of females identified as males. For methods that
 employ prior probabilities, they are calculated based on sampling frequencies.
 }
 \examples{
-#using 2 datasets
-accu_model(
-Sex ~ GOL + NOL + BNL,
-x = Howells, y=Howells, plot = FALSE)
-# Using a single dataset
+\dontrun{
 library(TestDimorph)
+accu_model(
+  Sex ~ GOL + NOL + BNL,
+  x = Howells, y = Howells, plot = FALSE
+)
+# Using a single dataset
 accu_model(
   Sex ~ GOL + NOL + BNL,
   x = Howells,
   method = "lda",
   plot = FALSE
 )
+}
 }

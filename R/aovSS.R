@@ -16,8 +16,9 @@ aovSS <-
            es_anova = "none",
            digits = 4,
            CI = 0.95) {
-    if (!identical(Sys.getenv("TESTTHAT"), "true"))
-    .Deprecated("aov_ss")
+    if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+      .Deprecated("aov_ss")
+    }
     # Data preparation --------------------------------------------------------
 
     if (!(is.data.frame(x))) {
@@ -47,7 +48,7 @@ aovSS <-
     es_anova <-
       match.arg(es_anova, choices = c("none", "eta", "f"))
     if (CI < 0 ||
-        CI > 1 || !is.numeric(CI)) {
+      CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")
     }
     x <- data.frame(x)
@@ -93,9 +94,9 @@ aovSS <-
       )
     rownames(M_post) -> populations
     rownames(M_post) <- NULL
-    M_post <- apply(M_post,2,round,digits) %>% as.data.frame()
+    M_post <- apply(M_post, 2, round, digits) %>% as.data.frame()
     M_post$populations <- populations
-    M_post <- relocate(M_post,populations,.before=1)
+    M_post <- relocate(M_post, populations, .before = 1)
     colnames(M_post) <-
       c(
         "populations",
@@ -123,13 +124,13 @@ aovSS <-
       )
     F_post <-
       data.frame(
-        TukeyHSD(av_F, conf.level =  CI)[[1]]
+        TukeyHSD(av_F, conf.level = CI)[[1]]
       )
     rownames(F_post) -> populations
     rownames(F_post) <- NULL
-    F_post <- apply(F_post,2,round,digits) %>%  as.data.frame()
+    F_post <- apply(F_post, 2, round, digits) %>% as.data.frame()
     F_post$populations <- populations
-    F_post <- relocate(F_post,populations,.before=1)
+    F_post <- relocate(F_post, populations, .before = 1)
     colnames(F_post) <-
       c(
         "populations",

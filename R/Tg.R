@@ -18,8 +18,9 @@ Tg <- function(x = NULL,
                letters = FALSE,
                digits = 4,
                CI = 0.95) {
-  if (!identical(Sys.getenv("TESTTHAT"), "true"))
-  .Deprecated("t_greene")
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    .Deprecated("t_greene")
+  }
   if (!(is.data.frame(x))) {
     stop("x should be a dataframe")
   }
@@ -54,7 +55,7 @@ Tg <- function(x = NULL,
         replacement = "_"
       )
   }
-  x$Pop <- factor(x$Pop,levels = x$Pop)
+  x$Pop <- factor(x$Pop, levels = x$Pop)
   x$Pop <- droplevels(x$Pop)
   if (length(unique(x$Pop)) != length(which(!is.na(x$Pop)))) {
     warning("Population names are not unique")
@@ -109,7 +110,7 @@ Tg <- function(x = NULL,
         "pairwise letters" = rown_col(
           data.frame(
             "letters" = multcompView::multcompLetters(pval,
-                                                      threshold = CI
+              threshold = CI
             )[[1]]
           ),
           var = "populations"
@@ -127,7 +128,7 @@ Tg <- function(x = NULL,
       corrplot::corrplot(
         corr = pmatrix,
         p.mat = pmatrix,
-        sig.level = 1-CI,
+        sig.level = 1 - CI,
         number.digits = digits,
         is.corr = FALSE,
         ...
