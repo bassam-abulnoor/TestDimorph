@@ -483,23 +483,8 @@ padjust_n <- function(p, method = p.adjust.methods, n = length(p)) {
 #' @importFrom Morpho covW
 #' @keywords internal
 pooled_cov <- function(x, ina) {
-<<<<<<< HEAD
-  x <- as.matrix(x)
-  ina <- as.factor(ina)
-  s <- crossprod(x)
-  ni <- sqrt(tabulate(ina))
-  mi <- rowsum(x, ina)/ni
-  k <- length(ni)
-  denom <- dim(x)[1] - k
-  for (i in 1:k) s <- s - tcrossprod(mi[i, ])
-  s/denom
-}
-
-
-=======
   Morpho::covW(x, as.factor(ina))
 }
->>>>>>> new5
 # Confidence interval for anova and manova effect sizes -------------------
 #' eff_CI
 #' @description Confidence intervals for ANOVA and MANOVA effect sizes
@@ -519,11 +504,7 @@ eff_CI <- function(f, CI, eff, df1, df2, es_type = "eta") {
     # Guirguis, G. H. (1990). A note on computing the noncentrality
     # parameter of the noncentral F-distribution.
     # Communications in Statistics-Simulation and Computation, 19(4), 1497-1511.
-
-<<<<<<< HEAD
-=======
     #### ANORM function  #########
->>>>>>> new5
     ANORM <- function(X, DFN, DFD, FL, QUANT) {
       A <- DFN + FL
       B <- 0.22222 * (1 + FL / A) / A
@@ -544,9 +525,6 @@ eff_CI <- function(f, CI, eff, df1, df2, es_type = "eta") {
       FL <- 2 * log(FA / FX)
       FL <- max(c(FL, 1))
       FLO <- 1.e30
-
-<<<<<<< HEAD
-=======
     ### GUESS function #########
     GUESS <- function(X = 20, DFN = 2, DFD = 2, FX = 0.01) {
       ACC <- 0.01
@@ -561,8 +539,6 @@ eff_CI <- function(f, CI, eff, df1, df2, es_type = "eta") {
       FL <- 2 * log(FA / FX)
       FL <- max(c(FL, 1))
       FLO <- 1.e30
-
->>>>>>> new5
       for (I in 1:50) {
         REF <- ANORM(X, DFN, DFD, FL, QUANT)
         if (abs(FLO - FL) < ACC) {
@@ -577,14 +553,9 @@ eff_CI <- function(f, CI, eff, df1, df2, es_type = "eta") {
     }
     FLAMDA <- function(X = 20, DFN = 2, DFD = 2, FX = 0.01) {
       ACC <- 1.e-06
-
-<<<<<<< HEAD
-=======
     ### FLAMDA function #####
     FLAMDA <- function(X = 20, DFN = 2, DFD = 2, FX = 0.01) {
       ACC <- 1.e-06
-
->>>>>>> new5
       FL <- GUESS(X, DFN, DFD, FX)
       if (FL == 0) {
         return(0)

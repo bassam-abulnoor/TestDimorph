@@ -30,16 +30,12 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 RoxygenNote: 7.1.1
-Imports: 
-  caret,
-  corrplot,
-  cutpointr,
-  dplyr,
-  ggplot2,
-  Morpho,
-  multcompView,
-  stats,
-  tidyr,
-  tmvtnorm,
-  truncnorm,
-  utils
+Imports: caret, corrplot, cutpointr, dplyr, ggplot2, Morpho,
+        multcompView, stats, tidyr, tmvtnorm, truncnorm, utils
+NeedsCompilation: no
+Packaged: 2021-01-06 14:49:04 UTC; Bassam
+Author: Bassam A. Abulnoor [aut, cre] (<https://orcid.org/0000-0003-4351-2754>),
+  MennattAllah H. Attia [aut] (<https://orcid.org/0000-0002-2304-532X>),
+  Lyle W. Konigsberg [aut] (<https://orcid.org/0000-0003-4052-1575>)
+Repository: CRAN
+Date/Publication: 2021-01-10 15:10:08 UTC

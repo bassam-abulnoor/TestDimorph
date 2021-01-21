@@ -41,14 +41,11 @@
 #' females, and FP is the number of females identified as males. For methods that
 #' employ prior probabilities, they are calculated based on sampling frequencies.
 #' @examples
-<<<<<<< HEAD
-#' # using 2 datasets
-=======
+#' # using 2 datase
 #' \dontrun{
 #' if(!require("e1071")) install.packages("e1071")
 #' library ("e1071")
 #' library(TestDimorph)
->>>>>>> new5
 #' accu_model(
 #'   Sex ~ GOL + NOL + BNL,
 #'   x = Howells, y = Howells, plot = FALSE
