@@ -81,6 +81,9 @@ univariate <- function(x,
     CI > 1 || !is.numeric(CI)) {
     stop("CI should be a number between 0 and 1")
   }
+  if (!is.logical(interact_anova)) {
+    stop("interact_anova should be either TRUE or FALSE")
+  }
   if (isFALSE(interact_anova) && type_anova == "III") {
     stop("main effects ANOVA is only available for types (I) and (II)")
   }
