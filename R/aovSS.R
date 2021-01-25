@@ -51,6 +51,10 @@ aovSS <-
       CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")
     }
+    if(isTRUE(pairwise)&&nlevels(x$Pop)==2){
+
+      warning("Tukey post hoc test was not performed because there are only 2 populations ")
+    }
     x <- data.frame(x)
     x$Pop <- x[, Pop]
     x$Pop <-
@@ -61,7 +65,7 @@ aovSS <-
       )
     x$Pop <- factor(x$Pop)
     levels(x$Pop) <- droplevels(x$Pop)
-    if (length(unique(x$Pop)) != length(x$Pop[which(!is.na(x$Pop))])) {
+    if (length(unique(x$Pop)) != length(x$Pop[!is.na(x$Pop)])) {
       stop("Populations names'should be unique")
     }
 
@@ -87,16 +91,9 @@ aovSS <-
       anova_es(x = av_F, es_anova = es_anova, digits = digits, CI = CI)
 
     # Pairwise comparisons ----------------------------------------------------
-
-    M_post <-
-      data.frame(
-        TukeyHSD(av_M, conf.level = CI)[[1]]
-      )
-    rownames(M_post) -> populations
-    rownames(M_post) <- NULL
-    M_post <- apply(M_post, 2, round, digits) %>% as.data.frame()
-    M_post$populations <- populations
-    M_post <- relocate(M_post, populations, .before = 1)
+    M_post <-data.frame(TukeyHSD(av_M, conf.level = CI)[[1]])
+    M_post <- M_post %>% mutate(across(1:ncol(.),round,digits))
+    M_post <-rown_col(M_post,var = "populations")
     colnames(M_post) <-
       c(
         "populations",
@@ -126,11 +123,8 @@ aovSS <-
       data.frame(
         TukeyHSD(av_F, conf.level = CI)[[1]]
       )
-    rownames(F_post) -> populations
-    rownames(F_post) <- NULL
-    F_post <- apply(F_post, 2, round, digits) %>% as.data.frame()
-    F_post$populations <- populations
-    F_post <- relocate(F_post, populations, .before = 1)
+    F_post <- F_post %>% mutate(across(1:ncol(.),round,digits))
+    F_post <-rown_col(F_post,var = "populations")
     colnames(F_post) <-
       c(
         "populations",
@@ -158,7 +152,7 @@ aovSS <-
       )
 
 
-    if (isTRUE(pairwise)) {
+    if (isTRUE(pairwise)&& nlevels(x$Pop)>2) {
       if (isTRUE(letters)) {
         list(
           "Male model" = M_model,

@@ -69,6 +69,9 @@ multivariate <- function(x,
   if (!is.logical(univariate)) {
     stop("univariate should be either TRUE or FALSE")
   }
+  if (!is.logical(interact_manova)) {
+    stop("interact_manova should be either TRUE or FALSE")
+  }
   if (isFALSE(interact_manova) && type_manova == "III") {
     stop("main effects MANOVA is only available for types (I) and (II)")
   }
