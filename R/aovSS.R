@@ -48,7 +48,7 @@ aovSS <-
     es_anova <-
       match.arg(es_anova, choices = c("none", "eta", "f"))
     if (CI < 0 ||
-        CI > 1 || !is.numeric(CI)) {
+      CI > 1 || !is.numeric(CI)) {
       stop("CI should be a number between 0 and 1")
     }
     if(isTRUE(pairwise)&&nlevels(x$Pop)==2){
@@ -91,7 +91,6 @@ aovSS <-
       anova_es(x = av_F, es_anova = es_anova, digits = digits, CI = CI)
 
     # Pairwise comparisons ----------------------------------------------------
-
     M_post <-data.frame(TukeyHSD(av_M, conf.level = CI)[[1]])
     M_post <- M_post %>% mutate(across(1:ncol(.),round,digits))
     M_post <-rown_col(M_post,var = "populations")

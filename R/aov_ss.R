@@ -106,7 +106,6 @@ aov_ss <-
       anova_es(x = av_F, es_anova = es_anova, digits = digits, CI = CI)
 
     # Pairwise comparisons ----------------------------------------------------
-
     M_post <-data.frame(TukeyHSD(av_M, conf.level = CI)[[1]])
     M_post <- M_post %>% mutate(across(1:ncol(.),round,digits))
     M_post <-rown_col(M_post,var = "populations")

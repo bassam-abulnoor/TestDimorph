@@ -1,4 +1,6 @@
+testthat::skip_if_not_installed("e1071")
 test_that("accu_model", {
+  library(TestDimorph)
   testthat::skip_if_not_installed("e1071")
   testthat::expect_true(round(
     accu_model(

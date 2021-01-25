@@ -1,4 +1,5 @@
 test_that("multivariate", {
+  library(TestDimorph)
   testthat::expect_true(multivariate(baboon.parms_list)$p.value[3] == 0.2108)
   testthat::expect_true(multivariate(baboon.parms_df, R.res = baboon.parms_R)$p.value[3] ==
     0.2108)

@@ -1,4 +1,5 @@
 test_that("Tg", {
+  library(TestDimorph)
   testthat::expect_true(
     Tg(
       baboon.parms_df[1:3, ],

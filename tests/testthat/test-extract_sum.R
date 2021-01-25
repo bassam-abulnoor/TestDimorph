@@ -1,4 +1,5 @@
 test_that("extract_sum", {
+  library(TestDimorph)
   testthat::expect_true(TestDimorph::extract_sum(Howells, test = 4)$p.value[3] == 0.0695)
   testthat::expect_true(TestDimorph::extract_sum(Howells,
     test = 1,
